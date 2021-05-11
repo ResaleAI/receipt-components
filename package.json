@@ -1,0 +1,13 @@
+{
+  "name": "reml",
+  "version": "0.0.1",
+  "description": "ResaleAI's ESC/POS Markup Language",
+  "main": "index.js",
+  "author": "Zavier Miller",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "htmlparser2": "^6.1.0"
+  },
+  "type": "module"
+}
