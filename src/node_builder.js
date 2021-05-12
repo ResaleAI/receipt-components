@@ -2,13 +2,16 @@ import AlignNode from "./nodes/align.js"
 import BoldNode from "./nodes/bold.js"
 import BreakNode from "./nodes/break.js";
 import CutNode from "./nodes/cut.js";
-import DocNode from "./nodes/document.js";
+import ReceiptDocNode from "./nodes/receipt.js";
 import SlotNode from "./nodes/slot.js";
+import TextNode from "./nodes/text.js";
 
 // builds node from xml element
 export function buildNodes(xmlElem) {
+  if (xmlElem.type !== "tag") {
+    return null
+  }
   let children = xmlElem.children.map(child => buildNodes(child))
-  console.log(children)
   let attrs = xmlElem.attribs
 
   switch (xmlElem.name) {
@@ -17,12 +20,14 @@ export function buildNodes(xmlElem) {
     case "bold":
       return new BoldNode(children)
     case "break":
-      return new BreakNode(children)
+      return new BreakNode(attrs)
     case "cut":
       return new CutNode(attrs)
-    case "document":
-      return new DocNode(children)
+    case "document", "receipt":
+      return new ReceiptDocNode(children)
     case "slot":
       return new SlotNode(attrs)
+    case "text":
+      return new TextNode(children)
   }
 }

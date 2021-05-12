@@ -14,7 +14,7 @@ BoldNode.prototype.buildHTMLPreview = function (data) {
 }
 
 BoldNode.prototype.buildPrinterBytes = function (data) {
-
+  return [this.getBytesFor("ESC"), "E", 1, ...BaseNode.prototype.buildPrinterBytes.call(this, data), this.getBytesFor("ESC"), "E", 0]
 }
 
 export default BoldNode;

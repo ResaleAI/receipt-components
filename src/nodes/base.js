@@ -9,23 +9,37 @@ BaseNode.prototype.appendChild = function (child) {
   this.children.push(child)
 }
 
-// base method run after node processing, goes thru children,
-// running method for nodes and returning a string if its text
+// byte helper
+BaseNode.prototype.getBytesFor = (cmdName) => {
+  switch (cmdName.toUpperCase()) {
+    case "NUL":
+      return 0
+    case "LF":
+      return 0x0a
+    case "ESC":
+      return 0x1b
+    case "GS":
+      return 0x1d
+  }
+}
+
+// super gets run only by nodes with children
 BaseNode.prototype.buildHTMLPreview = function (data) {
-  // is there a better way to do this? maybe set it somewhere else and use here and in constructor - sst
-  if (["align", "barcode", "bold", "break", "cut", "document", "double-strike", "font", "image", "mode", "slot", "small", ""].includes(this.content)) {
+  if (this.children.length > 0) {
     let childHTML = ""
     this.children.forEach((child) => {
       childHTML += child.buildHTMLPreview(data)
     })
     return childHTML
   }
-
-  return this.content
 }
 
 BaseNode.prototype.buildPrinterBytes = function (data) {
-  throw new Error("Cannot call abstract BaseNode buildPrinterBytes")
+  let childBytes = []
+  this.children.forEach((child) => {
+    childBytes.push(...child.buildPrinterBytes(data))
+  })
+  return childBytes
 }
 
 export default BaseNode;

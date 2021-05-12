@@ -14,7 +14,7 @@ CutNode.prototype.buildHTMLPreview = function (data) {
 }
 
 CutNode.prototype.buildPrinterBytes = function (data) {
-
+  return [this.getBytesFor("GS"), 'V', this.attrs.partial ? 65 : 66]
 }
 
 export default CutNode

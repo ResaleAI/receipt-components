@@ -19,13 +19,18 @@ SlotNode.prototype.buildHTMLPreview = function (data) {
     throw new Error(this.attrs.name + " not in the data")
   }
 
-  return slotData
-
-
+  return slotData + "\n"
 }
 
 SlotNode.prototype.buildPrinterBytes = function (data) {
+  let slotData = data[this.attrs.name]
 
+  if (slotData === undefined) {
+    throw new Error(this.attrs.name + " not in the data")
+  }
+
+  // return array of string characters
+  return slotData.split("")
 }
 
 export default SlotNode
