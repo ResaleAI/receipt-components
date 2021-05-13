@@ -5,7 +5,6 @@ const SlotNode = function (component) {
 }
 
 SlotNode.prototype.insert = function(rootNode) {
-  console.log(rootNode)
   this.root = rootNode
 }
 

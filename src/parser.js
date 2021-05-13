@@ -82,10 +82,10 @@ export function buildNodes(xmlElem, component) {
             return comp
           } else if (children.length === 1) {
             // search thru component template for slot 
-            console.log(children)
             comp.slotNode.insert(children[0])
             return comp
           } else {
+            console.log(children)
             throw new Error("Slot must have one child")
           }
         }

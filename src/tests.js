@@ -3,22 +3,23 @@ import fs from "fs"
 
 let BigText = new REMLComponent(
 `<template>
-  <text scale="5:5">
+  <text scale="7:5">
     <slot />
   </text>
 </template>`,
 
 {
   name: "BigText",
-  propDefs: {
-    test: "test"
-  }
 })
 
 let Receipt = new REMLComponent(
 `<receipt>
   <BigText>
-    123
+    <small>
+      <bold>
+        Store Name
+      </bold>
+    </small>
   </BigText>
   <break lines="7" />
   <cut />

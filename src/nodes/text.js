@@ -7,8 +7,8 @@ const TextNode = function (children, attrs) {
   if (this.attrs.scale) {
     let [hScale, vScale] = this.attrs.scale.split(":").map((asciiNum) => parseInt(asciiNum) - 1)
     this.scaleByte = (hScale << 4) | vScale;
-
-    if (this.scaleByte > 119) {
+    
+    if (this.scaleByte > 0b01110111) {
       throw new Error(`invalid scale, both values must be 1-8 (got ${vScale})`)
     }
   }
