@@ -7,13 +7,13 @@ const CutNode = function (attrs) {
 CutNode.prototype = Object.create(BaseNode.prototype)
 CutNode.prototype.constructor = CutNode
 
-CutNode.prototype.buildHTMLPreview = function (data) {
+CutNode.prototype.renderHTML = function (data) {
 
   // return html strong w content inside
   return "<hr />"
 }
 
-CutNode.prototype.buildPrinterBytes = function (data) {
+CutNode.prototype.renderPrinterBytes = function (data) {
   return [this.getBytesFor("GS"), 'V', this.attrs.partial ? 65 : 66]
 }
 

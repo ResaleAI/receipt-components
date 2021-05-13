@@ -1,17 +1,15 @@
 import BaseNode from "./base.js"
 
-const SlotNode = function (attrs) {
-  if (attrs.name === undefined) {
-    throw new Error("slot must have name")
-  }
-
-  BaseNode.apply(this, ["slot", [], attrs])
+const SlotNode = function (component) {
+  component.slotNode = this
 }
 
-SlotNode.prototype = Object.create(BaseNode.prototype)
-SlotNode.prototype.constructor = SlotNode
+SlotNode.prototype.insert = function(rootNode) {
+  console.log(rootNode)
+  this.root = rootNode
+}
 
-SlotNode.prototype.buildHTMLPreview = function (data) {
+SlotNode.prototype.renderHTML = function (data) {
 
   let slotData = data[this.attrs.name]
 
@@ -22,15 +20,10 @@ SlotNode.prototype.buildHTMLPreview = function (data) {
   return slotData + "\n"
 }
 
-SlotNode.prototype.buildPrinterBytes = function (data) {
-  let slotData = data[this.attrs.name]
-
-  if (slotData === undefined) {
-    throw new Error(this.attrs.name + " not in the data")
-  }
-
-  // return array of string characters
-  return slotData.split("")
+SlotNode.prototype.renderPrinterBytes = function (data) {
+  if (typeof this.root === "string") 
+    return this.root
+  return this.root.renderPrinterBytes(data)
 }
 
 export default SlotNode

@@ -24,20 +24,20 @@ BaseNode.prototype.getBytesFor = (cmdName) => {
 }
 
 // super gets run only by nodes with children
-BaseNode.prototype.buildHTMLPreview = function (data) {
+BaseNode.prototype.renderHTML = function (data) {
   if (this.children.length > 0) {
     let childHTML = ""
     this.children.forEach((child) => {
-      childHTML += child.buildHTMLPreview(data)
+      childHTML += child.renderHTML(data)
     })
     return childHTML
   }
 }
 
-BaseNode.prototype.buildPrinterBytes = function (data) {
+BaseNode.prototype.renderPrinterBytes = function (data) {
   let childBytes = []
   this.children.forEach((child) => {
-    childBytes.push(...child.buildPrinterBytes(data))
+    childBytes.push(...child.renderPrinterBytes(data))
   })
   return childBytes
 }

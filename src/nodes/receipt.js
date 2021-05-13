@@ -7,15 +7,15 @@ const ReceiptDocNode = function (children) {
 ReceiptDocNode.prototype = Object.create(BaseNode.prototype)
 ReceiptDocNode.prototype.constructor = ReceiptDocNode
 
-ReceiptDocNode.prototype.buildHTMLPreview = function (data) {
+ReceiptDocNode.prototype.renderHTML = function (data) {
 
   // return html strong w content inside
-  return "<div class='print-preview'>\n" + BaseNode.prototype.buildHTMLPreview.call(this, data) + "\n</div>"
+  return "<div class='print-preview'>\n" + BaseNode.prototype.renderHTML.call(this, data) + "\n</div>"
 }
 
-ReceiptDocNode.prototype.buildPrinterBytes = function (data) {
+ReceiptDocNode.prototype.renderPrinterBytes = function (data) {
   // initialization bytes
-  return [this.getBytesFor("ESC"), 0x40, ...BaseNode.prototype.buildPrinterBytes.call(this, data), this.getBytesFor("LF"), "A", 3]
+  return [this.getBytesFor("ESC"), 0x40, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("LF"), "A", 3]
 }
 
 export default ReceiptDocNode

@@ -14,17 +14,17 @@ const AlignNode = function (children, attrs) {
 AlignNode.prototype = Object.create(BaseNode.prototype)
 AlignNode.prototype.constructor = AlignNode
 
-AlignNode.prototype.buildHTMLPreview = function (data) {
+AlignNode.prototype.renderHTML = function (data) {
 
   // return html strong w content inside
-  return `<span style="text-align: ${this.attrs.type}">\n` + BaseNode.prototype.buildHTMLPreview.call(this, data) + "\n</span>"
+  return `<span style="text-align: ${this.attrs.type}">\n` + BaseNode.prototype.renderHTML.call(this, data) + "\n</span>"
 }
 
-AlignNode.prototype.buildPrinterBytes = function (data) {
+AlignNode.prototype.renderPrinterBytes = function (data) {
   if (this.modeNum === 0) {
-    return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.buildPrinterBytes.call(this, data)]
+    return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.renderPrinterBytes.call(this, data)]
   }
-  return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.buildPrinterBytes.call(this, data), this.getBytesFor("ESC"), 'a', 0]
+  return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("ESC"), 'a', 0]
 }
 
 export default AlignNode;

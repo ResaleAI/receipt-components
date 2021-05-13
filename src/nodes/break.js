@@ -10,11 +10,11 @@ const BreakNode = function (attrs) {
 BreakNode.prototype = new BaseNode()
 BreakNode.prototype.constructor = BreakNode
 
-BreakNode.prototype.buildHTMLPreview = function (data) {
+BreakNode.prototype.renderHTML = function (data) {
   return "<br />".repeat(this.attrs.lines ?? 0)
 }
 
-BreakNode.prototype.buildPrinterBytes = function (data) {
+BreakNode.prototype.renderPrinterBytes = function (data) {
   return [this.getBytesFor("ESC"), 'd', this.attrs.lines ?? 1]
 }
 
