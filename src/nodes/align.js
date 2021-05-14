@@ -18,7 +18,7 @@ AlignNode.prototype.renderHTML = function (data) {
 
   // return html strong w content inside
   return `<span style="text-align: ${this.attrs.type}">\n` + BaseNode.prototype.renderHTML.call(this, data) + "\n</span>"
-}
+} 
 
 AlignNode.prototype.renderPrinterBytes = function (data) {
   if (this.modeNum === 0) {

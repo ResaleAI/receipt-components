@@ -3,7 +3,7 @@ import fs from "fs"
 
 let BigText = new REMLComponent(
 `<template>
-  <text scale="7:5">
+  <text scale="5:5">
     <slot />
   </text>
 </template>`,
@@ -16,9 +16,9 @@ let Receipt = new REMLComponent(
 `<receipt>
   <BigText>
     <small>
-      <bold>
-        Store Name
-      </bold>
+      <align mode="center">
+        {{test}}
+      </align>
     </small>
   </BigText>
   <break lines="7" />
@@ -32,7 +32,7 @@ let Receipt = new REMLComponent(
 
 })
 
-let byteBuff = (Receipt.renderPrinterBytes())
+let byteBuff = (Receipt.renderPrinterBytes({test: "Plato's Closet"}))
 
 fs.writeFile("/dev/usb/lp0", byteBuff, (err) => {
   if (err) return console.log(err)

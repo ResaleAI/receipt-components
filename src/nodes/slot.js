@@ -4,9 +4,8 @@ const SlotNode = function (component) {
   component.slotNode = this
 }
 
-SlotNode.prototype.insert = function(rootNode) {
-  this.root = rootNode
-}
+SlotNode.prototype = Object.create(BaseNode.prototype)
+SlotNode.prototype.constructor = SlotNode
 
 SlotNode.prototype.renderHTML = function (data) {
 
@@ -20,9 +19,8 @@ SlotNode.prototype.renderHTML = function (data) {
 }
 
 SlotNode.prototype.renderPrinterBytes = function (data) {
-  if (typeof this.root === "string") 
-    return this.root
-  return this.root.renderPrinterBytes(data)
+  // return children
+  return BaseNode.prototype.renderPrinterBytes.call(this, data)
 }
 
 export default SlotNode

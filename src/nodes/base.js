@@ -35,9 +35,9 @@ BaseNode.prototype.renderHTML = function (data) {
 }
 
 BaseNode.prototype.renderPrinterBytes = function (data) {
-  if (this.children.length === 1 && typeof this.children[0] === "string") {
-    return this.children[0].split("")
-  }
+  // if (this.children.length === 1 && typeof this.children[0] === "string") {
+  //   return this.children[0].split("")
+  // }
   let childBytes = []
   this.children.forEach((child) => {
     childBytes.push(...child.renderPrinterBytes(data))

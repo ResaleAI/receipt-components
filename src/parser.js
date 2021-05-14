@@ -31,20 +31,19 @@ export function parseREML(component) {
 }
 
 import AlignNode from "./nodes/align.js"
-import BoldNode from "./nodes/bold.js"
 import BreakNode from "./nodes/break.js";
 import CutNode from "./nodes/cut.js";
 import ReceiptDocNode from "./nodes/receipt.js";
 import SlotNode from "./nodes/slot.js";
 import TextNode from "./nodes/text.js";
-import LargeNode from "./nodes/large.js";
+import TextModeNode from "./nodes/text-mode.js";
 import SmallNode from "./nodes/small.js";
 
 // builds node from xml element
 export function buildNodes(xmlElem, component) {
   switch(xmlElem.type) {
     case "text":
-      return xmlElem.data
+      return new TextNode(xmlElem.data)
     case "tag":
     // build children first: -> -> ->
     //                      <- <- <-/
@@ -54,20 +53,21 @@ export function buildNodes(xmlElem, component) {
     switch (xmlElem.name) {
       case "align":
         return new AlignNode(children, attrs)
-      case "bold":
-        return new BoldNode(children)
       case "break":
         return new BreakNode(attrs)
       case "cut":
         return new CutNode(attrs)
-      case "document", "receipt":
+      case "document":
+      case "receipt":
         return new ReceiptDocNode(children)
       case "slot":
+        if (component.slotNode != null) {
+          throw new Error("only one slot allowed atm")
+        }
         return new SlotNode(component)
       case "text":
-        return new TextNode(children, attrs)
-      case "large":
-        return new LargeNode(children)
+      case "mode":
+        return new TextModeNode(children, attrs)
       case "small":
         return new SmallNode(children)
       case "template":
@@ -78,19 +78,18 @@ export function buildNodes(xmlElem, component) {
       default:
         let comp = component.components[xmlElem.name]
         if (comp !== undefined) {
+          // component has nothing in slot
           if (children.length < 1) {
             return comp
-          } else if (children.length === 1) {
-            // search thru component template for slot 
-            comp.slotNode.insert(children[0])
-            return comp
           } else {
-            console.log(children)
-            throw new Error("Slot must have one child")
-          }
+            // search thru component template for slot 
+            comp.slotNode.children = children
+            console.log(comp.slotNode)
+            return comp
         }
 
-        throw new Error(`Tag not recognized (${xmlElem.name})`)
+      }
+      throw new Error(`Tag not recognized (${xmlElem.name})`)
     }
   }
 }
