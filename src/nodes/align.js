@@ -5,26 +5,29 @@ const modeMap = {
   center: 1,
   right: 2,
 }
-const AlignNode = function (children, attrs) {
-  BaseNode.apply(this, ["align", children, attrs])
 
-  this.modeNum = modeMap[this.attrs.mode] ?? 0
-}
+class AlignNode extends BaseNode {
+  constructor(children, attrs) {
+    super(children, attrs)
 
-AlignNode.prototype = Object.create(BaseNode.prototype)
-AlignNode.prototype.constructor = AlignNode
+    this.requireAttributes("mode")
 
-AlignNode.prototype.renderHTML = function (data) {
-
-  // return html strong w content inside
-  return `<span style="text-align: ${this.attrs.type}">\n` + BaseNode.prototype.renderHTML.call(this, data) + "\n</span>"
-} 
-
-AlignNode.prototype.renderPrinterBytes = function (data) {
-  if (this.modeNum === 0) {
-    return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.renderPrinterBytes.call(this, data)]
+    this.mode = modeMap[this.attrs.mode]
   }
-  return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("ESC"), 'a', 0]
+
+  renderHTML(data) {
+
+  }
+
+  renderPrinterBytes(data) {
+    let childBuff = super.renderPrinterBytes(data)
+    let retVal = [BaseNode.bytes.ESC, 'a', this.mode, ...childBuff]
+    if (this.mode !== 0) {
+      retVal.push(BaseNode.bytes.ESC, 'a', 0)
+    }
+
+    return retVal
+  }
 }
 
 module.exports = AlignNode;

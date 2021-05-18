@@ -1,0 +1,11 @@
+align,
+barcode,
+break,
+cut,
+image,
+receipt/document,
+slot,
+text (for literals and stuff)
+line,
+multiline,
+qrcode,

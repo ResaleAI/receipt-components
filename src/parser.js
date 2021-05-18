@@ -1,17 +1,17 @@
 const { parseDocument } = require("htmlparser2") 
-const AlignNode = require("./nodes/align.js")
-const BreakNode = require("./nodes/break.js");
-const CutNode = require("./nodes/cut.js");
-const ReceiptDocNode = require("./nodes/receipt.js");
-const SlotNode = require("./nodes/slot.js");
-const TextNode = require("./nodes/text.js");
-const TextModeNode = require("./nodes/text-mode.js");
-const SmallNode = require("./nodes/small.js");
-const UnderlineNode = require("./nodes/underline.js")
-const ImageNode = require("./nodes/image.js")
+// const AlignNode = require("./nodes/align.js")
+// const BreakNode = require("./nodes/break.js");
+// const CutNode = require("./nodes/cut.js");
+// const ReceiptDocNode = require("./nodes/receipt.js");
+// const SlotNode = require("./nodes/slot.js");
+// const TextNode = require("./nodes/text.js");
+// const TextModeNode = require("./nodes/text-mode.js");
+// const SmallNode = require("./nodes/small.js");
+// const UnderlineNode = require("./nodes/underline.js")
+// const ImageNode = require("./nodes/image.js")
 const BarcodeNode = require("./nodes/barcode.js")
-const DoubleStrikeNode = require("./nodes/double-strike.js")
-const SmoothingNode = require("./nodes/smoothing.js");
+// const DoubleStrikeNode = require("./nodes/double-strike.js")
+// const SmoothingNode = require("./nodes/smoothing.js");
 
 // parses using an xml parser and then builds relevant nodes
 // may not be needed?

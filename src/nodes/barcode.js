@@ -1,21 +1,26 @@
 const BaseNode = require("./base.js")
 
-const BarcodeNode = function (attrs) {
-  BaseNode.apply(this, ["barcode", [], attrs])
+class BarcodeNode extends BaseNode {
+  constructor(attrs) {
+    // no children for barcode node
+    super([], attrs)
 
-  this.requireAttributes(["data"])
+    this.requireAttributes("data")
+  }
+
+  renderHTML(data) {
+
+  }
+
+  renderPrinterBytes(data) {
+    let dataBuff = [...Buffer.from(this.attrs.data)]
+
+    return [BaseNode.bytes.GS, 'h', this.attrs.height ?? 80, BaseNode.bytes.GS, 'k', this.attrs.standard ?? 4, ...dataBuff, BaseNode.bytes.NUL]
+  }
 }
 
-BarcodeNode.prototype = Object.create(BaseNode.prototype)
-BarcodeNode.prototype.constructor = BarcodeNode
+let bn = new BarcodeNode({data: "TEST1234"})
 
-BarcodeNode.prototype.renderHTML = function (data) {
-
-}
-
-BarcodeNode.prototype.renderPrinterBytes = function (data) {
-  console.log(this.attrs.data)
-  return [BaseNode.bytes.GS, 'h', this.attrs.height ?? 80, BaseNode.bytes.GS, 'k', this.attrs.standard ?? 4, ...this.attrs.data.split(""), BaseNode.bytes.NUL]
-}
+console.log(bn.renderPrinterBytes())
 
 module.exports = BarcodeNode;
