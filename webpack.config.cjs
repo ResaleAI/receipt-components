@@ -1,12 +1,13 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    library: "EPComponent",
     libraryTarget: "umd",
-    umdNamedDefine: true,
+    libraryExport: 'default',
     globalObject: "this"
   },
   module: {

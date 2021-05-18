@@ -1,3 +1,3 @@
-import { EPComponent } from "./component"
+import { EPComponent } from "./component.js"
 
 export default EPComponent
