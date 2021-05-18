@@ -9,6 +9,22 @@ BaseNode.prototype.appendChild = function (child) {
   this.children.push(child)
 }
 
+BaseNode.bytes = {
+  ESC: 0x1b,
+  LF: 0x0a,
+  NUL: 0,
+  GS: 0x1d,
+}
+
+BaseNode.prototype.requireAttributes = function(attrKeys) {
+  attrKeys.forEach((key, i) => {
+    if (key in this.attrs) {
+      return
+    }
+    throw new Error(`Missing required attribute: ${key}`)
+  })
+}
+
 // byte helper
 BaseNode.prototype.getBytesFor = (cmdName) => {
   switch (cmdName.toUpperCase()) {
@@ -24,6 +40,7 @@ BaseNode.prototype.getBytesFor = (cmdName) => {
 }
 
 // super gets run only by nodes with children
+// should be implemented by all nodes
 BaseNode.prototype.renderHTML = function (data) {
   if (this.children.length > 0) {
     let childHTML = ""

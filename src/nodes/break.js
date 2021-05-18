@@ -15,7 +15,10 @@ BreakNode.prototype.renderHTML = function (data) {
 }
 
 BreakNode.prototype.renderPrinterBytes = function (data) {
-  return [this.getBytesFor("ESC"), 'd', this.attrs.lines ?? 1]
+  if (this.attrs.lines) {
+    return [this.getBytesFor("ESC"), 'd', this.attrs.lines ?? 1]
+  }
+  return [BaseNode.bytes.LF]
 }
 
 export default BreakNode;

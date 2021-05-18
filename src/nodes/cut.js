@@ -14,7 +14,7 @@ CutNode.prototype.renderHTML = function (data) {
 }
 
 CutNode.prototype.renderPrinterBytes = function (data) {
-  return [this.getBytesFor("GS"), 'V', this.attrs.partial ? 65 : 66]
+  return [BaseNode.bytes.LF, this.getBytesFor("GS"), 'V', this.attrs.partial ? 66 : 65]
 }
 
 export default CutNode

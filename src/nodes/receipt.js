@@ -1,7 +1,10 @@
 import BaseNode from "./base.js"
 
-const ReceiptDocNode = function (children) {
-  BaseNode.apply(this, ["document", children])
+// The root node for receipts, attrs will apply
+// to the whole receipt.
+const ReceiptDocNode = function (children, attrs) {
+  
+  BaseNode.apply(this, ["document", children, attrs])
 }
 
 ReceiptDocNode.prototype = Object.create(BaseNode.prototype)

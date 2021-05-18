@@ -2,8 +2,8 @@ import BaseNode from "./base.js"
 
 const modeMap = {
   left: 0,
-  right: 2,
   center: 1,
+  right: 2,
 }
 const AlignNode = function (children, attrs) {
   BaseNode.apply(this, ["align", children, attrs])

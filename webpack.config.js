@@ -5,7 +5,21 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    library: "REML",
     libraryTarget: "umd",
+    umdNamedDefine: true,
+    globalObject: "this"
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        include: /\.js/,
+        use: ["babel-loader"]
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['*', '.js']
+  }
 };
