@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const SlotNode = function (component) {
   component.slotNode = this
@@ -23,4 +23,4 @@ SlotNode.prototype.renderPrinterBytes = function (data) {
   return BaseNode.prototype.renderPrinterBytes.call(this, data)
 }
 
-export default SlotNode
+module.exports = SlotNode

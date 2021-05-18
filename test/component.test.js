@@ -1,4 +1,4 @@
-import { EPComponent } from "../src/component"
+const { EPComponent } = require("../src/component")
 
 describe("receipt component", () => {
   test("basic nodes match bytes", () => {

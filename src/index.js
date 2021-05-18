@@ -1,3 +1,5 @@
-import { EPComponent } from "./component.js"
+const { EPComponent } = require("./component.js")
 
-export default EPComponent
+module.exports = {
+  EPComponent
+}

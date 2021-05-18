@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const BreakNode = function (attrs) {
   BaseNode.apply(this, ["break", [], attrs])
@@ -21,4 +21,4 @@ BreakNode.prototype.renderPrinterBytes = function (data) {
   return [BaseNode.bytes.LF]
 }
 
-export default BreakNode;
+module.exports = BreakNode;

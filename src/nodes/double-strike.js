@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const DoubleStrikeNode = function (children) {
   BaseNode.apply(this, ["double-strike", children])
@@ -18,4 +18,4 @@ DoubleStrikeNode.prototype.renderPrinterBytes = function (data) {
   return [BaseNode.bytes.ESC, 'G', 1, ...BaseNode.prototype.renderPrinterBytes.call(this, data), BaseNode.bytes.ESC, 'G', 0]
 }
 
-export default DoubleStrikeNode;
+module.exports = DoubleStrikeNode;

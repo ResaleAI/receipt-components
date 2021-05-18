@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 // The root node for receipts, attrs will apply
 // to the whole receipt.
@@ -21,4 +21,4 @@ ReceiptDocNode.prototype.renderPrinterBytes = function (data) {
   return [this.getBytesFor("ESC"), 0x40, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("LF"), "A", 3]
 }
 
-export default ReceiptDocNode
+module.exports = ReceiptDocNode

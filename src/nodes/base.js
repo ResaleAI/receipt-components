@@ -62,5 +62,5 @@ BaseNode.prototype.renderPrinterBytes = function (data) {
   return childBytes
 }
 
-export default BaseNode;
+module.exports = BaseNode;
 

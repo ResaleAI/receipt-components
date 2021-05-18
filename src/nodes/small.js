@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const SmallNode = function (children) {
   BaseNode.apply(this, ["bold", children])
@@ -18,4 +18,4 @@ SmallNode.prototype.renderPrinterBytes = function (data) {
   return [this.getBytesFor("ESC"), "M", 1, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("ESC"), "M", 0]
 }
 
-export default SmallNode;
+module.exports = SmallNode;

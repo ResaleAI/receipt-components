@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const modeMap = {
   left: 0,
@@ -27,4 +27,4 @@ AlignNode.prototype.renderPrinterBytes = function (data) {
   return [this.getBytesFor("ESC"), 'a', this.modeNum, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("ESC"), 'a', 0]
 }
 
-export default AlignNode;
+module.exports = AlignNode;

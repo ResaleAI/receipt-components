@@ -1,5 +1,5 @@
-import { EPComponent } from "../src/component.js"
-import fs from "fs"
+const { EPComponent } = require("../src/component.js")
+const fs = require("fs")
 
 let Receipt = new EPComponent( 
 `<receipt>

@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 // import fsDither from "../dither/fs-dither.js"
 
 const ImageNode = function (attrs) {
@@ -32,4 +32,4 @@ ImageNode.prototype.renderPrinterBytes = function (data) {
   return [BaseNode.bytes.ESC, '-', this.attrs.heavy ? 2 : 1, ...BaseNode.prototype.renderPrinterBytes.call(this, data), BaseNode.bytes.ESC, '-', 0]
 }
 
-export default ImageNode;
+module.exports = ImageNode;

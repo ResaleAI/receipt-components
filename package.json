@@ -4,7 +4,6 @@
   "description": "XML-like language to build and use components for ESC/POS receipt printers",
   "author": "ResaleAI",
   "main": "dist/main.js",
-  "type": "module",
   "scripts": {
     "build": "webpack"
   },

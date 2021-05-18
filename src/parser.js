@@ -1,21 +1,21 @@
-import { parseDocument } from "htmlparser2" 
-import AlignNode from "./nodes/align.js"
-import BreakNode from "./nodes/break.js";
-import CutNode from "./nodes/cut.js";
-import ReceiptDocNode from "./nodes/receipt.js";
-import SlotNode from "./nodes/slot.js";
-import TextNode from "./nodes/text.js";
-import TextModeNode from "./nodes/text-mode.js";
-import SmallNode from "./nodes/small.js";
-import UnderlineNode from "./nodes/underline.js"
-import ImageNode from "./nodes/image.js"
-import BarcodeNode from "./nodes/barcode.js"
-import DoubleStrikeNode from "./nodes/double-strike.js"
-import SmoothingNode from "./nodes/smoothing.js";
+const { parseDocument } = require("htmlparser2") 
+const AlignNode = require("./nodes/align.js")
+const BreakNode = require("./nodes/break.js");
+const CutNode = require("./nodes/cut.js");
+const ReceiptDocNode = require("./nodes/receipt.js");
+const SlotNode = require("./nodes/slot.js");
+const TextNode = require("./nodes/text.js");
+const TextModeNode = require("./nodes/text-mode.js");
+const SmallNode = require("./nodes/small.js");
+const UnderlineNode = require("./nodes/underline.js")
+const ImageNode = require("./nodes/image.js")
+const BarcodeNode = require("./nodes/barcode.js")
+const DoubleStrikeNode = require("./nodes/double-strike.js")
+const SmoothingNode = require("./nodes/smoothing.js");
 
 // parses using an xml parser and then builds relevant nodes
 // may not be needed?
-export function parseMarkup(component) {
+exports.parseMarkup = function(component) {
   // remove extra ws from xml stuff to prevent weirdness
   let xmlStr = component.template.replace(/\n\s{2,}/g, "")
 

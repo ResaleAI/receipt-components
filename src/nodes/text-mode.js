@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const modeBits = {
   "altFont": 0b1,
@@ -58,4 +58,4 @@ TextModeNode.prototype.renderPrinterBytes = function (data) {
   return retVal
 }
 
-export default TextModeNode
+module.exports = TextModeNode

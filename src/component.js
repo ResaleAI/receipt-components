@@ -1,8 +1,8 @@
 // import { parseMarkup } from "./parser.js"
-import { parseMarkup } from "./parser.js"
+const { parseMarkup } = require("./parser.js")
 
 
-export function EPComponent(template, { name, components, propDefs }) {
+const EPComponent = function(template, { name, components, propDefs }) {
   this.template = template
   this.name = name
   this.components = components ?? {}
@@ -53,3 +53,5 @@ EPComponent.prototype.checkData = function(data) {
 //    <OtherComponent prop="{{ data1 }}" />
 // </template>`
 //)
+
+exports.EPComponent = EPComponent

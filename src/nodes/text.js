@@ -1,4 +1,4 @@
-import BaseNode from "./base.js"
+const BaseNode = require("./base.js")
 
 const TextNode = function (content, textWidthScale = 1, small = false) {
   BaseNode.apply(this, [content, []])
@@ -38,4 +38,4 @@ TextNode.prototype.renderPrinterBytes = function (data) {
   return filledContent.split("")
 }
 
-export default TextNode
+module.exports = TextNode

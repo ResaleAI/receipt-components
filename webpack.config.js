@@ -5,10 +5,8 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    library: "EPComponent",
     libraryTarget: "umd",
-    libraryExport: 'default',
-    globalObject: "this"
+    globalObject: "this",
   },
   module: {
     rules: [
@@ -16,11 +14,11 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         include: /\.js/,
-        use: ["babel-loader"]
       }
     ]
   },
   resolve: {
     extensions: ['*', '.js']
-  }
+  },
+  mode: "development"
 };
