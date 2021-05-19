@@ -11,6 +11,14 @@ class ComponentNode extends BaseNode {
 
     this.component.slots["default"] = children
   }
+
+  renderHTML(data) {
+
+  }
+
+  renderPrinterBytes(data) {
+    return this.component.renderPrinterBytes(data)
+  }
 }
 
 module.exports = ComponentNode
