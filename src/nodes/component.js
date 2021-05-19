@@ -8,6 +8,9 @@ class ComponentNode extends BaseNode {
 
     // set to be copy of component instance
     this.component = Object.assign({}, component)
+    // set funcs too
+    this.component.renderHTML = component.renderHTML
+    this.component.renderPrinterBytes = component.renderPrinterBytes
 
     this.component.slots["default"] = children
   }

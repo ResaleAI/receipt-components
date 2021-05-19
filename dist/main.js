@@ -349,7 +349,7 @@ eval("const BaseNode = __webpack_require__(/*! ./base.js */ \"./src/nodes/base.j
   \********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const BaseNode = __webpack_require__(/*! ./base */ \"./src/nodes/base.js\")\n\n// simple component node so that there can\n// be multiple instances\nclass ComponentNode extends BaseNode {\n  constructor(component, attrs, children) {\n    super(children, attrs)\n\n    // set to be copy of component instance\n    this.component = Object.assign({}, component)\n\n    this.component.slots[\"default\"] = children\n  }\n\n  renderHTML(data) {\n\n  }\n\n  renderPrinterBytes(data) {\n    return this.component.renderPrinterBytes(data)\n  }\n}\n\nmodule.exports = ComponentNode\n\n//# sourceURL=webpack://@resaleai/receipt-components/./src/nodes/component.js?");
+eval("const BaseNode = __webpack_require__(/*! ./base */ \"./src/nodes/base.js\")\n\n// simple component node so that there can\n// be multiple instances\nclass ComponentNode extends BaseNode {\n  constructor(component, attrs, children) {\n    super(children, attrs)\n\n    // set to be copy of component instance\n    this.component = Object.assign({}, component)\n    // set funcs too\n    this.component.renderHTML = component.renderHTML\n    this.component.renderPrinterBytes = component.renderPrinterBytes\n\n    this.component.slots[\"default\"] = children\n  }\n\n  renderHTML(data) {\n\n  }\n\n  renderPrinterBytes(data) {\n    return this.component.renderPrinterBytes(data)\n  }\n}\n\nmodule.exports = ComponentNode\n\n//# sourceURL=webpack://@resaleai/receipt-components/./src/nodes/component.js?");
 
 /***/ }),
 
