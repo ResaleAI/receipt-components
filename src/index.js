@@ -1,5 +1,5 @@
-const { EPComponent } = require("./component.js")
+const { ReceiptComponent } = require("./component.js")
 
 module.exports = {
-  EPComponent
+  ReceiptComponent
 }
