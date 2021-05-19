@@ -33,7 +33,7 @@ class TextModsNode extends BaseNode {
       this.mods = {
         altFont: this.modByte & 1,
         widthScale: hScale || undefined,
-        noWordWrap: this.attrs.multiLine !== undefined ? true : undefined
+        noWordWrap: this.attrs.multiLine !== undefined ? false : undefined
       }
     }
   }
