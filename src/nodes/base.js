@@ -1,9 +1,9 @@
 
-const { EPComponent } = require("..")
+const { ReceiptComponent } = require("../component")
 
 // base node class which has useful helpers
 // and extends the component class
-class BaseNode extends EPComponent {
+class BaseNode extends ReceiptComponent  {
   constructor(children, attrs = null) {
     super()
 
@@ -30,6 +30,13 @@ class BaseNode extends EPComponent {
       }
       throw new Error(`Missing required attribute: ${key}`)
     })
+  }
+
+  render(data, preview = false) {
+    if (preview) {
+      return this.renderHTML(data)
+    }
+    return this.renderPrinterBytes(data)
   }
 
   renderHTML(data) {

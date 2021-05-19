@@ -1,26 +1,18 @@
 const BaseNode = require("./base.js")
 
-const SlotNode = function (component) {
-  component.slotNode = this
-}
-
-SlotNode.prototype = Object.create(BaseNode.prototype)
-SlotNode.prototype.constructor = SlotNode
-
-SlotNode.prototype.renderHTML = function (data) {
-
-  let slotData = data[this.attrs.name]
-
-  if (slotData === undefined) {
-    throw new Error(this.attrs.name + " not in the data")
+// extend base node so that when children are set,
+// the super func can be run
+class SlotNode extends BaseNode {
+  constructor(children, attrs = {}) {
+    super(children, attrs)
+    
+    let slotName = attrs?.name ?? "default"
+    this.name = slotName
   }
 
-  return slotData + "\n"
-}
-
-SlotNode.prototype.renderPrinterBytes = function (data) {
-  // return children
-  return BaseNode.prototype.renderPrinterBytes.call(this, data)
+  overrideSlotContent(newChildren) {
+    this.children = newChildren
+  }
 }
 
 module.exports = SlotNode

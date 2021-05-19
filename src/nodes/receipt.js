@@ -2,23 +2,21 @@ const BaseNode = require("./base.js")
 
 // The root node for receipts, attrs will apply
 // to the whole receipt.
-const ReceiptDocNode = function (children, attrs) {
-  
-  BaseNode.apply(this, ["document", children, attrs])
+
+class ReceiptNode extends BaseNode {
+  constructor(children, attrs = null) {
+    super(children, attrs)
+  }
+
+  renderHTML(data) {
+    return "<div class='print-preview'>\n" + super.renderHTML(data) + "\n</div>"
+  }
+
+  renderPrinterBytes(data) {
+    // ESC @ .... initializes. it would make sense to have it also cut at the end,
+    // but given there is a separate cut node, that may be confusing
+    return [this.getBytesFor("ESC"), '@', ...super.renderPrinterBytes(data)]
+  }
 }
 
-ReceiptDocNode.prototype = Object.create(BaseNode.prototype)
-ReceiptDocNode.prototype.constructor = ReceiptDocNode
-
-ReceiptDocNode.prototype.renderHTML = function (data) {
-
-  // return html strong w content inside
-  return "<div class='print-preview'>\n" + BaseNode.prototype.renderHTML.call(this, data) + "\n</div>"
-}
-
-ReceiptDocNode.prototype.renderPrinterBytes = function (data) {
-  // initialization bytes
-  return [this.getBytesFor("ESC"), 0x40, ...BaseNode.prototype.renderPrinterBytes.call(this, data), this.getBytesFor("LF"), "A", 3]
-}
-
-module.exports = ReceiptDocNode
+module.exports = ReceiptNode

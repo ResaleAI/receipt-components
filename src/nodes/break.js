@@ -23,15 +23,4 @@ class BreakNode extends BaseNode {
   }
 }
 
-BreakNode.prototype.renderHTML = function (data) {
-  return "<br />".repeat(this.lines)
-}
-
-BreakNode.prototype.renderPrinterBytes = function (data) {
-  if (this.attrs.lines) {
-    return [this.getBytesFor("ESC"), 'd', this.attrs.lines ?? 1]
-  }
-  return [BaseNode.bytes.LF]
-}
-
 module.exports = BreakNode;

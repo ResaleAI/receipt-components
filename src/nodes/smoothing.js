@@ -1,21 +1,17 @@
 const BaseNode = require("./base.js")
 
-const SmoothingNode = function (children) {
-  BaseNode.apply(this, ["smooth", children])
-}
+class SmoothingNode extends BaseNode {
+  constructor(children) {
+    super(children)
+  }
 
-SmoothingNode.prototype = Object.create(BaseNode.prototype)
-SmoothingNode.prototype.constructor = SmoothingNode
+  renderHTML(data) {
+    return super.renderHTML(data)
+  }
 
-SmoothingNode.prototype.renderHTML = function (data) {
-
-  // return html strong w content inside
-  throw new Error("Not implemented")
-}
-
-SmoothingNode.prototype.renderPrinterBytes = function (data) {
-  // set smoothing
-  return [BaseNode.bytes.GS, 'b', 1, ...BaseNode.prototype.renderPrinterBytes.call(this, data), BaseNode.bytes.ESC, 'b', 0]
+  renderPrinterBytes(data) {
+    return [BaseNode.bytes.GS, 'b', 1, ...super.renderPrinterBytes(data), BaseNode.bytes.GS, 'b', 0]
+  }
 }
 
 module.exports = SmoothingNode;

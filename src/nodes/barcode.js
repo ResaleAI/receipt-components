@@ -19,8 +19,4 @@ class BarcodeNode extends BaseNode {
   }
 }
 
-let bn = new BarcodeNode({data: "TEST1234"})
-
-console.log(bn.renderPrinterBytes())
-
 module.exports = BarcodeNode;
