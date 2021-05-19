@@ -1,20 +1,15 @@
-const { ReceiptComponent } = require("../component.js")
-const { parseBraces } = require("../parser.js")
+const parseBraces = require("../util/brace-parser")
 
 // This node is for any text that shows up in the xml
 
-class ReceiptText extends ReceiptComponent {
+class ReceiptText {
 
   // constructor w options that modify # of chars in a line
   //  - altFont causes defaultWidth to be 56 (unless otherwise specified)
   //  - widthScale is the horizontal scale of the text, set by the <text-mode> node
   //  - defaultWidth is the char line width when no text effects are applied
   //  - noWordWrap can turn off the word wrapping behavior and just return the text buffer
-  constructor(content, { altFont = false, widthScale = 1, defaultWidth = 42, noWordWrap = false }) {
-    // init component
-    super()
-    
-
+  constructor(content, { altFont = false, widthScale = 1, defaultWidth = 42, noWordWrap = true } = {}) {    
     // just hold content for now, will be parsed on render
     this.content = content
 
@@ -42,7 +37,7 @@ class ReceiptText extends ReceiptComponent {
     // if the filled content is shorter than the line length
     // or no word wrap on, just return buffer from
     if (filledContent.length < this.lineLength || this.noWordWrap) 
-      return Buffer.from(this.content)
+      return Buffer.from(filledContent)
 
     // line needs wrapping, have to build RegExp object
     // to use template string with variable width in regex...

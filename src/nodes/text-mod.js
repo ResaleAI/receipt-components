@@ -33,6 +33,7 @@ class TextModsNode extends BaseNode {
       this.mods = {
         altFont: this.modByte & 1,
         widthScale: hScale || undefined,
+        noWordWrap: this.attrs.multiLine !== undefined ? true : undefined
       }
     }
   }
@@ -45,10 +46,10 @@ class TextModsNode extends BaseNode {
 
     // get children
     let retVal = super.renderPrinterBytes(data)
+    console.log(retVal)
 
     // apply scale mod if it exists
     if (this.scaleByte !== undefined) {
-      // retVal =[this.getBytesFor("GS"), '!', this.scaleByte, ...retVal, this.getBytesFor("GS"), '!', 0]
       retVal.unshift(BaseNode.bytes.GS, "!", this.scaleByte)
       retVal.push(BaseNode.bytes.GS, "!", 0)
     }

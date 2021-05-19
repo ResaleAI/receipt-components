@@ -10,7 +10,7 @@ class CutNode extends BaseNode {
   }
 
   renderPrinterBytes(data) {
-    return [BaseNode.bytes.LF, BaseNode.bytes.GS, 'V', this.attrs.partial === undefined ? 65 : 66]
+    return [BaseNode.bytes.LF, BaseNode.bytes.GS, 'V', this.attrs.partial === undefined ? 65 : 66, 3]
   }
 }
 

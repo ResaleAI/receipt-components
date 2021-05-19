@@ -7,7 +7,6 @@ class ReceiptComponent {
   // component build from template and other
   // components
   constructor({ template, components } = {}) {
-
     // only need the component stuff when template exists
     if (template !== undefined) {
       this.components = components ?? {}
@@ -20,6 +19,8 @@ class ReceiptComponent {
       this.nodeTree = parseMarkup(this)
     }
   }
+
+  
 
   // shortcut for normal components that just hold
   // some children and dont need to create any content
@@ -34,13 +35,13 @@ class ReceiptComponent {
 
   // manual call
   renderHTML(data) {
-    return this.nodeTree.renderHTML(data)
+    return this.nodeTree?.renderHTML(data)
   }
 
   renderPrinterBytes(data) {
     // render node tree and map chars to bytes
-    let byteArr = this.nodeTree.renderPrinterBytes(data)
-    let byteBuff = new Uint8Array(Buffer.from(byteArr))
+    let byteArr = this.nodeTree?.renderPrinterBytes(data)
+    let byteBuff = new Uint8Array(byteArr.map(el => typeof el === "string" ? el.charCodeAt(0) : el))
 
     return byteBuff
   }

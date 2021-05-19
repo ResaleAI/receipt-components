@@ -15,7 +15,7 @@ class ReceiptNode extends BaseNode {
   renderPrinterBytes(data) {
     // ESC @ .... initializes. it would make sense to have it also cut at the end,
     // but given there is a separate cut node, that may be confusing
-    return [this.getBytesFor("ESC"), '@', ...super.renderPrinterBytes(data)]
+    return [BaseNode.bytes.ESC, '@', ...super.renderPrinterBytes(data)]
   }
 }
 

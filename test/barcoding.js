@@ -1,18 +1,15 @@
-const { EPComponent } = require("../src/component.js")
+const { ReceiptComponent } = require("../src/component.js")
 const fs = require("fs")
 
-let Receipt = new EPComponent( 
+let Receipt = new ReceiptComponent({
+template: 
 `<receipt>
-  <text scale="2:4">
-      Yo dawg
+  <text>
+      {{test}}
   </text>
-  <break />
-  <barcode data="TEST" />
+  <br />
   <cut />
-</receipt>`,
-{
-  name: "Receipt",
-
+</receipt>`
 })
 
 let byteBuff = (Receipt.renderPrinterBytes({test: "Plato's Closet"}))

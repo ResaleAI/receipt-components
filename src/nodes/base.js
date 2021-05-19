@@ -1,12 +1,8 @@
 
-const { ReceiptComponent } = require("../component")
-
 // base node class which has useful helpers
 // and extends the component class
-class BaseNode extends ReceiptComponent  {
+class BaseNode {
   constructor(children, attrs = null) {
-    super()
-
     this.attrs = attrs
     this.children = children
   }
@@ -47,6 +43,7 @@ class BaseNode extends ReceiptComponent  {
       })
       return childHTML
     }
+    return []
   }
 
   renderPrinterBytes(data) {
@@ -57,6 +54,7 @@ class BaseNode extends ReceiptComponent  {
       })
       return childBytes
     }
+    return []
   }
 
   

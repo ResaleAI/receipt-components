@@ -9,23 +9,24 @@ const TextModsNode = require("./nodes/text-mod.js");
 const UnderlineNode = require("./nodes/underline.js")
 const ImageNode = require("./nodes/image.js")
 const BarcodeNode = require("./nodes/barcode.js");
-const ReceiptNode = require("./nodes/receipt.js");
 const SmoothingNode = require("./nodes/smoothing.js");
-
+const ComponentNode = require("./nodes/component.js");
 // parses using an xml parser and then builds relevant nodes
 // may not be needed?
 exports.parseMarkup = function(component) {
   // remove extra ws from xml stuff to prevent weirdness 
-  let xmlStr = component.template.trim()
+  let xmlStr = component.template.replace(/\n\s*/g, "")
   // parse the xml doc and find named slot elements, maybe want to change
   const dom = parseDocument(xmlStr, { xmlMode: true })
-  return buildNodes(dom.children[0], component)
+
+  return buildNodes(dom.children[0], component, {})
 }
 
 
 
 // builds node from xml element
 function buildNodes(xmlElem, component, textMods) {
+
   switch(xmlElem.type) {
   case "text":
     // found text
@@ -35,8 +36,9 @@ function buildNodes(xmlElem, component, textMods) {
     //                      <- <- <-/
     
     let attrs = xmlElem.attribs
+    let children = []
     if (xmlElem.name !== 'text' && xmlElem.name !== 'text-mod')
-      let children = xmlElem.children.map(child => buildNodes(child, component, textMods))
+      children = xmlElem.children.map(child => buildNodes(child, component, textMods))
     
     switch (xmlElem.name) {
       case "align":
@@ -46,13 +48,14 @@ function buildNodes(xmlElem, component, textMods) {
         return new BarcodeNode(attrs)
 
       case "break":
+      case "br":
         return new BreakNode(attrs)
 
       case "cut":
         return new CutNode(attrs)
 
       case "receipt":
-      return new ReceiptNode(children)
+        return new ReceiptNode(children)
 
       case "image":
       case "img":
@@ -62,16 +65,19 @@ function buildNodes(xmlElem, component, textMods) {
         let newSlot = new SlotNode(children, attrs)
         component.slots[newSlot.name] = newSlot
 
+        return newSlot
+
       case "text":
       case "text-mod":
         let tmNode = new TextModsNode([], attrs)
         tmNode.children = xmlElem.children.map(child => buildNodes(child, component, tmNode.mods))
+        return tmNode
 
       case "smooth":
         return new SmoothingNode(children)
 
       case "underline":
-      return new UnderlineNode(children, attrs)
+        return new UnderlineNode(children, attrs)
       
       case "template":
         if (children.length > 1) {
@@ -82,44 +88,14 @@ function buildNodes(xmlElem, component, textMods) {
       default:
         let comp = component.components[xmlElem.name]
         if (comp !== undefined) {
-          // component has nothing in slot
-          if (children.length < 1) {
-            return comp
-          } else {
-            // for now only one slot, but it is extendable
-            comp.slots.default.children = children
-            return comp
-          }
-
-      }
+          // create new instance of component 
+          return new ComponentNode(comp, attrs, children)
+        }
       
       // no idea what the tag is
       throw new Error(`Tag not recognized (${xmlElem.name})`)
     }
   }
-}
-
-// runtime parse a string with braces and fill it with
-// the given data.
-// REGEX ONLY FINDS WORDS, DONT USE WEIRD NAMES
-exports.parseBraces = function(bracefulStr, data) {
-  // regex desc:
-//    - find { char = \{
-  //    - find 0 or more spaces = \s*
-  //    - capture the word inside 1 or longer = (\w+)
-  //    - find 0 or more spaces again = \s*
-  //    - finally find closing char = \}
-  //    - the g makes it "greedy" and find all 
-  let filledContent = bracefulStr.replace(/\{\s*(\w+)\s*\}/g, function(_, varName) {
-    // varName is the first capture group match
-    // ($1 in regex)
-    
-    // replace the braces part with whatever data wants to be rendered
-    return `${data[varName]}` 
-  })
-  
-  // return the filled out content
-  return filledContent
 }
 
 // WIP
