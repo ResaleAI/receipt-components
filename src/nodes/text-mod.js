@@ -18,7 +18,7 @@ class TextModsNode extends BaseNode {
       // the scale attr should be in the form 'hor:ver' so we parse those ints out
       let [hScale, vScale] = this.attrs.scale.split(":").map(asciiNum => parseInt(asciiNum))
       // shift hscale to left 4 bits of byte, and OR with vscale to get scale byte
-      this.scaleByte = (hScale << 4) | vScale
+      this.scaleByte = ((hScale - 1) << 4) | (vScale - 1)
 
       // ensure that scale byte is in range
       if (this.scaleByte > 0x77) {

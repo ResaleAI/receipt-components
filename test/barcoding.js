@@ -4,7 +4,7 @@ const fs = require("fs")
 let Receipt = new ReceiptComponent({
 template: 
 `<receipt>
-  <text>
+  <text scale="2:2">
       {{test}}
   </text>
   <br />
