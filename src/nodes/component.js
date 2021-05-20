@@ -1,18 +1,19 @@
 const BaseNode = require("./base")
 
 // simple component node so that there can
-// be multiple instances
+// be multiple instances, maybe remove
 class ComponentNode extends BaseNode {
-  constructor(component, attrs, children) {
-    super(children, attrs)
+  constructor(component, baseMods, attrs) {
+    super(attrs)
 
     // set to be copy of component instance
     this.component = Object.assign({}, component)
-    // set funcs too
+    this.component.defMods = baseMods
     this.component.renderHTML = component.renderHTML
     this.component.renderPrinterBytes = component.renderPrinterBytes
 
-    this.component.slots["default"] = children
+    // set slot of copy to be the nodes children
+    this.component.slots["default"] = this.firstChild
   }
 
   renderHTML(data) {

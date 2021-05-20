@@ -1,5 +1,4 @@
 const { ReceiptComponent } = require("../src/component")
-const {diffStringsRaw, default: diff} = require("jest-diff")
 
 describe("receipt component", () => {
   test("basic nodes match bytes", () => {

@@ -4,15 +4,14 @@ const fs = require("fs")
 let Receipt = new ReceiptComponent({
 template: 
 `<receipt>
-  <text scale="2:2">
-      {{test}}
-  </text>
-  <br />
+  <mode font="2">
+    this is some alt font text
+  </mode>
   <cut />
 </receipt>`
 })
 
-let byteBuff = (Receipt.renderPrinterBytes({test: "Plato's Closet"}))
+let byteBuff = Receipt.renderPrinterBytes()
 
 console.log(byteBuff)
 

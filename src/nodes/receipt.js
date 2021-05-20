@@ -4,8 +4,8 @@ const BaseNode = require("./base.js")
 // to the whole receipt.
 
 class ReceiptNode extends BaseNode {
-  constructor(children, attrs = null) {
-    super(children, attrs)
+  constructor(mods, attrs) {
+    super(mods, attrs)
   }
 
   renderHTML(data) {
@@ -13,6 +13,7 @@ class ReceiptNode extends BaseNode {
   }
 
   renderPrinterBytes(data) {
+
     // ESC @ .... initializes. it would make sense to have it also cut at the end,
     // but given there is a separate cut node, that may be confusing
     return [BaseNode.bytes.ESC, '@', ...super.renderPrinterBytes(data)]

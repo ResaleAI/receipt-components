@@ -7,8 +7,8 @@ const modeMap = {
 }
 
 class AlignNode extends BaseNode {
-  constructor(children, attrs) {
-    super(children, attrs)
+  constructor(baseMods, attrs) {
+    super(baseMods, attrs)
 
     this.requireAttributes("mode")
 

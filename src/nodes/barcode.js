@@ -1,9 +1,9 @@
 const BaseNode = require("./base.js")
 
 class BarcodeNode extends BaseNode {
-  constructor(attrs) {
+  constructor(baseMods, attrs) {
     // no children for barcode node
-    super([], attrs)
+    super(baseMods, attrs)
 
     this.requireAttributes("data")
   }

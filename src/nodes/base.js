@@ -1,13 +1,22 @@
 
-// base node class which has useful helpers
-// and extends the component class
+// base class for any node which can be defined as:
+// - having or not having children
+// - having or not having attrs
 class BaseNode {
-  constructor(children, attrs = null) {
+  constructor(baseMods, attrs = null) {
     this.attrs = attrs
-    this.children = children
+    this.children = []
+    this.baseMods = baseMods
+
+    // relative info
+    this.firstChild = null
+    this.lastChild = null
+    this.nextSibling = null
+    this.prevSibling = null
   }
   
-  // static helper to get common hex vals
+  // static helper to make it a lil more
+  // clear whats going on in each node
   static bytes = {
     ESC: 0x1b,
     LF: 0x0a,
@@ -15,8 +24,17 @@ class BaseNode {
     GS: 0x1d,
   }
 
+  // the main method for adding children to nodes
   appendChild(child) {
-    this.children.push(child)
+    child.parent = this
+    if (this.firstChild === null) {
+      this.firstChild = child
+    }
+    
+    child.prevSibling = this.lastChild
+    if (this.lastChild)
+      this.lastChild.nextSibling = child
+    this.lastChild = child
   }
 
   requireAttributes(...attrKeys) {
@@ -47,16 +65,15 @@ class BaseNode {
   }
 
   renderPrinterBytes(data) {
-    if (this.children.length > 0) {
-      let childBytes = []
-      this.children.forEach((child) => {
-        childBytes.push(...child.renderPrinterBytes(data))
-      })
-      return childBytes
-    }
-    return []
-  }
+    let child = this.firstChild ?? null
+    let childBytes = []
+    while (child !== null) {
+      childBytes.push(...child.renderPrinterBytes(data))
 
+      child = child.nextSibling ?? null
+    }
+    return childBytes
+  }
   
 }
 

@@ -2,8 +2,8 @@ const BaseNode = require("./base.js")
 
 
 class BreakNode extends BaseNode {
-  constructor(attrs) {
-    super([], attrs)
+  constructor(baseMods, attrs) {
+    super(baseMods, attrs)
 
     this.lines = parseInt(this.attrs.lines ?? "1")
   }

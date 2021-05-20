@@ -1,17 +1,26 @@
 // import { parseMarkup } from "./parser.js"
 const { parseMarkup } = require("./parser.js")
 
+const defaultMods = {
+  textScaleByte: 0,
+  textModsByte: 0,
+  alignByte: 0,
+  smoothingByte: 0,
+  multiLine: true
+}
+
 // The most basic component class
 class ReceiptComponent {
 
   // component build from template and other
   // components
-  constructor({ template, components } = {}) {
+  constructor({ template, components, defaultModifications = defaultMods } = {}) {
     // only need the component stuff when template exists
     if (template !== undefined) {
       this.components = components ?? {}
       this.slots = {}
       this.template = template
+      this.defMods = defaultModifications
   
       // nodeTree must be an object with:
       //  - renderHTML(data): HTML string - for previewing
@@ -35,12 +44,12 @@ class ReceiptComponent {
 
   // manual call
   renderHTML(data) {
-    return this.nodeTree?.renderHTML(data)
+    return this.nodeTree.renderHTML(data)
   }
 
   renderPrinterBytes(data) {
     // render node tree and map chars to bytes
-    let byteArr = this.nodeTree?.renderPrinterBytes(data)
+    let byteArr = this.nodeTree.renderPrinterBytes(data)
     let byteBuff = new Uint8Array(byteArr.map(el => typeof el === "string" ? el.charCodeAt(0) : el))
 
     return byteBuff

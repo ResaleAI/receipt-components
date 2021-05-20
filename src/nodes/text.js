@@ -1,5 +1,8 @@
 const parseBraces = require("../util/brace-parser")
 
+const defaultLineLength = 42
+const altFontLineLength = 56
+
 // This node is for any text that shows up in the xml
 
 class ReceiptText {
@@ -9,20 +12,16 @@ class ReceiptText {
   //  - widthScale is the horizontal scale of the text, set by the <text-mode> node
   //  - defaultWidth is the char line width when no text effects are applied
   //  - noWordWrap can turn off the word wrapping behavior and just return the text buffer
-  constructor(content, { altFont = false, widthScale = 1, defaultWidth = 42, noWordWrap = true } = {}) {    
+  constructor(content, baseMods) {    
     // just hold content for now, will be parsed on render
     this.content = content
-
-    // i stg if there is an edge case where this doesnt work...
-    // this sets the defaultWidth to 56 if it has been set to something else
-    // and altFont is on
-    if (altFont && defaultWidth !== 42)
-      defaultWidth = 56
+    this.baseMods = baseMods
 
     // set lineLength property to correct width
     // after scale mod
-    this.lineLength = defaultWidth / widthScale
-    this.noWordWrap = noWordWrap
+    const [multiLine, lineLength] = parseRelevant(baseMods)
+    this.lineLength = lineLength
+    this.multiLine = multiLine
     
   }
 
@@ -36,7 +35,7 @@ class ReceiptText {
 
     // if the filled content is shorter than the line length
     // or no word wrap on, just return buffer from
-    if (filledContent.length < this.lineLength || this.noWordWrap) 
+    if (filledContent.length < this.lineLength || !this.multiLine) 
       return Buffer.from(filledContent)
 
     // line needs wrapping, have to build RegExp object
@@ -53,6 +52,19 @@ class ReceiptText {
 
     return Buffer.from(wrappedContent)
   }
+}
+
+function parseRelevant({ textScaleByte, textModsByte, multiLine}) {
+  // first get width scale (scaleByte high)
+  let widthScale = (textScaleByte >>> 4) + 1
+
+  // get alt font from textModByte (first bit)
+  let altFont = textModsByte & 1
+
+  // calc line length
+  let lineLength = (altFont ? altFontLineLength : defaultLineLength) / widthScale
+
+  return [multiLine, lineLength]
 }
 
 module.exports = ReceiptText

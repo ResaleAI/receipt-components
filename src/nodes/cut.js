@@ -1,8 +1,8 @@
 const BaseNode = require("./base.js")
 
 class CutNode extends BaseNode {
-  constructor(attrs) {
-    super([], attrs)
+  constructor(baseMods, attrs) {
+    super(baseMods, attrs)
   }
 
   renderHTML(data) {

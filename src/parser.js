@@ -5,12 +5,12 @@ const CutNode = require("./nodes/cut.js");
 const ReceiptNode = require("./nodes/receipt.js");
 const SlotNode = require("./nodes/slot.js");
 const ReceiptText = require("./nodes/text.js");
-const TextModsNode = require("./nodes/text-mod.js");
-const UnderlineNode = require("./nodes/underline.js")
 const ImageNode = require("./nodes/image.js")
 const BarcodeNode = require("./nodes/barcode.js");
 const SmoothingNode = require("./nodes/smoothing.js");
 const ComponentNode = require("./nodes/component.js");
+const BaseNode = require("./nodes/base.js");
+const TextModsNode = require("./nodes/text-mod.js");
 // parses using an xml parser and then builds relevant nodes
 // may not be needed?
 exports.parseMarkup = function(component) {
@@ -19,82 +19,96 @@ exports.parseMarkup = function(component) {
   // parse the xml doc and find named slot elements, maybe want to change
   const dom = parseDocument(xmlStr, { xmlMode: true })
 
-  return buildNodes(dom.children[0], component, {})
+  return buildNode(dom.children[0], component, component.defMods)
 }
 
 
 
 // builds node from xml element
-function buildNodes(xmlElem, component, textMods) {
-
+function buildNode(xmlElem, component, baseMods) {
   switch(xmlElem.type) {
   case "text":
     // found text
-    return new ReceiptText(xmlElem.data, textMods)
+    return new ReceiptText(xmlElem.data, baseMods)
   case "tag":
-    // build children first: -> -> ->
-    //                      <- <- <-/
-    
     let attrs = xmlElem.attribs
-    let children = []
-    if (xmlElem.name !== 'text' && xmlElem.name !== 'text-mod')
-      children = xmlElem.children.map(child => buildNodes(child, component, textMods))
+    let node;
     
     switch (xmlElem.name) {
       case "align":
-        return new AlignNode(children, attrs)
+        node = new AlignNode(baseMods, attrs)
+        baseMods.alignByte = node.mode // update baseMods for children of this node
+
+        node.baseMods = baseMods
+        break
 
       case "barcode":
-        return new BarcodeNode(attrs)
+        node = new BarcodeNode(baseMods, attrs)
+        break
 
       case "break":
       case "br":
-        return new BreakNode(attrs)
+        node = new BreakNode(baseMods, attrs)
+        break
 
       case "cut":
-        return new CutNode(attrs)
+        node = new CutNode(baseMods, attrs)
+        break
 
       case "receipt":
-        return new ReceiptNode(children)
+        node = new ReceiptNode(baseMods, attrs)
+        break
 
       case "image":
       case "img":
-        return new ImageNode(attrs)
+        node = new ImageNode(baseMods, attrs)
 
       case "slot":
-        let newSlot = new SlotNode(children, attrs)
-        component.slots[newSlot.name] = newSlot
+        node = new SlotNode(baseMods, attrs)
 
-        return newSlot
+        // set component slot.name prop to the node
+        component.slots[node.name] = node
+        break
 
       case "text":
-      case "text-mod":
-        let tmNode = new TextModsNode([], attrs)
-        tmNode.children = xmlElem.children.map(child => buildNodes(child, component, tmNode.mods))
-        return tmNode
+      case "mode":
+        node = new TextModsNode(baseMods, attrs)
+        baseMods.textScaleByte = node.scaleByte
+        baseMods.textModsByte = node.modByte
+        baseMods.multiLine = node.multiLine
+
+        node.baseMods = baseMods
+        break
 
       case "smooth":
-        return new SmoothingNode(children)
+        baseMods.smoothingByte = 1
+        node = new SmoothingNode(baseMods, attrs)
+        break
 
-      case "underline":
-        return new UnderlineNode(children, attrs)
-      
       case "template":
-        if (children.length > 1) {
-          throw new Error("Template must have one child")
-        }
-        return children[0]
+        node = new BaseNode(baseMods, attrs)
+        break
       
       default:
         let comp = component.components[xmlElem.name]
         if (comp !== undefined) {
           // create new instance of component 
-          return new ComponentNode(comp, attrs, children)
+          node = new ComponentNode(comp, baseMods, attrs)
+          break
         }
-      
-      // no idea what the tag is
+        // no idea what the tag is
       throw new Error(`Tag not recognized (${xmlElem.name})`)
     }
+
+    // parse children
+    let childNode
+    xmlElem.children.forEach((child, i) => {
+      childNode = buildNode(child, component, {...baseMods})
+      node.appendChild(childNode)
+    })
+
+    // last child
+    return node
   }
 }
 
