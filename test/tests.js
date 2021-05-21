@@ -1,8 +1,8 @@
-const { EPComponent } = require("../src/component.js")
-const fs = require("fs")
+import {EPComponent} from '../src/component.js';
+import fs from 'fs';
 
-let Receipt = new EPComponent(
-`<receipt>
+const Receipt = new EPComponent(
+  `<receipt>
   <text scale="1:1">
     {{content}}
   </text>
@@ -20,15 +20,15 @@ let Receipt = new EPComponent(
   </text>
   <cut />
 </receipt>`,
-{
-  name: "Receipt",
-})
+  {
+    name: 'Receipt',
+  });
 
-let byteBuff = (Receipt.renderPrinterBytes({content: "Testing testing line length testing. this is some long line text, please wrap at words and dont cut off characters"}))
+const byteBuff = (Receipt.renderPrinterBytes({content: 'Testing testing line length testing. this is some long line text, please wrap at words and dont cut off characters'}));
 
-fs.writeFile("/dev/usb/lp0", byteBuff, (err) => {
-  if (err) return console.log(err)
-  return console.log("wrote to file, should be printing")
-})
+fs.writeFile('/dev/usb/lp0', byteBuff, (err) => {
+  if (err) return console.log(err);
+  return console.log('wrote to file, should be printing');
+});
 
-console.log(byteBuff)
+console.log(byteBuff);

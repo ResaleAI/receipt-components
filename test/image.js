@@ -1,18 +1,14 @@
-const { EPComponent } = require("../src/component.js")
-const fs = require("fs")
+import { ReceiptComponent } from '../src';
 
-let Receipt = new EPComponent(
-`<receipt>
-  <img testCircle src="https://lh3.googleusercontent.com/proxy/7E9QXAnHhViGNgQMJ_21iFwIfONLp5nuQaaYFmWe-FVun4rhM1fIePF8xaijGQ9OlhXuoO8mdA-FKhvhunXNK7Yg" />
-</receipt>`,
-{
-  name: "Receipt",
+const Receipt = new ReceiptComponent({
+  template: `
+      <receipt>
+        <img src="https://logos-download.com/wp-content/uploads/2016/02/YouTube_logo.png" />
+        <break lines="3" />
+        <cut />
+      </receipt>`,
+});
 
-})
-
-let byteBuff = (Receipt.renderPrinterBytes({test: "Plato's Closet"}))
-
-fs.writeFile("/dev/usb/lp0", byteBuff, (err) => {
-  if (err) return console.log(err)
-  return console.log("wrote to file, should be printing")
-})
+Receipt.parseTemplate().then(() => {
+  console.log(Receipt.renderPrinterBytes());
+});

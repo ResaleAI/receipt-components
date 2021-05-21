@@ -1,11 +1,11 @@
-const BaseNode = require("./base.js")
+import BaseNode from './base.js';
 
 
 class BreakNode extends BaseNode {
-  constructor(baseMods, attrs) {
-    super(baseMods, attrs)
+  constructor(mods, attrs) {
+    super(mods, attrs);
 
-    this.lines = parseInt(this.attrs.lines ?? "1")
+    this.lines = parseInt(this.attrs.lines ?? '1');
   }
 
   renderHTML(data) {
@@ -16,11 +16,11 @@ class BreakNode extends BaseNode {
     // use ESC d N cmd if more than one line,
     // use LF otherwise
     if (this.lines > 1) {
-      return [BaseNode.bytes.ESC, 'd', this.lines]
+      return [BaseNode.bytes.ESC, 'd', this.lines];
     }
 
-    return [BaseNode.bytes.LF]
+    return [BaseNode.bytes.LF];
   }
 }
 
-module.exports = BreakNode;
+export default BreakNode;

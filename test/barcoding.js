@@ -1,21 +1,21 @@
-const { ReceiptComponent } = require("../src/component.js")
-const fs = require("fs")
+import {ReceiptComponent} from '../src/component.js';
+import fs from 'fs';
 
-let Receipt = new ReceiptComponent({
-template: 
+const Receipt = new ReceiptComponent({
+  template:
 `<receipt>
   <mode font="2">
     this is some alt font text
   </mode>
   <cut />
-</receipt>`
-})
+</receipt>`,
+});
 
-let byteBuff = Receipt.renderPrinterBytes()
+const byteBuff = Receipt.renderPrinterBytes();
 
-console.log(byteBuff)
+console.log(byteBuff);
 
-fs.writeFile("/dev/usb/lp0", byteBuff, (err) => {
-  if (err) return console.error(err)
-  console.log("wrote to file, should be printing")
-})
+fs.writeFile('/dev/usb/lp0', byteBuff, (err) => {
+  if (err) return console.error(err);
+  console.log('wrote to file, should be printing');
+});

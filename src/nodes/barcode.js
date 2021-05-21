@@ -1,11 +1,26 @@
-const BaseNode = require("./base.js")
-
+import stringToBuffer from '../util/string-to-buffer.js';
+import BaseNode from './base.js';
+/**
+ * Class for a node representing a single barcode
+ */
 class BarcodeNode extends BaseNode {
-  constructor(baseMods, attrs) {
+  /**
+   * 
+   * @param {Object} mods 
+   * @param {Object} attrs  
+   */
+  constructor(mods, attrs) {
     // no children for barcode node
-    super(baseMods, attrs)
+    super(mods, attrs);
 
-    this.requireAttributes("data")
+    this.requireAttributes('data');
+
+    // TODO: change to use a map for human barcode standards
+    const {width = 100, height = 80, standard = 4} = this.attrs;
+
+    this.width = width;
+    this.height = height;
+    this.standard = barcodeStandard;
   }
 
   renderHTML(data) {
@@ -13,10 +28,11 @@ class BarcodeNode extends BaseNode {
   }
 
   renderPrinterBytes(data) {
-    let dataBuff = [...Buffer.from(this.attrs.data)]
+    const dataBuff = stringToBuffer(this.attrs.data);
 
-    return [BaseNode.bytes.GS, 'h', this.attrs.height ?? 80, BaseNode.bytes.GS, 'k', this.attrs.standard ?? 4, ...dataBuff, BaseNode.bytes.NUL]
+    // define height and width every time for ez parse?
+    return [BaseNode.bytes.GS, 'h', this.height, BaseNode.bytes.GS, 'w', this.width, BaseNode.bytes.GS, 'k', this.standard, ...dataBuff, BaseNode.bytes.NUL];
   }
 }
 
-module.exports = BarcodeNode;
+export default BarcodeNode;

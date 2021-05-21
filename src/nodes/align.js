@@ -1,18 +1,20 @@
-const BaseNode = require("./base.js")
+import BaseNode from './base.js';
 
 const modeMap = {
   left: 0,
   center: 1,
   right: 2,
-}
+};
 
 class AlignNode extends BaseNode {
-  constructor(baseMods, attrs) {
-    super(baseMods, attrs)
+  constructor(mods, attrs) {
+    super(mods, attrs);
 
-    this.requireAttributes("mode")
+    this.requireAttributes('mode'); // require the 'mode' in attrs
 
-    this.mode = modeMap[this.attrs.mode]
+    this.mode = modeMap[this.attrs.mode]; // convert ppl friendly to esc pos friendly
+
+    this.mods.alignByte = this.mode; // update mods
   }
 
   renderHTML(data) {
@@ -20,14 +22,14 @@ class AlignNode extends BaseNode {
   }
 
   renderPrinterBytes(data) {
-    let childBuff = super.renderPrinterBytes(data)
-    let retVal = [BaseNode.bytes.ESC, 'a', this.mode, ...childBuff]
+    const childBuff = super.renderPrinterBytes(data);
+    const retVal = [BaseNode.bytes.ESC, 'a', this.mode, ...childBuff];
     if (this.mode !== 0) {
-      retVal.push(BaseNode.bytes.ESC, 'a', 0)
+      retVal.push(BaseNode.bytes.ESC, 'a', 0);
     }
 
-    return retVal
+    return retVal;
   }
 }
 
-module.exports = AlignNode;
+export default AlignNode;

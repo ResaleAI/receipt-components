@@ -1,8 +1,8 @@
-const BaseNode = require("./base.js")
+import BaseNode from './base.js';
 
 class CutNode extends BaseNode {
-  constructor(baseMods, attrs) {
-    super(baseMods, attrs)
+  constructor(mods, attrs) {
+    super(mods, attrs);
   }
 
   renderHTML(data) {
@@ -10,8 +10,8 @@ class CutNode extends BaseNode {
   }
 
   renderPrinterBytes(data) {
-    return [BaseNode.bytes.LF, BaseNode.bytes.GS, 'V', this.attrs.partial === undefined ? 65 : 66, 3]
+    return [BaseNode.bytes.LF, BaseNode.bytes.GS, 'V', this.attrs.partial === undefined ? 65 : 66, 3];
   }
 }
 
-module.exports = CutNode
+export default CutNode;

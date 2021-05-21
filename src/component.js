@@ -1,58 +1,64 @@
 // import { parseMarkup } from "./parser.js"
-const { parseMarkup } = require("./parser.js")
+import { parseMarkup } from './parser.js';
 
 const defaultMods = {
   textScaleByte: 0,
   textModsByte: 0,
   alignByte: 0,
   smoothingByte: 0,
-  multiLine: true
-}
+  multiLine: true,
+};
 
 // The most basic component class
-class ReceiptComponent {
-
+export class ReceiptComponent {
   // component build from template and other
   // components
-  constructor({ template, components, defaultModifications = defaultMods } = {}) {
+  constructor({
+    template,
+    components,
+    defaultModifications = defaultMods,
+  } = {}) {
     // only need the component stuff when template exists
     if (template !== undefined) {
-      this.components = components ?? {}
-      this.slots = {}
-      this.template = template
-      this.defMods = defaultModifications
-  
-      // nodeTree must be an object with:
-      //  - renderHTML(data): HTML string - for previewing
-      //  - renderPrinterBytes(data): Array - to be converted into an ESC/POS byte array and sent to the printer
-      this.nodeTree = parseMarkup(this)
+      this.components = components ?? {};
+      this.slots = {};
+      this.template = template;
+      this.defMods = defaultModifications;
+      this.nodeTree = null;
     }
   }
 
-  
+  async parseTemplate() {
+    // nodeTree must be an object with:
+    //  - renderHTML(data): HTML string - for previewing
+    //  - renderPrinterBytes(data): Array - to be converted into an ESC/POS byte array and sent to the printer
+    this.nodeTree = await parseMarkup(this);
+  }
 
   // shortcut for normal components that just hold
   // some children and dont need to create any content
   render(data, preview = false) {
     if (preview) {
-      return this.renderHTML(data)
+      return this.renderHTML(data);
     }
 
-    return this.renderPrinterBytes(data)
+    return this.renderPrinterBytes(data);
   }
-
 
   // manual call
   renderHTML(data) {
-    return this.nodeTree.renderHTML(data)
+    return this.nodeTree.renderHTML(data);
   }
 
   renderPrinterBytes(data) {
+    console.log(this.nodeTree.firstChild);
     // render node tree and map chars to bytes
-    let byteArr = this.nodeTree.renderPrinterBytes(data)
-    let byteBuff = new Uint8Array(byteArr.map(el => typeof el === "string" ? el.charCodeAt(0) : el))
+    const byteArr = this.nodeTree.renderPrinterBytes(data);
+    const byteBuff = new Uint8Array(
+      byteArr.map(el => (typeof el === 'string' ? el.charCodeAt(0) : el))
+    );
 
-    return byteBuff
+    return byteBuff;
   }
 }
 
@@ -65,5 +71,3 @@ class ReceiptComponent {
 //     }
 //   }
 // }
-
-exports.ReceiptComponent = ReceiptComponent

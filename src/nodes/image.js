@@ -1,35 +1,42 @@
-const BaseNode = require("./base.js")
+import '@babel/polyfill';
+import BaseNode from './base.js';
+import processImage from '../util/process-image';
 // import fsDither from "../dither/fs-dither.js"
 
-const ImageNode = function (attrs) {
-  BaseNode.apply(this, ["img", [], attrs])
+class ImageNode extends BaseNode {
+  constructor(mods, attrs) {
+    super(mods, attrs);
 
-  // require attributes
-  if (this.attrs.testCircle === undefined) {
-    this.requireAttributes(["src"])
+    this.requireAttributes('src');
+
+    const { src, mode = 33 } = this.attrs;
+
+    // process image
+    this.src = src;
+    this.mode = mode;
   }
 
-  if (this.attrs.width) {
-    let shortWidth = parseInt(this.attrs.width) & 0xff
-    let [wLow, wHigh] = [shortWidth & 0xf, shortWidth >> 4]
+  loadImg() {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = this.src;
+    });
   }
 
-  this.imageData = fsDither(this.attrs.src, shortWidth)
-  
-  console.log(this.imageData)
+  async prepareImage() {
+    this.image = await this.loadImg();
+
+    this.imageBits = processImage(this.image, this.mode);
+  }
+
+  renderHTML(data) {}
+
+  renderPrinterBytes(data) {
+    return this.imageBits;
+  }
 }
 
-ImageNode.prototype = Object.create(BaseNode.prototype)
-ImageNode.prototype.constructor = ImageNode
-
-ImageNode.prototype.renderHTML = function (data) {
-
-  // return html strong w content inside
-  return `<span style="text-align: ${this.attrs.type}">\n` + BaseNode.prototype.renderHTML.call(this, data) + "\n</span>"
-} 
-
-ImageNode.prototype.renderPrinterBytes = function (data) {
-  return [BaseNode.bytes.ESC, '-', this.attrs.heavy ? 2 : 1, ...BaseNode.prototype.renderPrinterBytes.call(this, data), BaseNode.bytes.ESC, '-', 0]
-}
-
-module.exports = ImageNode;
+export default ImageNode;

@@ -1,33 +1,36 @@
-const BaseNode = require("./base.js")
-const findNextRenderedNode = require("../util/find-next-node")
+import BaseNode from './base.js';
+import findNextRenderedNode from '../util/find-next-node';
 class SmoothingNode extends BaseNode {
-  constructor(baseMods) {
-    super(baseMods)
+  constructor(mods) {
+    super(mods);
+
+    this.mods.smoothingByte = 1;
   }
 
   renderHTML(data) {
-    return super.renderHTML(data)
+    return super.renderHTML(data);
   }
 
+  // this is a hot mess
   renderPrinterBytes(data) {
     // check either prev sibling or parent to see what needs to be done for open
-    let prevNode = this.prevSibling ?? this.parent
-    let nextNode = findNextRenderedNode(this)
-    let retVal = super.renderPrinterBytes(data)
+    const prevNode = this.prevSibling ?? this.parent;
+    const nextNode = findNextRenderedNode(this);
+    const retVal = super.renderPrinterBytes(data);
 
 
     // ensure smooth mode wasnt already on
-    if (prevNode === null || !prevNode.baseMods.smoothingByte) {
-      retVal.unshift(BaseNode.bytes.GS, 'b', 1)
+    if (prevNode === null || !prevNode.mods.smoothingByte) {
+      retVal.unshift(BaseNode.bytes.GS, 'b', 1);
     }
 
-    if (nextNode === null || !nextNode.baseMods.smoothingByte) {
-      retVal.push(BaseNode.bytes.GS, 'b', 0)
+    // check if smoothing should stay on
+    if (nextNode === null || !nextNode.mods.smoothingByte) {
+      retVal.push(BaseNode.bytes.GS, 'b', 0);
     }
-    return retVal
+    return retVal;
   }
 }
 
 
-
-module.exports = SmoothingNode;
+export default SmoothingNode;
