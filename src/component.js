@@ -28,6 +28,16 @@ export class ReceiptComponent {
     }
   }
 
+  // returns a copy defined component instance
+  // that can be mutated
+  copy() {
+    const compCopy = Object.setPrototypeOf(
+      Object.assign({}, this),
+      ReceiptComponent.prototype
+    );
+    return compCopy;
+  }
+
   async parseTemplate() {
     // nodeTree must be an object with:
     //  - renderHTML(data): HTML string - for previewing
@@ -51,7 +61,6 @@ export class ReceiptComponent {
   }
 
   renderPrinterBytes(data) {
-    console.log(this.nodeTree.firstChild);
     // render node tree and map chars to bytes
     const byteArr = this.nodeTree.renderPrinterBytes(data);
     const byteBuff = new Uint8Array(

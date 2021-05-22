@@ -67,7 +67,11 @@ class BaseNode {
     let child = this.firstChild ?? null;
     let childBytes = [];
     while (child !== null) {
-      childBytes.push(...child.renderPrinterBytes(data));
+      try {
+        childBytes.push(...child.renderPrinterBytes(data));
+      } catch (e) {
+        console.log(child);
+      }
 
       child = child.nextSibling ?? null;
     }

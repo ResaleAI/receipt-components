@@ -1,5 +1,4 @@
 import { parseDocument } from 'htmlparser2';
-import parseImage from './util/process-image';
 import AlignNode from './nodes/align.js';
 import BreakNode from './nodes/break.js';
 import CutNode from './nodes/cut.js';
@@ -21,8 +20,6 @@ export async function parseMarkup(component) {
   const dom = parseDocument(xmlStr, { xmlMode: true });
 
   let root = await buildNode(dom.children[0], component, component.defMods);
-
-  console.log(`${root}`);
 
   return root;
 }
@@ -96,22 +93,22 @@ async function buildNode(xmlElem, component, mods) {
 
           if (childComp.nodeTree === null) await childComp.parseTemplate();
           // create new instance of component
-          const compInstance = Object.assign({}, childComp);
-          compInstance.prototype = childComp.prototype;
-
+          const compInstance = childComp.copy();
           // set default mods for child comp to current mods
           compInstance.defMods = mods;
 
           // set slot to be first child
-          compInstance.slots['default'] = this.firstChild;
-          break;
+          compInstance.slots['default'] = compInstance.firstChild;
+
+          node = compInstance;
         }
       }
+
       // parse children
       for (let i = 0; i < xmlElem.children.length; i++) {
         let child = xmlElem.children[i];
         var childNode = await buildNode(child, component, { ...node.mods }); // use the nodes mods
-        console.log(`finish ${childNode}`);
+        // if (childNode === undefined) console.log(child);
         node.appendChild(childNode);
       }
 
