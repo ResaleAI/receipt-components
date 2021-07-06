@@ -12,7 +12,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /examples/],
         include: /\.js/,
         use: ['babel-loader', 'eslint-loader'],
       },

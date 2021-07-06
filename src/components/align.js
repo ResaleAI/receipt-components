@@ -18,7 +18,9 @@ class AlignNode extends BaseNode {
   }
 
   renderHTML(data) {
+    const childHTML = super.renderHTML(data);
 
+    return `<div style='text-align:${this.attrs.mode}; display: inline;'>${childHTML}</div>`;
   }
 
   renderPrinterBytes(data) {

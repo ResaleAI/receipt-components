@@ -9,7 +9,11 @@ class ReceiptNode extends BaseNode {
   }
 
   renderHTML(data) {
-    return '<div class=\'print-preview\'>\n' + super.renderHTML(data) + '\n</div>';
+    console.log(this.children);
+    // eslint-disable-next-line quotes
+    return `<div style='width: 440px; border: 1px solid black; padding: 5px;'>${super.renderHTML(
+      data
+    )}</div>`;
   }
 
   renderPrinterBytes(data) {

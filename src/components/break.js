@@ -1,6 +1,5 @@
 import BaseNode from './base.js';
 
-
 class BreakNode extends BaseNode {
   constructor(mods, attrs) {
     super(mods, attrs);
@@ -8,11 +7,11 @@ class BreakNode extends BaseNode {
     this.lines = parseInt(this.attrs.lines ?? '1');
   }
 
-  renderHTML(data) {
-
+  renderHTML(_) {
+    return '<br />';
   }
 
-  renderPrinterBytes(data) {
+  renderPrinterBytes(_) {
     // use ESC d N cmd if more than one line,
     // use LF otherwise
     if (this.lines > 1) {

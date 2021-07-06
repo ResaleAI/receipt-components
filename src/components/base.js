@@ -53,14 +53,13 @@ class BaseNode {
   }
 
   renderHTML(data) {
-    if (this.children.length > 0) {
-      let childHTML = '';
-      this.children.forEach(child => {
-        childHTML += child.renderHTML(data);
-      });
-      return childHTML;
+    let childHTML = '';
+    let child = this.firstChild ?? null;
+    while (child) {
+      childHTML += `\n${child.renderHTML(data)}`;
+      child = child.nextSibling;
     }
-    return [];
+    return childHTML + '\n';
   }
 
   renderPrinterBytes(data) {

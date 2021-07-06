@@ -1,6 +1,6 @@
 {
   "name": "@resaleai/receipt-components",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "description": "XML-like language to build and use components for ESC/POS receipt printers",
   "repository": "git://github.com/resaleai/receipt-components",
   "author": "ResaleAI",
@@ -8,7 +8,9 @@
   "scripts": {
     "build": "webpack",
     "lint": "eslint .",
-    "browser": "http-server ./dist/ --cors"
+    "test": "jest",
+    "browser": "http-server ./dist/ --cors",
+    "vue": "$(cd examples/vue-receipts && rm yarn.lock && yarn && yarn serve | tee /dev/tty)"
   },
   "files": [
     "dist"
@@ -29,7 +31,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
-    "htmlparser2": "^6.1.0"
+    "htmlparser2": "^6.1.0",
+    "regenerator-runtime": "^0.13.7"
   }
 }

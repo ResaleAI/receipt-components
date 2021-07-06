@@ -21,7 +21,7 @@ class TextModsNode extends BaseNode {
       // the scale attr should be in the form 'hor:ver' so we parse those ints out
       [hScale, vScale] = this.attrs.scale
         .split(':')
-        .map(asciiNum => parseInt(asciiNum));
+        .map((asciiNum) => parseInt(asciiNum));
       // shift hscale to left 4 bits of byte, and OR with vscale to get scale byte
       this.scaleByte = (hScale << 4) | vScale;
 
@@ -35,7 +35,7 @@ class TextModsNode extends BaseNode {
 
     // mod byte to keep track of other mods (given by ESC ! cmd)
     this.modByte = 0;
-    Object.keys(this.attrs).forEach(attr => {
+    Object.keys(this.attrs).forEach((attr) => {
       this.modByte |= modBits[attr];
     });
     const { font } = this.attrs;
@@ -52,7 +52,23 @@ class TextModsNode extends BaseNode {
     this.mods.multiLine = this.multiLine;
   }
 
-  renderHTML(data) {}
+  renderHTML(data) {
+    return (
+      '<p style="margin: none; font-family: monospace; ' +
+      ((this.modByte & 8) == 8 || this.font > 0 ? 'font-weight: bold; ' : '') +
+      (this.font
+        ? 'font-size: .85em; letter-spacing: -1px; '
+        : 'font-size: 1.2em; letter-spacing: 1px; ') +
+      (this.scaleByte > 0
+        ? `transform: scale(${(this.scaleByte >> 4) + 1}, ${
+          (this.scaleByte & 0xf) + 1
+        }); `
+        : '') +
+      '">' +
+      super.renderHTML(data) +
+      '</p>'
+    );
+  }
 
   renderPrinterBytes(data) {
     // get children
@@ -67,7 +83,7 @@ class TextModsNode extends BaseNode {
     if (this.scaleByte !== undefined) {
       // opening
       if (prevNode === null || prevNode.mods.textScaleByte !== this.scaleByte) {
-        prefix.push(BaseNode.bytes.GS, '!', this.scaleByte ?? 0);
+        prefix.push(BaseNode.bytes.GS, '!', this.scaleByte);
       }
 
       if (nextNode === null || nextNode.mods.textScaleByte !== this.scaleByte) {
@@ -80,7 +96,7 @@ class TextModsNode extends BaseNode {
     // apply other mods if they exist
     if (this.modByte > 0 || this.attrs.font !== undefined) {
       if (prevNode === null || this.modByte !== prevNode.mods.textModsByte) {
-        prefix.push(BaseNode.bytes.ESC, '!', this.modByte);
+        prefix.unshift(BaseNode.bytes.ESC, '!', this.modByte);
       }
 
       if (nextNode === null || nextNode.mods.textModsByte !== this.modByte) {

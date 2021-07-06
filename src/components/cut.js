@@ -5,12 +5,16 @@ class CutNode extends BaseNode {
     super(mods, attrs);
   }
 
-  renderHTML(data) {
-
-  }
+  renderHTML(data) {}
 
   renderPrinterBytes(data) {
-    return [BaseNode.bytes.LF, BaseNode.bytes.GS, 'V', this.attrs.partial === undefined ? 65 : 66, 3];
+    return [
+      BaseNode.bytes.LF,
+      BaseNode.bytes.GS,
+      'V',
+      this.attrs.partial === undefined ? 65 : 66,
+      3,
+    ];
   }
 }
 

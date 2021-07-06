@@ -13,30 +13,33 @@ const defaultMods = {
 export class ReceiptComponent {
   // component build from template and other
   // components
-  constructor({
-    template,
-    components,
-    defaultModifications = defaultMods,
-  } = {}) {
-    // only need the component stuff when template exists
-    if (template !== undefined) {
-      this.components = components ?? {};
-      this.slots = {};
-      this.template = template;
-      this.defMods = defaultModifications;
-      this.nodeTree = null;
-    }
+  constructor({ template, components, data, mods = defaultMods }) {
+    if (template === undefined)
+      throw new Error('Non-functional components must have a template?');
+
+    this.components = components ?? {};
+    this.slots = {};
+    this.template = template;
+    this.mods = mods;
+    this.nodeTree = null;
+    this.data = data ?? {};
+
+    // get promise and wait for it to resolve
+    // parseMarkup(this).then(root => {
+    //   this.nodeTree = root;
+    // });
   }
 
   // returns a copy defined component instance
   // that can be mutated
   copy() {
-    const compCopy = Object.setPrototypeOf(
+    return Object.setPrototypeOf(
       Object.assign({}, this),
       ReceiptComponent.prototype
     );
-    return compCopy;
   }
+
+  // receipt component
 
   async parseTemplate() {
     // nodeTree must be an object with:

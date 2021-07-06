@@ -4,8 +4,17 @@ import stringToBuffer from '../util/string-to-buffer';
 const defaultLineLength = 42;
 const altFontLineLength = 56;
 
-// This node is for any text that shows up in the xml
+// line needs wrapping, have to build RegExp object
+// to use template string with variable width in regex...
+// this regex is pretty weird, but basically:
+//    - first capture group with up to lineLength chars
+//    - second capture group (unused) finds the next space, or
+//    - the third group which doesnt matter either unless this regex is bugged
+// TODO: FIXME
+const wrapRx = (lineLength) =>
+  new RegExp(`(.{1,${lineLength}})( +|$\n?)|(.{1,${lineLength}})`, 'g');
 
+// This node is for any text that shows up in the xml
 class ReceiptText {
   // constructor w options that modify # of chars in a line
   //  - altFont causes defaultWidth to be 56 (unless otherwise specified)
@@ -25,7 +34,18 @@ class ReceiptText {
   }
 
   renderHTML(data) {
-    return '<span>\n' + super.renderHTML(data) + '\n</span>';
+    const filledContent = parseBraces(this.content, data);
+
+    if (filledContent.length < this.lineLength || !this.multiLine) {
+      return filledContent;
+    }
+
+    const wrappedContent = filledContent.replace(
+      wrapRx(this.lineLength),
+      '$1<br />'
+    );
+
+    return wrappedContent;
   }
 
   renderPrinterBytes(data) {
@@ -38,23 +58,19 @@ class ReceiptText {
       return stringToBuffer(filledContent);
     }
 
-    // line needs wrapping, have to build RegExp object
-    // to use template string with variable width in regex...
-    // this regex is pretty weird, but basically:
-    //    - first capture group with up to lineLength chars
-    //    - second capture group (unused) finds the next space, or
-    //    - the third group which doesnt matter either unless this regex is bugged
-    // TODO: FIXME
-    const varRegex = new RegExp(`(.{1,${this.lineLength}})( +|$\n?)|(.{1,${this.lineLength}})`, 'g');
-
     // wrap the word
-    const wrappedContent = filledContent.replace(varRegex, '$1\n');
+    const wrappedContent = filledContent.replace(
+      wrapRx(this.lineLength),
+      '$1\n'
+    );
+
+    console.log(wrappedContent);
 
     return stringToBuffer(wrappedContent);
   }
 }
 
-function parseRelevant({textScaleByte, textModsByte, multiLine}) {
+function parseRelevant({ textScaleByte, textModsByte, multiLine }) {
   // first get width scale (scaleByte high)
   const widthScale = (textScaleByte >>> 4) + 1;
 
@@ -62,7 +78,8 @@ function parseRelevant({textScaleByte, textModsByte, multiLine}) {
   const altFont = textModsByte & 1;
 
   // calc line length
-  const lineLength = (altFont ? altFontLineLength : defaultLineLength) / widthScale;
+  const lineLength =
+    (altFont ? altFontLineLength : defaultLineLength) / widthScale;
 
   return [multiLine, lineLength];
 }

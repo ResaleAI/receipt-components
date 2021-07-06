@@ -1,15 +1,15 @@
 import { parseDocument } from 'htmlparser2';
-import AlignNode from './nodes/align.js';
-import BreakNode from './nodes/break.js';
-import CutNode from './nodes/cut.js';
-import ReceiptNode from './nodes/receipt.js';
-import SlotNode from './nodes/slot.js';
-import ReceiptText from './nodes/text.js';
-import ImageNode from './nodes/image.js';
-import BarcodeNode from './nodes/barcode.js';
-import SmoothingNode from './nodes/smoothing.js';
-import BaseNode from './nodes/base.js';
-import TextModsNode from './nodes/text-mod.js';
+import AlignNode from './components/align.js';
+import BreakNode from './components/break.js';
+import CutNode from './components/cut.js';
+import ReceiptNode from './components/receipt.js';
+import SlotNode from './components/slot.js';
+import ReceiptText from './components/text.js';
+import ImageNode from './components/image.js';
+import BarcodeNode from './components/barcode.js';
+import SmoothingNode from './components/smoothing.js';
+import BaseNode from './components/base.js';
+import TextModsNode from './components/text-mod.js';
 
 // parses using an xml parser and then builds relevant nodes
 // may not be needed?
@@ -19,7 +19,7 @@ export async function parseMarkup(component) {
   // parse the xml doc and find named slot elements, maybe want to change
   const dom = parseDocument(xmlStr, { xmlMode: true });
 
-  let root = await buildNode(dom.children[0], component, component.defMods);
+  let root = await buildNode(dom.children[0], component, component.mods);
 
   return root;
 }
@@ -95,10 +95,11 @@ async function buildNode(xmlElem, component, mods) {
           // create new instance of component
           const compInstance = childComp.copy();
           // set default mods for child comp to current mods
-          compInstance.defMods = mods;
+          compInstance.mods = mods;
 
           // set slot to be first child
-          compInstance.slots['default'] = compInstance.firstChild;
+          if (compInstance.firstChild)
+            compInstance.slots['default'] = compInstance.firstChild;
 
           node = compInstance;
         }
@@ -122,46 +123,46 @@ async function buildNode(xmlElem, component, mods) {
 // this function looks for a <receipt> node, which
 // should be the root for all templated components.
 // The receipt node should only have one child.
-function parseTemplate(receiptTemplate) {
-  // first ensure that first tag is receipt (input should be trimmed)
-  const receiptRegex = /^<receipt>(.*)<\/receipt>$/gs;
+// function parseTemplate(receiptTemplate) {
+//   // first ensure that first tag is receipt (input should be trimmed)
+//   const receiptRegex = /^<receipt>(.*)<\/receipt>$/gs;
 
-  try {
-    const receiptContent = receiptRegex.exec(receiptTemplate)[1];
-  } catch (e) {
-    // error means they dont have receipt at root
-    throw new Error('<receipt> must be template root');
-  }
+//   try {
+//     const receiptContent = receiptRegex.exec(receiptTemplate)[1];
+//   } catch (e) {
+//     // error means they dont have receipt at root
+//     throw new Error('<receipt> must be template root');
+//   }
 
-  const rootNode = new ReceiptNode(
-    receiptNodeFromXML(receiptContent, { component })
-  );
-}
+//   const rootNode = new ReceiptNode(
+//     receiptNodeFromXML(receiptContent, { component })
+//   );
+// }
 
-// recursive function to parse an xml-like
-// tag with basic attributes and no namespaces or fanciness
-function receiptNodeFromXML(xmlStr, { component }) {
-  // trim whitespace from the str
-  xmlStr.trim();
+// // recursive function to parse an xml-like
+// // tag with basic attributes and no namespaces or fanciness
+// function receiptNodeFromXML(xmlStr, { component }) {
+//   // trim whitespace from the str
+//   xmlStr.trim();
 
-  const openTagRegex = /<(\w+)([^\/>]*)/g;
+//   const openTagRegex = /<(\w+)([^\/>]*)/g;
 
-  let regexResult;
-  let newNode;
+//   let regexResult;
+//   let newNode;
 
-  while ((regexResult = openTagRegex.exec(xmlStr) !== null)) {
-    const nodeName = regexResult[1];
-    const nodeUnparsedAttrs = regexResult[2];
+//   while ((regexResult = openTagRegex.exec(xmlStr) !== null)) {
+//     const nodeName = regexResult[1];
+//     const nodeUnparsedAttrs = regexResult[2];
 
-    const nodeAttrs = parseAttrs(nodeUnparsedAttrs);
+//     const nodeAttrs = parseAttrs(nodeUnparsedAttrs);
 
-    // have tag info, check if self closing by looking at next char
-    // and if it is '/' we assume self closing
-    if (xmlStr[openTagRegex.lastIndex] === '/') {
-      newNode = nodeFactory(nodeName);
-    }
-  }
+//     // have tag info, check if self closing by looking at next char
+//     // and if it is '/' we assume self closing
+//     if (xmlStr[openTagRegex.lastIndex] === '/') {
+//       newNode = nodeFactory(nodeName);
+//     }
+//   }
 
-  // not an open close pair, hopefully a self-closing
-  const selfClosingTagRegex = /^<(\w+)(.*) \/>/gs;
-}
+//   // not an open close pair, hopefully a self-closing
+//   const selfClosingTagRegex = /^<(\w+)(.*) \/>/gs;
+// }
