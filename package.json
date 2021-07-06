@@ -1,6 +1,6 @@
 {
   "name": "@resaleai/receipt-components",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "XML-like language to build and use components for ESC/POS receipt printers",
   "repository": "git://github.com/resaleai/receipt-components",
   "author": "ResaleAI",
@@ -13,7 +13,7 @@
     "vue": "$(cd examples/vue-receipts && rm yarn.lock && yarn && yarn serve | tee /dev/tty)"
   },
   "files": [
-    "dist"
+    "dist/*.js"
   ],
   "license": "MIT",
   "devDependencies": {
