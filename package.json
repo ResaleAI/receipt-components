@@ -1,6 +1,6 @@
 {
   "name": "@resaleai/receipt-components",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "XML-like language to build and use components for ESC/POS receipt printers",
   "repository": "git://github.com/resaleai/receipt-components",
   "author": "ResaleAI",
