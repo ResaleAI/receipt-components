@@ -9,7 +9,6 @@ class ReceiptNode extends BaseNode {
   }
 
   renderHTML(data) {
-    console.log(this.children);
     // eslint-disable-next-line quotes
     return `<div style='width: 440px; border: 1px solid black; padding: 5px;'>${super.renderHTML(
       data

@@ -34,13 +34,11 @@ class ReceiptText {
   }
 
   renderHTML(data) {
-    const filledContent = parseBraces(this.content, data);
-
-    if (filledContent.length < this.lineLength || !this.multiLine) {
-      return filledContent;
+    if (this.content.length < this.lineLength || !this.multiLine) {
+      return this.content;
     }
 
-    const wrappedContent = filledContent.replace(
+    const wrappedContent = this.content.replace(
       wrapRx(this.lineLength),
       '$1<br />'
     );
@@ -63,8 +61,6 @@ class ReceiptText {
       wrapRx(this.lineLength),
       '$1\n'
     );
-
-    console.log(wrappedContent);
 
     return stringToBuffer(wrappedContent);
   }

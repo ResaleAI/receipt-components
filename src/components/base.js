@@ -69,7 +69,7 @@ class BaseNode {
       try {
         childBytes.push(...child.renderPrinterBytes(data));
       } catch (e) {
-        console.log(child);
+        console.log(e, child);
       }
 
       child = child.nextSibling ?? null;

@@ -91,7 +91,7 @@ async function buildNode(xmlElem, component, mods) {
             throw new Error(`Tag not recognized (${xmlElem.name})`);
           }
 
-          if (childComp.nodeTree === null) await childComp.parseTemplate();
+          // if (childComp.nodeTree === null) await childComp.parseTemplate();
           // create new instance of component
           const compInstance = childComp.copy();
           // set default mods for child comp to current mods
@@ -109,7 +109,6 @@ async function buildNode(xmlElem, component, mods) {
       for (let i = 0; i < xmlElem.children.length; i++) {
         let child = xmlElem.children[i];
         var childNode = await buildNode(child, component, { ...node.mods }); // use the nodes mods
-        // if (childNode === undefined) console.log(child);
         node.appendChild(childNode);
       }
 

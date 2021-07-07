@@ -1,4 +1,4 @@
-import '@babel/polyfill';
+import 'regenerator-runtime';
 import BaseNode from './base.js';
 import processImage from '../util/process-image';
 // import fsDither from "../dither/fs-dither.js"

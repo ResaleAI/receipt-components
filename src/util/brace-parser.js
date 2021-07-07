@@ -14,9 +14,6 @@ export default function (bracefulStr, data) {
     function (_, varName) {
       // varName is the first capture group match
       // ($1 in regex)
-
-      console.log('yooooo', varName, data[varName], data);
-
       // replace the braces part with whatever data wants to be rendered
       return `${data[varName]}`;
     }

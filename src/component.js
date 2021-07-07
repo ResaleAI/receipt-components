@@ -1,5 +1,6 @@
 // import { parseMarkup } from "./parser.js"
 import { parseMarkup } from './parser.js';
+import braceParser from './util/brace-parser.js';
 
 const defaultMods = {
   textScaleByte: 0,
@@ -59,15 +60,22 @@ export class ReceiptComponent {
   }
 
   // manual call
-  renderHTML(data) {
+  async renderHTML(data) {
+    // render node tree and map chars to bytes
+    braceParser(this.template, data);
+    this.nodeTree = await parseMarkup(this);
+
     return this.nodeTree.renderHTML(data);
   }
 
-  renderPrinterBytes(data) {
+  async renderPrinterBytes(data) {
     // render node tree and map chars to bytes
+    braceParser(this.template, data);
+    this.nodeTree = await parseMarkup(this);
+
     const byteArr = this.nodeTree.renderPrinterBytes(data);
     const byteBuff = new Uint8Array(
-      byteArr.map(el => (typeof el === 'string' ? el.charCodeAt(0) : el))
+      byteArr.map((el) => (typeof el === 'string' ? el.charCodeAt(0) : el))
     );
 
     return byteBuff;
