@@ -8,7 +8,7 @@ export declare class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
     nodeRegistry: ReceiptNodeRegistry;
     constructor({ template, components: nodes }: ReceiptComponentOptions);
     render(props: TProps, preview?: boolean): string | Promise<EscPos>;
-    buildHtml(props: TProps, children?: ChildBuilder<string>[]): string;
+    buildHtml(props: TProps, children?: string[]): string;
     buildEscPos(props: TProps, children?: ChildBuilder<EscPos>[], context?: ReceiptNodeContext): Promise<EscPos>;
 }
 export {};

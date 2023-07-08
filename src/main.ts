@@ -1,10 +1,10 @@
-import TextNode from './nodes/text';
-import { optimizeEscPos } from './optimizer';
+import { TextNode } from './nodes';
+import optimizeEscPos from './optimizer';
 import { ReceiptComponent } from './receiptComponent';
 import { ReceiptNodeContext, ReceiptNode } from './types';
 
 const FunctionComponent: ReceiptNode<null> = {
-  buildHtml(props, children, context) {
+  buildHtml(props, children) {
     return '';
   },
 
@@ -33,7 +33,7 @@ const FunctionComponent: ReceiptNode<null> = {
 };
 
 const TemplateComponent = new ReceiptComponent({
-  template: `<text bold><scale width="3" height="2">{ children }</scale></text>`,
+  template: `<text bold><text reset>{ children }</text></text>`,
 });
 
 const FunctionReceipt = new ReceiptComponent({
@@ -55,11 +55,42 @@ const TemplateReceipt = new ReceiptComponent<Props>({
 });
 
 TemplateReceipt.buildEscPos({ text: 'Hello, world!' }).then((escPos) => {
-  console.log('template receipt: ', [...escPos]);
+  console.log('original: ', escPos);
+  const optimized = optimizeEscPos(escPos);
+  console.log('optimized: ', optimized);
 });
-FunctionReceipt.buildEscPos(null).then((escPos) => {
-  console.log('function receipt: ', [...escPos]);
+// FunctionReceipt.buildEscPos(null).then((escPos) => {
+//   console.log('function receipt: ', [...escPos]);
+// });
+
+const TestReceipt = new ReceiptComponent({
+  template: `<receipt>
+  <align mode="center">
+    <text bold>{ storeName }</text>
+  </align>
+  <br lines="2"/>
+  <text font="2">Order details for { customer }</text>
+</receipt>`,
 });
+
+// console.log(
+//   'what?',
+//   TestReceipt.buildHtml({ storeName: 'Cool Cookies', customer: 'John Doe' })
+// );
+
+// const tree = buildPatternTree();
+
+// printPatternTree(tree);
+
+// const testData = [27, 33, 8, 27, 33, 9];
+
+// const result = matchPattern(tree, testData, 0);
+
+// console.log('result: ', result);
+
+// const optimized = optimizeEscPos(testData);
+
+// console.log('optimized: ', optimized);
 
 // const template = `
 //     <text bold><text font="2">{ children }</text></text>`;

@@ -1,6 +1,6 @@
 import { AlignNode, BreakNode, RootNode, SmoothNode, TextNode } from './nodes';
 import ScaleNode from './nodes/scale';
-import { parseTemplateForEscPos } from './parser';
+import { parseTemplateForEscPos, parseTemplateForHtml } from './parser';
 import {
   ReceiptNodeRegistry,
   ReceiptNodeContext,
@@ -13,6 +13,7 @@ import { parseBraces } from './util';
 const nodeRegistry: ReceiptNodeRegistry = {
   align: AlignNode,
   break: BreakNode,
+  br: BreakNode,
   receipt: RootNode,
   scale: ScaleNode,
   smooth: SmoothNode,
@@ -44,8 +45,9 @@ export class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
     return this.buildEscPos(props);
   }
 
-  buildHtml(props: TProps, children?: ChildBuilder<string>[]) {
-    return '';
+  buildHtml(props: TProps, children?: string[]) {
+    const populatedTemplate = parseBraces(this.template, props);
+    return parseTemplateForHtml(populatedTemplate, this.nodeRegistry, children);
   }
 
   buildEscPos(

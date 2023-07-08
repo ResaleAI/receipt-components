@@ -33,7 +33,6 @@ async function buildEscPos(
   if (xmlNode.type === ElementType.Tag) {
     const node = nodes[xmlNode.name];
     if (!node) {
-      console.log(xmlNode);
       throw new Error(`Unknown node: ${xmlNode.name}`);
     }
     const nodeChildren: ChildBuilder<EscPos>[] = xmlNode.children.map(
@@ -53,40 +52,39 @@ async function buildEscPos(
 
 /* HTML */
 
-// export function parseTemplateForHtml(
-//   template: string,
-//   nodes: ReceiptNodeRegistry,
-//   children?: string[]
-// ) {
-//   const xmlStr = template.replace(/\n\s*/g, '');
-//   const dom = parseDocument(xmlStr, { xmlMode: true });
-//   const root = buildHtml(dom.children[0], nodes, children);
+export function parseTemplateForHtml(
+  template: string,
+  nodes: ReceiptNodeRegistry,
+  children?: string[]
+) {
+  const xmlStr = template.replace(/\n\s*/g, '');
+  const dom = parseDocument(xmlStr, { xmlMode: true });
+  const root = buildHtml(dom.children[0], nodes, children);
 
-//   return root;
-// }
+  return root;
+}
 
-// function buildHtml(
-//   xmlNode: ChildNode,
-//   nodes: ReceiptNodeRegistry,
-//   children?: string[]
-// ): string {
-//   // console.log('xmlNode: ', xmlNode);
-//   if (xmlNode.type === ElementType.Tag) {
-//     const node = nodes[xmlNode.name];
-//     if (!node) {
-//       console.log(xmlNode);
-//       throw new Error(`Unknown node: ${xmlNode.name}`);
-//     }
-//     const nodeChildren: string[] = xmlNode.children.map((child) =>
-//       buildHtml(child, nodes, children)
-//     );
-//     return node.buildHtml(xmlNode.attribs, nodeChildren);
-//   }
-//   if (xmlNode.type === ElementType.Text) {
-//     if (xmlNode.data === '{ children }') {
-//       return children?.join('') ?? '';
-//     }
-//     return xmlNode.data;
-//   }
-//   return '';
-// }
+function buildHtml(
+  xmlNode: ChildNode,
+  nodes: ReceiptNodeRegistry,
+  children?: string[]
+): string {
+  if (xmlNode.type === ElementType.Tag) {
+    const node = nodes[xmlNode.name];
+    if (!node) {
+      console.log(xmlNode);
+      throw new Error(`Unknown node: ${xmlNode.name}`);
+    }
+    const nodeChildren: string[] = xmlNode.children.map((child) =>
+      buildHtml(child, nodes, children)
+    );
+    return node.buildHtml(xmlNode.attribs, nodeChildren);
+  }
+  if (xmlNode.type === ElementType.Text) {
+    if (xmlNode.data === '{ children }') {
+      return children?.join('') ?? '';
+    }
+    return xmlNode.data;
+  }
+  return '';
+}

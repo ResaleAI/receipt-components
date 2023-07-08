@@ -3,7 +3,9 @@ import { bytes, charToByte, flattenEscPos, renderChildBytes } from '@/util';
 
 const RootNode: ReceiptNode<null> = {
   buildHtml(_props, children) {
-    return `<div>${children?.join('')}</div>`;
+    return `<div style="width: 440px; border: 1px solid black; padding: 5px;">${
+      children?.join('') ?? ''
+    }</div>`;
   },
 
   async buildEscPos(_props, children) {
@@ -14,7 +16,7 @@ const RootNode: ReceiptNode<null> = {
       bytes.LF,
       bytes.GS,
       charToByte('V'),
-      1,
+      charToByte('A'),
       3,
     ];
 

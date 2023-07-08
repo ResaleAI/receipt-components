@@ -27,7 +27,10 @@ interface TextNodeProps {
 
 const TextNode: ReceiptNode<TextNodeProps> = {
   buildHtml(props, children) {
-    return `<span>${children}</span>`;
+    const bold = props.bold !== undefined;
+    return `<p style="margin: none; font-family: monospace; ${
+      bold ? 'font-weight: bold;' : ''
+    }">${children}</p>`;
   },
   async buildEscPos(props, children, parentCtx) {
     const bold = props.bold !== undefined ? modes.bold : 0;
@@ -39,8 +42,6 @@ const TextNode: ReceiptNode<TextNodeProps> = {
 
     const context = duplicateContext(parentCtx);
 
-    console.log('context: ', context.textMode);
-
     let mode = context.textMode;
     mode |= bold;
 
@@ -51,7 +52,7 @@ const TextNode: ReceiptNode<TextNodeProps> = {
       mode |= font;
     }
 
-    if (props.reset) {
+    if (props.reset !== undefined) {
       mode = 0;
     }
 

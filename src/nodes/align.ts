@@ -13,7 +13,9 @@ const modeMap: Record<AlignNodeProps['mode'], number> = {
 
 const AlignNode: ReceiptNode<AlignNodeProps> = {
   buildHtml({ mode }, children) {
-    return `<div style="text-align: ${mode};">${children?.join('')}</div>`;
+    return `<div style="text-align: ${mode}; width: 100%;">${
+      children?.join('') ?? ''
+    }</div>`;
   },
   async buildEscPos({ mode }, children) {
     const modeByte = modeMap[mode];
