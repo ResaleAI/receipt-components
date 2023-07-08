@@ -8,11 +8,11 @@ const RootNode: ReceiptNode<null> = {
     }</div>`;
   },
 
-  async buildEscPos(_props, children) {
+  async buildEscPos(_props, children, context) {
     const ret = [
       bytes.ESC,
       charToByte('@'),
-      ...(await renderChildBytes(children)),
+      ...(await renderChildBytes(children, context)),
       bytes.LF,
       bytes.GS,
       charToByte('V'),

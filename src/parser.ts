@@ -72,7 +72,6 @@ function buildHtml(
   if (xmlNode.type === ElementType.Tag) {
     const node = nodes[xmlNode.name];
     if (!node) {
-      console.log(xmlNode);
       throw new Error(`Unknown node: ${xmlNode.name}`);
     }
     const nodeChildren: string[] = xmlNode.children.map((child) =>

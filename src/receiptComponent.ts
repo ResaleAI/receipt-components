@@ -1,5 +1,6 @@
 import { AlignNode, BreakNode, RootNode, SmoothNode, TextNode } from './nodes';
 import ScaleNode from './nodes/scale';
+import optimizeEscPos from './optimizer';
 import { parseTemplateForEscPos, parseTemplateForHtml } from './parser';
 import {
   ReceiptNodeRegistry,
@@ -28,21 +29,28 @@ const defaultContext: ReceiptNodeContext = {
 interface ReceiptComponentOptions {
   template: string;
   components?: ReceiptNodeRegistry;
+  skipOptimization?: boolean;
 }
 
 export class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
   template: string;
+  skipOptimization?: boolean;
   nodeRegistry: ReceiptNodeRegistry;
-  constructor({ template, components: nodes }: ReceiptComponentOptions) {
+  constructor({
+    template,
+    components: nodes,
+    skipOptimization,
+  }: ReceiptComponentOptions) {
     this.template = template;
+    this.skipOptimization = !!skipOptimization;
     this.nodeRegistry = { ...nodeRegistry, ...nodes };
   }
 
-  render(props: TProps, preview = false) {
+  async render(props: TProps, preview = false) {
     if (preview) {
-      return this.buildHtml(props);
+      return await this.buildHtml(props);
     }
-    return this.buildEscPos(props);
+    return await this.buildEscPos(props);
   }
 
   buildHtml(props: TProps, children?: string[]) {
@@ -50,17 +58,22 @@ export class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
     return parseTemplateForHtml(populatedTemplate, this.nodeRegistry, children);
   }
 
-  buildEscPos(
+  async buildEscPos(
     props: TProps,
     children?: ChildBuilder<EscPos>[],
     context: ReceiptNodeContext = defaultContext
   ) {
     const populatedTemplate = parseBraces(this.template, props);
-    return parseTemplateForEscPos(
+    const escpos = await parseTemplateForEscPos(
       populatedTemplate,
       this.nodeRegistry,
       context,
       children
     );
+
+    if (this.skipOptimization) {
+      return escpos;
+    }
+    return optimizeEscPos(escpos);
   }
 }

@@ -6,12 +6,12 @@ const SmoothNode: ReceiptNode<null> = {
     return children?.join('') ?? '';
   },
 
-  async buildEscPos(_props, children) {
+  async buildEscPos(_props, children, context) {
     return [
       bytes.GS,
       charToByte('b'),
       1,
-      ...(await renderChildBytes(children)),
+      ...(await renderChildBytes(children, context)),
       bytes.GS,
       charToByte('b'),
       0,

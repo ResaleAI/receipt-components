@@ -2,13 +2,15 @@ import { ReceiptNodeRegistry, ReceiptNodeContext, ReceiptNode, EscPos, ChildBuil
 interface ReceiptComponentOptions {
     template: string;
     components?: ReceiptNodeRegistry;
+    skipOptimization?: boolean;
 }
 export declare class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
     template: string;
+    skipOptimization?: boolean;
     nodeRegistry: ReceiptNodeRegistry;
-    constructor({ template, components: nodes }: ReceiptComponentOptions);
-    render(props: TProps, preview?: boolean): string | Promise<EscPos>;
+    constructor({ template, components: nodes, skipOptimization, }: ReceiptComponentOptions);
+    render(props: TProps, preview?: boolean): Promise<any>;
     buildHtml(props: TProps, children?: string[]): string;
-    buildEscPos(props: TProps, children?: ChildBuilder<EscPos>[], context?: ReceiptNodeContext): Promise<EscPos>;
+    buildEscPos(props: TProps, children?: ChildBuilder<EscPos>[], context?: ReceiptNodeContext): Promise<any>;
 }
 export {};

@@ -17,14 +17,14 @@ const AlignNode: ReceiptNode<AlignNodeProps> = {
       children?.join('') ?? ''
     }</div>`;
   },
-  async buildEscPos({ mode }, children) {
+  async buildEscPos({ mode }, children, context) {
     const modeByte = modeMap[mode];
 
     const retVal = [
       bytes.ESC,
       charToByte('a'),
       modeByte,
-      ...(await renderChildBytes(children)),
+      ...(await renderChildBytes(children, context)),
     ];
 
     if (modeByte !== modeMap.left) {
