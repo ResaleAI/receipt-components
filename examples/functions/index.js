@@ -19,8 +19,10 @@ const SimpleExampleReceipt = new receipt_components_1.default({
     <text>Goodbye, world!</text>
   </align>
 </receipt>`,
+    skipOptimization: true,
 });
-SimpleExampleReceipt.render({}).then((ep) => {
+SimpleExampleReceipt.render({}, false).then((ep) => {
+    // process.stdout.write(new Uint8Array(ep));
     console.log(ep);
 });
 // const buffer = new Uint8Array([
@@ -40,4 +42,4 @@ const ReceiptWithProps = new receipt_components_1.default({
   </align>
 </receipt>`,
 });
-ReceiptWithProps.render({ name: 'John Doe', text: 'Hello!' }).then(console.log);
+// ReceiptWithProps.render({ name: 'John Doe', text: 'Hello!' }).then(console.log);

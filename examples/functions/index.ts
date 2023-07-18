@@ -17,9 +17,11 @@ const SimpleExampleReceipt = new ReceiptComponent({
     <text>Goodbye, world!</text>
   </align>
 </receipt>`,
+  skipOptimization: true,
 });
 
-SimpleExampleReceipt.render({}).then((ep: EscPos) => {
+SimpleExampleReceipt.render({}, false).then((ep: EscPos) => {
+  // process.stdout.write(new Uint8Array(ep));
   console.log(ep);
 });
 
@@ -48,4 +50,4 @@ const ReceiptWithProps = new ReceiptComponent<Props>({
 </receipt>`,
 });
 
-ReceiptWithProps.render({ name: 'John Doe', text: 'Hello!' }).then(console.log);
+// ReceiptWithProps.render({ name: 'John Doe', text: 'Hello!' }).then(console.log);
