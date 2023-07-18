@@ -98,7 +98,12 @@ export function assertContext<TContext extends ReceiptNodeContext>(
   return duplicateContext(context);
 }
 
-export function splitLines(text: string, lineLength: number, offset: number) {
+export function splitLines(
+  text: string,
+  lineLength: number,
+  offset: number,
+  scaleWidth: number
+) {
   let lines: string[] = [];
   let line = '';
   lineLength = lineLength - offset;
@@ -110,5 +115,5 @@ export function splitLines(text: string, lineLength: number, offset: number) {
     line += word + ' ';
   }
   lines.push(line);
-  return lines.join('\n');
+  return lines.join('\n').trimEnd();
 }

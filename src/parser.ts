@@ -43,7 +43,8 @@ async function buildEscPosFromXml(
     return node.buildEscPos(xmlNode.attribs, nodeChildren, context);
   }
   if (xmlNode.type === ElementType.Text) {
-    if (xmlNode.data === '{ children }') {
+    const textData = xmlNode.data.trimEnd();
+    if (textData === '{ children }') {
       return renderChildBytes(children);
     }
     return TextLiteralNode.buildEscPos({ text: xmlNode.data }, [], context);

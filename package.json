@@ -1,6 +1,6 @@
 {
   "name": "@resaleai/receipt-components",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "type": "module",
   "files": [
     "dist/*"
@@ -14,9 +14,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "start": "tsc && vite build && node dist/main.js",
+    "start": "vite build && node dist/main.js",
     "test": "vitest"
   },
   "devDependencies": {
@@ -27,6 +27,7 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
+    "canvas": "^2.11.2",
     "htmlparser2": "^9.0.0"
   }
 }

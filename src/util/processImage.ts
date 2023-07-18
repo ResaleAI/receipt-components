@@ -1,11 +1,13 @@
 // returns the appropriate params to the ESC * cmd
 
 import { bytes, charToByte } from './index.js';
+import { createCanvas } from 'canvas';
 
 // need optimizing
-function processImage(img: HTMLImageElement, density: number) {
-  const MAX_WIDTH = density > 31 ? 2047 : 1023;
-  const canvas = document.createElement('canvas');
+function processImage(img: any, density: number) {
+  const MAX_WIDTH = density > 31 ? 511 : 255;
+  // const canvas = document.createElement('canvas');
+  const canvas = createCanvas(img.width, img.height);
   const ctx = canvas.getContext('2d');
 
   canvas.width = img.width;
@@ -20,6 +22,8 @@ function processImage(img: HTMLImageElement, density: number) {
     canvas.height *= MAX_WIDTH / canvas.width;
     canvas.width = MAX_WIDTH;
   }
+
+  // console.log(canvas.width, img.width);
 
   // draw image and get its data
   ctx.drawImage(
@@ -39,13 +43,13 @@ function processImage(img: HTMLImageElement, density: number) {
 
   // grayscale and flatten the image
   for (let i = 0; i < dataBuff.length; i += 4) {
-    const [r, g, b] = dataBuff.slice(i, i + 3);
+    const [r, g, b, a] = dataBuff.slice(i, i + 4);
 
     const avgVal = (r + g + b) / 3;
 
-    // const avgWithAlpha = avgVal * (a / 255);
+    const alpha = a / 255;
 
-    grayscaleBuff.push(avgVal);
+    grayscaleBuff.push(alpha > 0 ? avgVal : 255);
   }
 
   // get high and low byte for width

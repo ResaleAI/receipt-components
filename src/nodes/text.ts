@@ -14,9 +14,6 @@ const modes = {
   underline: 0b10000000,
 } as const;
 
-const defaultLineLength = 42;
-const altFontLineLength = 56;
-
 interface TextNodeProps {
   font?: '1' | '2';
   bold?: boolean;
@@ -58,6 +55,7 @@ const TextNode: ReceiptNode<TextNodeProps> = {
 
     // if context.multiLine is true, add newline char every `lineLength` chars
     let childBytes = [...(await renderChildBytes(children, context))];
+    parentCtx.currentOffset = context.currentOffset;
     if (mode === context.textMode) {
       return childBytes;
     }

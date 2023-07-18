@@ -18,6 +18,7 @@ const SimpleExampleReceipt = new receipt_components_1.default({
   <align mode="right">
     <text>Goodbye, world!</text>
   </align>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Linux_logo.jpg?20090908114920" />
 </receipt>`,
     skipOptimization: true,
 });

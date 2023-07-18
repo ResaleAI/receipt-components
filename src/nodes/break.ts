@@ -14,6 +14,9 @@ const BreakNode: ReceiptNode<BreakNodeProps> = {
     return '<br />';
   },
   async buildEscPos({ lines } = defaultBreakNodeProps, _children) {
+    if (!lines) {
+      return [bytes.LF];
+    }
     return [
       bytes.ESC,
       charToByte('d'),

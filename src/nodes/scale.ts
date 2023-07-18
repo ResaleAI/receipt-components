@@ -19,25 +19,27 @@ const ScaleNode: ReceiptNode<ScaleNodeProps> = {
     }
 
     if (width > 5) width = 5;
-    else if (width < 0) width = 0;
+    else if (width < 1) width = 1;
     if (height > 5) height = 5;
-    else if (height < 0) height = 0;
+    else if (height < 1) height = 1;
 
     const context = duplicateContext(parentCtx);
     context.scaleBits &= 0b11110000;
     context.scaleBits |= height - 1;
     context.scaleBits &= 0b00001111;
     context.scaleBits |= (width - 1) << 4;
+    const childBytes = await renderChildBytes(children, context);
+    parentCtx.currentOffset = context.currentOffset;
 
     if (context.scaleBits === parentCtx.scaleBits) {
-      return renderChildBytes(children);
+      return childBytes;
     }
 
     return [
       bytes.GS,
       charToByte('!'),
       context.scaleBits,
-      ...(await renderChildBytes(children, context)),
+      ...childBytes,
       bytes.GS,
       charToByte('!'),
       parentCtx.scaleBits,

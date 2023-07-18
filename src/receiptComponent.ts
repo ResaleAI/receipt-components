@@ -1,4 +1,12 @@
-import { AlignNode, BreakNode, RootNode, SmoothNode, TextNode } from './nodes';
+import {
+  AlignNode,
+  BarcodeNode,
+  BreakNode,
+  ImageNode,
+  RootNode,
+  SmoothNode,
+  TextNode,
+} from './nodes';
 import ScaleNode from './nodes/scale';
 import optimizeEscPos from './optimizer';
 import { parseTemplateForEscPos, parseTemplateForHtml } from './parser';
@@ -13,12 +21,15 @@ import { parseBraces } from './util';
 
 const nodeRegistry: ReceiptNodeRegistry = {
   align: AlignNode,
+  barcode: BarcodeNode,
   break: BreakNode,
   br: BreakNode,
   receipt: RootNode,
   scale: ScaleNode,
   smooth: SmoothNode,
   text: TextNode,
+  image: ImageNode,
+  img: ImageNode,
 };
 
 const defaultContext: ReceiptNodeContext = {

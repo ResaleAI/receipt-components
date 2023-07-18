@@ -19,6 +19,8 @@ const TableNode: ReceiptNode<TableNodeProps> = {
   async buildEscPos({ cols, spaceWidth = 0 }, children, parentCtx) {
     const context = assertContext(parentCtx);
 
+    cols = Number(cols);
+
     context.defaultLineLength = calculateCellWidth(
       context.defaultLineLength,
       cols,
@@ -31,28 +33,28 @@ const TableNode: ReceiptNode<TableNodeProps> = {
     );
 
     const tableItems = await renderChildBytesAsList(children, context);
-    const output: EscPos = [];
+    let output: EscPos = [];
 
     for (let i = 0; i < tableItems.length; i += cols) {
       const curr = tableItems.slice(i, i + cols);
-      const currentIdxs = new Array(cols);
+      const currentIdxs = new Array(cols).fill(0);
       let finishCount = 0;
 
       while (finishCount < cols) {
-        for (let j = 0; j < cols; j++) {
+        outer: for (let j = 0; j < cols; j++) {
           const currItem = curr[i + j];
           for (let k = currentIdxs[j]; k < tableItems[j].length; k++) {
             if (currItem[k] === charToByte('\n')) {
               //concat currentIdxs[j] up to k to output (add spaces)
               const cellLine = currItem.slice(currentIdxs[j], k);
-              output.concat([...cellLine]);
+              output = output.concat([...cellLine]);
               currentIdxs[j] = k + 1;
-              break;
+              continue outer;
             }
           }
           // concat currentIdxs[j] up to tableItems[j].length to output
           const cellLine = currItem.slice(currentIdxs[j]);
-          output.concat([...cellLine]);
+          output = output.concat([...cellLine]);
 
           // TODO: ADD SPACES FOR FINISHED COLUMNS
           finishCount++;
@@ -77,3 +79,5 @@ function calculateCellWidth(
     (widthModCol >= spaceWidthTotal ? 0 : spaceWidth)
   );
 }
+
+export default TableNode;

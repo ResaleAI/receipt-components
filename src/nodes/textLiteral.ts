@@ -7,7 +7,7 @@ interface TextLiteralNodeProps {
 
 const TextLiteralNode: ReceiptNode<TextLiteralNodeProps> = {
   buildHtml(props, children) {
-    return '';
+    return props.text;
   },
   async buildEscPos({ text }, children, parentCtx) {
     if (!parentCtx) {
@@ -21,7 +21,7 @@ const TextLiteralNode: ReceiptNode<TextLiteralNodeProps> = {
     // if context.multiLine is true, add newline char every `lineLength` chars
     const lineLength = getLineLength(parentCtx);
     // offset could be wonky... test with scaling and alt font
-    const splitText = splitLines(text, lineLength, parentCtx.currentOffset);
+    const splitText = splitLines(text, lineLength, parentCtx.currentOffset, 1);
     let counter = parentCtx.currentOffset;
     for (let i = splitText.length - 1; i >= 0; i--) {
       if (splitText[i] === '\n') {
@@ -30,6 +30,7 @@ const TextLiteralNode: ReceiptNode<TextLiteralNodeProps> = {
       }
       counter++;
     }
+    const scaleWidth = (parentCtx.scaleBits >>> 4) + 1;
     parentCtx.currentOffset = counter;
 
     return Buffer.from(splitText);

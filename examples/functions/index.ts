@@ -1,6 +1,6 @@
 import ReceiptComponent from '@resaleai/receipt-components';
+import { EscPos } from '@resaleai/receipt-components/dist/types';
 import process from 'process';
-import { EscPos } from '../../dist/types';
 
 const SimpleExampleReceipt = new ReceiptComponent({
   template: `
@@ -16,6 +16,7 @@ const SimpleExampleReceipt = new ReceiptComponent({
   <align mode="right">
     <text>Goodbye, world!</text>
   </align>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Linux_logo.jpg?20090908114920" />
 </receipt>`,
   skipOptimization: true,
 });

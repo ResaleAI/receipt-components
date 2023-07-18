@@ -32,9 +32,9 @@ const AlignNode: ReceiptNode<AlignNodeProps> = {
 
     const context = duplicateContext(parentCtx);
 
-    if (context.currentAlign === modeByte) {
-      return renderChildBytes(children, parentCtx);
-    }
+    // if (context.currentAlign === modeByte) {
+    //   return renderChildBytes(children, parentCtx);
+    // }
 
     context.currentAlign = modeByte;
 
