@@ -1,6 +1,5 @@
-import endOptimizer from './endOptimizer';
+import { registerPattern, endOptimizer, patternOptimizer } from './optimizers';
 import { optimizeEscPos, registerOptimization } from './optimizer';
-import patternOptimizer, { registerPattern } from './patternOptimizer';
 
 registerOptimization(patternOptimizer);
 registerOptimization(endOptimizer);

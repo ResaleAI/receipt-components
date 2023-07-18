@@ -32,7 +32,7 @@ export const flattenEscPos = (children?: EscPos[]): EscPos => {
   return children.reduce((a, b) => [...a, ...b], [] as number[]);
 };
 
-export async function renderChildBytes(
+export async function renderChildBytesAsList(
   children?: ChildBuilder<EscPos>[],
   context?: ReceiptNodeContext
 ) {
@@ -42,7 +42,15 @@ export async function renderChildBytes(
     renderedChildren.push(await child(context));
   }
 
-  return flattenEscPos(renderedChildren);
+  return renderedChildren;
+}
+
+export async function renderChildBytes(
+  children?: ChildBuilder<EscPos>[],
+  context?: ReceiptNodeContext
+) {
+  const childBytes = await renderChildBytesAsList(children, context);
+  return flattenEscPos(childBytes);
 }
 
 export const charToByte = (char: string): number => {
@@ -71,7 +79,36 @@ export const populateChildren = (templateStr: string, children: string[]) => {
   });
 };
 
-export function duplicateContext<TContext>(context: TContext) {
+export function duplicateContext<TContext extends ReceiptNodeContext>(
+  context: TContext
+) {
   if (!context) return context;
   return JSON.parse(JSON.stringify(context));
+}
+
+/**
+ * Asserts that a context is not null or undefined and returns a copy of it
+ * @param context The context to assert
+ * @returns A copy of the context
+ */
+export function assertContext<TContext extends ReceiptNodeContext>(
+  context?: TContext
+): TContext {
+  if (!context) throw new Error('Context is required to render this receipt.');
+  return duplicateContext(context);
+}
+
+export function splitLines(text: string, lineLength: number, offset: number) {
+  let lines: string[] = [];
+  let line = '';
+  lineLength = lineLength - offset;
+  for (const word of text.split(' ')) {
+    if (line.length + word.length > lineLength) {
+      lines.push(line);
+      line = '';
+    }
+    line += word + ' ';
+  }
+  lines.push(line);
+  return lines.join('\n');
 }

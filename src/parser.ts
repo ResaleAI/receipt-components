@@ -8,6 +8,7 @@ import {
   ReceiptNodeRegistry,
 } from './types';
 import { flattenEscPos, renderChildBytes } from './util';
+import { TextLiteralNode } from './nodes';
 
 /* ESC/POS */
 
@@ -19,12 +20,12 @@ export async function parseTemplateForEscPos(
 ) {
   const xmlStr = template.replace(/\n\s*/g, '');
   const dom = parseDocument(xmlStr, { xmlMode: true });
-  const root = buildEscPos(dom.children[0], nodes, context, children);
+  const root = buildEscPosFromXml(dom.children[0], nodes, context, children);
 
   return root;
 }
 
-async function buildEscPos(
+async function buildEscPosFromXml(
   xmlNode: ChildNode,
   nodes: ReceiptNodeRegistry,
   context?: ReceiptNodeContext,
@@ -37,7 +38,7 @@ async function buildEscPos(
     }
     const nodeChildren: ChildBuilder<EscPos>[] = xmlNode.children.map(
       (child) => (childCtx?: ReceiptNodeContext) =>
-        buildEscPos(child, nodes, childCtx, children)
+        buildEscPosFromXml(child, nodes, childCtx, children)
     );
     return node.buildEscPos(xmlNode.attribs, nodeChildren, context);
   }
@@ -45,7 +46,7 @@ async function buildEscPos(
     if (xmlNode.data === '{ children }') {
       return renderChildBytes(children);
     }
-    return Buffer.from(xmlNode.data);
+    return TextLiteralNode.buildEscPos({ text: xmlNode.data }, [], context);
   }
   return [];
 }

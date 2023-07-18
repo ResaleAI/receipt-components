@@ -1,5 +1,11 @@
 import { ReceiptNode } from '@/types';
-import { bytes, charToByte, flattenEscPos, renderChildBytes } from '@/util';
+import {
+  bytes,
+  charToByte,
+  duplicateContext,
+  flattenEscPos,
+  renderChildBytes,
+} from '@/util';
 
 interface AlignNodeProps {
   mode: 'left' | 'center' | 'right';
@@ -17,19 +23,30 @@ const AlignNode: ReceiptNode<AlignNodeProps> = {
       children?.join('') ?? ''
     }</div>`;
   },
-  async buildEscPos({ mode }, children, context) {
+  async buildEscPos({ mode }, children, parentCtx) {
     const modeByte = modeMap[mode];
+
+    if (!parentCtx) {
+      throw new Error('No context found');
+    }
+
+    const context = duplicateContext(parentCtx);
+
+    if (context.currentAlign === modeByte) {
+      return renderChildBytes(children, parentCtx);
+    }
+
+    context.currentAlign = modeByte;
 
     const retVal = [
       bytes.ESC,
       charToByte('a'),
       modeByte,
       ...(await renderChildBytes(children, context)),
+      bytes.ESC,
+      charToByte('a'),
+      parentCtx.currentAlign,
     ];
-
-    if (modeByte !== modeMap.left) {
-      retVal.push(bytes.ESC, charToByte('a'), modeMap.left);
-    }
 
     return retVal;
   },

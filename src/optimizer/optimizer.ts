@@ -1,7 +1,4 @@
-import { EscPos } from '@/types';
-
-export type OptimizationResult = { startIdx: number; length: number };
-export type OptimizeFunc = (escpos: EscPos) => OptimizationResult[];
+import { EscPos, OptimizeFunc } from '@/types';
 
 const optimizations: OptimizeFunc[] = [];
 

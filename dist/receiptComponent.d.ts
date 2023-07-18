@@ -13,4 +13,5 @@ export declare class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
     buildHtml(props: TProps, children?: string[]): string;
     buildEscPos(props: TProps, children?: ChildBuilder<EscPos>[], context?: ReceiptNodeContext): Promise<any>;
 }
+export declare function registerGlobalComponents(components: ReceiptNodeRegistry, force?: boolean): void;
 export {};

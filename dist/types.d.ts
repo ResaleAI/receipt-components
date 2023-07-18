@@ -10,4 +10,18 @@ export interface ReceiptNodeRegistry {
 export interface ReceiptNodeContext {
     textMode: number;
     scaleBits: number;
+    currentAlign: 0 | 1 | 2;
+    multiLine: boolean;
+    defaultLineLength: number;
+    altFontLineLength: number;
 }
+export declare type OptimizationResult = {
+    startIdx: number;
+    length: number;
+};
+export declare type OptimizeFunc = (escpos: EscPos) => OptimizationResult[];
+export declare type PatternChar = number | '*';
+export declare type Pattern = PatternChar[];
+export declare type PatternTree = {
+    [key in PatternChar]?: PatternTree;
+};

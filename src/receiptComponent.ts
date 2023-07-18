@@ -24,6 +24,11 @@ const nodeRegistry: ReceiptNodeRegistry = {
 const defaultContext: ReceiptNodeContext = {
   textMode: 0,
   scaleBits: 0,
+  currentAlign: 0,
+  multiLine: true,
+  defaultLineLength: 42,
+  altFontLineLength: 56,
+  currentOffset: 0,
 };
 
 interface ReceiptComponentOptions {
@@ -75,5 +80,19 @@ export class ReceiptComponent<TProps> implements ReceiptNode<TProps> {
       return escpos;
     }
     return optimizeEscPos(escpos);
+  }
+}
+
+export function registerGlobalComponents(
+  components: ReceiptNodeRegistry,
+  force = false
+) {
+  for (const key in components) {
+    if (!force && nodeRegistry[key]) {
+      throw new Error(
+        `Component ${key} already exists. Set second argument to true to override.`
+      );
+    }
+    nodeRegistry[key] = components[key];
   }
 }

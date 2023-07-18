@@ -13,3 +13,4 @@ export declare const charToByte: (char: string) => number;
 export declare const parseBraces: (bracefulStr: string, data: any) => string;
 export declare const populateChildren: (templateStr: string, children: string[]) => string;
 export declare function duplicateContext<TContext>(context: TContext): any;
+export declare function splitLines(text: string, lineLength: number): string;

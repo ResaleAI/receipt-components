@@ -1,6 +1,5 @@
-import { EscPos } from '@/types';
+import { EscPos, OptimizationResult } from '@/types';
 import { bytes, charToByte } from '@/util';
-import { OptimizationResult } from './optimizer';
 
 // Remove scale, align, and text reset before end of escpos
 export default function endOptimizer(escpos: EscPos): OptimizationResult[] {

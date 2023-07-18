@@ -1,8 +1,17 @@
 {
   "name": "receipt-components",
-  "version": "2.0.0",
+  "version": "2.0.0a2",
   "type": "module",
-  "main": "dist/main.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/main.js",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js",
+      "require": "./dist/main.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
