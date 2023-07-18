@@ -1,9 +1,9 @@
 {
-  "name": "receipt-components",
-  "version": "2.0.0a2",
+  "name": "@resaleai/receipt-components",
+  "version": "2.0.2",
   "type": "module",
   "files": [
-    "dist"
+    "dist/*"
   ],
   "main": "./dist/main.js",
   "exports": {
