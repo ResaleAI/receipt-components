@@ -79,3 +79,10 @@ let output = Receipt.renderPrinterBytes({
 ```
 
 Note that the data is global. You must define any data you need in the render function.
+
+### TODO
+
+[ ] allow passing options to a different renderer
+[ ] build html renderer
+[ ] move images in to a separate package
+[ ] write docs

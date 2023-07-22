@@ -113,11 +113,4 @@ describe('util', () => {
       assert(result === 'Hello { name }');
     });
   });
-
-  describe('populateChildren', () => {
-    it('should return a string with the children array joined', () => {
-      const result = populateChildren('Hello { children }', ['World', '!!']);
-      assert(result === 'Hello World!!');
-    });
-  });
 });

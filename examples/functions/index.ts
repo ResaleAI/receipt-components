@@ -52,3 +52,8 @@ const ReceiptWithProps = new ReceiptComponent<Props>({
 });
 
 // ReceiptWithProps.render({ name: 'John Doe', text: 'Hello!' }).then(console.log);
+
+const ReceiptWithChildren = new ReceiptComponent({
+  template: `
+<text bold>{ children }</text>`,
+});

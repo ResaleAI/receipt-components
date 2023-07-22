@@ -1,6 +1,6 @@
 // returns the appropriate params to the ESC * cmd
 
-import { bytes, charToByte } from './index.js';
+import { bytes, charToByte } from '../util';
 import { createCanvas } from 'canvas';
 
 // need optimizing

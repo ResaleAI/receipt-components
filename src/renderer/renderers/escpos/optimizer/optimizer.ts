@@ -1,4 +1,5 @@
-import { EscPos, OptimizeFunc } from '@/types';
+import { EscPos } from '../types';
+import { OptimizeFunc } from './types';
 
 const optimizations: OptimizeFunc[] = [];
 
