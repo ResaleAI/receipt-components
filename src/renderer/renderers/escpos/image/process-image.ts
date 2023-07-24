@@ -4,8 +4,8 @@ import { bytes, charToByte } from '../util';
 import { createCanvas } from 'canvas';
 
 // need optimizing
-function processImage(img: any, density: number) {
-  const MAX_WIDTH = density > 31 ? 511 : 255;
+function processImage(img: any, density: number, maxWidthPct?: number) {
+  const MAX_WIDTH = (density > 31 ? 511 : 255) * (maxWidthPct ?? 1);
   // const canvas = document.createElement('canvas');
   const canvas = createCanvas(img.width, img.height);
   const ctx = canvas.getContext('2d');

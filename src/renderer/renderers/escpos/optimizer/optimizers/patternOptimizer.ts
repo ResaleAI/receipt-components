@@ -8,7 +8,9 @@ const patterns: Pattern[] = [
   [bytes.GS, charToByte('V'), charToByte('A'), '*'],
 ];
 
-export default function patternOptimizer(escpos: EscPos): OptimizationResult[] {
+export default function patternOptimizer(
+  escpos: number[]
+): OptimizationResult[] {
   const removeStack: PatternMatchResult[] = [];
   const tree = buildPatternTree();
   let prevMatch: PatternMatchResult | undefined = undefined;
@@ -97,7 +99,7 @@ type PatternMatchResult = {
 
 export function matchPattern(
   tree: PatternTree,
-  escpos: EscPos,
+  escpos: number[],
   startIdx: number
 ): PatternMatchResult {
   let node = tree;

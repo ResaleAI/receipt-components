@@ -3,7 +3,7 @@ import { bytes, charToByte } from '../../util';
 import { OptimizationResult } from '../types';
 
 // Remove scale, align, and text reset before end of escpos
-export default function endOptimizer(escpos: EscPos): OptimizationResult[] {
+export default function endOptimizer(escpos: number[]): OptimizationResult[] {
   const endBytes = 5;
   const startIdx = escpos.length - endBytes - 3;
   if (

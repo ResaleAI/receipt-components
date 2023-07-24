@@ -25,13 +25,20 @@ export function buildAstFromXml(
 ): ReceiptAST[] {
   if (xmlNode.type === ElementType.Tag) {
     const nodeBuilder = nodes[xmlNode.name];
-    if (!nodeBuilder) {
-      // throw new Error(`Unknown node: ${xmlNode.name}`);
-      // create the node using the info we have
-    }
     const nodeChildren = xmlNode.children.map(
       (child) => buildAstFromXml(child, nodes, children)[0]
     );
+    if (!nodeBuilder) {
+      // throw new Error(`Unknown node: ${xmlNode.name}`);
+      // create the node using the info we have
+      return [
+        {
+          name: xmlNode.name,
+          props: xmlNode.attribs,
+          children: nodeChildren,
+        },
+      ];
+    }
     const ret = [nodeBuilder(xmlNode.attribs, nodeChildren)];
     return ret;
   }

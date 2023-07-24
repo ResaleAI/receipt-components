@@ -7,7 +7,7 @@ export function registerOptimization(func: OptimizeFunc) {
   optimizations.push(func);
 }
 
-export function optimizeEscPos(escpos: EscPos): EscPos {
+export function optimizeEscPos(escpos: number[]) {
   const optimizedEscPos = [...escpos];
   // run other optimizations
   for (const optimization of optimizations) {

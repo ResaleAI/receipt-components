@@ -1,6 +1,7 @@
 import { ScaleNodeProps } from '@/core/node-builders/scale';
 import { ChildBuilder, EscPos, ReceiptNodeContext } from './types';
 import { bytes, charToByte, duplicateContext, renderChildBytes } from './util';
+import LinkedList from './util/linked-list';
 
 async function renderScale(
   { width, height }: ScaleNodeProps,
@@ -27,15 +28,18 @@ async function renderScale(
     return childBytes;
   }
 
-  return [
+  const prependBytes = new LinkedList([
     bytes.GS,
     charToByte('!'),
     context.scaleBits,
-    ...childBytes,
+  ]);
+  const appendBytes = new LinkedList([
     bytes.GS,
     charToByte('!'),
     parentCtx.scaleBits,
-  ];
+  ]);
+
+  return prependBytes.appendList(childBytes).appendList(appendBytes);
 }
 
 export default renderScale;

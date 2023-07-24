@@ -1,4 +1,5 @@
 import { ChildBuilder, EscPos, ReceiptNodeContext } from '../types';
+import LinkedList from './linked-list';
 
 export const bytes = {
   ESC: 0x1b,
@@ -25,32 +26,45 @@ export const isUint8Array = (value: unknown): value is Uint8Array[] => {
   );
 };
 
-export const flattenEscPos = (children?: EscPos[]): EscPos => {
-  if (!children) {
-    return [];
-  }
-  return children.reduce((a, b) => [...a, ...b], [] as number[]);
-};
+// export const flattenEscPos = (children?: EscPos[]): EscPos => {
+//   if (!children) {
+//     return [];
+//   }
+//   return children.reduce((a, b) => [...a, ...b], [] as number[]);
+// };
 
-export async function renderChildBytesAsList(
-  children?: ChildBuilder<EscPos>[],
-  context?: ReceiptNodeContext
-) {
-  if (!children) return [];
-  let renderedChildren: EscPos[] = [];
-  for (const child of children) {
-    renderedChildren.push(await child(context));
-  }
+// export async function renderChildBytesAsList(
+//   children?: ChildBuilder<EscPos>[],
+//   context?: ReceiptNodeContext
+// ) {
+//   if (!children) return [];
+//   let renderedChildren: EscPos[] = [];
+//   for (const child of children) {
+//     renderedChildren.push(await child(context));
+//   }
 
-  return renderedChildren;
-}
+//   return renderedChildren;
+// }
+
+// export async function renderChildBytes(
+//   children?: ChildBuilder<EscPos>[],
+//   context?: ReceiptNodeContext
+// ) {
+//   const childBytes = await renderChildBytesAsList(children, context);
+//   return flattenEscPos(childBytes);
+// }
 
 export async function renderChildBytes(
   children?: ChildBuilder<EscPos>[],
   context?: ReceiptNodeContext
 ) {
-  const childBytes = await renderChildBytesAsList(children, context);
-  return flattenEscPos(childBytes);
+  let renderedChildren: EscPos = new LinkedList();
+  if (!children) return renderedChildren;
+  for (const child of children) {
+    const renderedChild = await child(context);
+    renderedChildren.appendList(renderedChild);
+  }
+  return renderedChildren;
 }
 
 export const charToByte = (char: string): number => {

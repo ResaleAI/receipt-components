@@ -1,6 +1,7 @@
 import { AlignNodeProps } from '@/core/node-builders/align';
-import { ChildBuilder, EscPos, ReceiptNodeContext } from './types';
+import { ChildBuilder, EscPos, EscPosByte, ReceiptNodeContext } from './types';
 import { bytes, charToByte, duplicateContext, renderChildBytes } from './util';
+import LinkedList from './util/linked-list';
 
 const modeMap: Record<AlignNodeProps['mode'], number> = {
   left: 0x00,
@@ -26,18 +27,23 @@ async function renderAlign(
   // }
 
   context.currentAlign = modeByte;
+  context.currentOffset = 0;
 
-  const retVal = [
+  const prependBytes = new LinkedList<EscPosByte>([
+    bytes.LF,
     bytes.ESC,
     charToByte('a'),
     modeByte,
-    ...(await renderChildBytes(children, context)),
+  ]);
+  const appendBytes = new LinkedList<EscPosByte>([
     bytes.ESC,
     charToByte('a'),
     parentCtx.currentAlign,
-  ];
+  ]);
 
-  return retVal;
+  const childBytes = await renderChildBytes(children, context);
+
+  return prependBytes.appendList(childBytes).appendList(appendBytes);
 }
 
 export default renderAlign;

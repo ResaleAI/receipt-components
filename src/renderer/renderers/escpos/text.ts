@@ -1,6 +1,7 @@
 import { ChildBuilder, EscPos, ReceiptNodeContext } from './types';
 import { bytes, charToByte, duplicateContext, renderChildBytes } from './util';
 import { TextNodeProps } from '@/core/node-builders/text';
+import LinkedList from './util/linked-list';
 
 const modes = {
   font1: 0b0,
@@ -40,21 +41,20 @@ async function renderText(
 
   context.textMode = mode;
   // if context.multiLine is true, add newline char every `lineLength` chars
-  let childBytes = [...(await renderChildBytes(children, context))];
+  let childBytes = await renderChildBytes(children, context);
   parentCtx.currentOffset = context.currentOffset;
   if (parentCtx.textMode === context.textMode) {
     return childBytes;
   }
 
-  return [
-    bytes.ESC,
-    charToByte('!'),
-    mode,
-    ...childBytes,
+  const prependBytes = new LinkedList([bytes.ESC, charToByte('!'), mode]);
+  const appendBytes = new LinkedList([
     bytes.ESC,
     charToByte('!'),
     parentCtx.textMode,
-  ];
+  ]);
+
+  return prependBytes.appendList(childBytes).appendList(appendBytes);
 }
 
 export default renderText;

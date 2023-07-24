@@ -3,6 +3,7 @@ import { loadImage } from 'canvas';
 import processImage from './process-image';
 import { bytes, charToByte } from '../util';
 import { ChildBuilder, EscPos, ReceiptNodeContext } from '../types';
+import LinkedList from '../util/linked-list';
 
 const alignMap = {
   left: 0,
@@ -11,10 +12,11 @@ const alignMap = {
 };
 
 async function renderImage(
-  { src, mode, align }: ImageNodeProps,
+  { src, mode, align, maxWidth }: ImageNodeProps,
   _children?: ChildBuilder<EscPos>[],
   context?: ReceiptNodeContext
 ) {
+  maxWidth = Number(maxWidth);
   if (!align) {
     align = 'center';
   }
@@ -22,15 +24,15 @@ async function renderImage(
     mode = 33;
   }
   const image = await loadImage(src);
-  return [
+  return new LinkedList([
     bytes.ESC,
     charToByte('a'),
     alignMap[align],
-    ...processImage(image, mode),
+    ...processImage(image, mode, maxWidth),
     bytes.ESC,
     charToByte('a'),
     context?.currentAlign ?? 0,
-  ];
+  ]);
 }
 
 export default renderImage;

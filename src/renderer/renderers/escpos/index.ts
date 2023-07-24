@@ -1,4 +1,9 @@
-import { ChildBuilder, EscPos, ReceiptNodeContext } from './types';
+import {
+  ChildBuilder,
+  EscPos,
+  EscPosRenderer,
+  ReceiptNodeContext,
+} from './types';
 import renderAlign from './align';
 import renderText from './text';
 import renderTextLiteral from './textLiteral';
@@ -10,12 +15,8 @@ import renderImage from './image';
 import renderSmooth from './smooth';
 import { ReceiptAST } from '@/core/types';
 import { buildReceiptRenderer } from '@/renderer';
-
-type EscPosRenderer<TProps> = (
-  props: TProps,
-  children?: ChildBuilder<EscPos>[],
-  context?: ReceiptNodeContext
-) => Promise<EscPos>;
+import renderRow from './row';
+import renderCol from './col';
 
 export const [escPosRenderers, registerEscPosRenderer] = buildReceiptRenderer<
   EscPos,
@@ -24,8 +25,10 @@ export const [escPosRenderers, registerEscPosRenderer] = buildReceiptRenderer<
   align: renderAlign,
   barcode: renderBarcode,
   break: renderBreak,
+  col: renderCol,
   image: renderImage,
   root: renderRoot,
+  row: renderRow,
   scale: renderScale,
   smooth: renderSmooth,
   text: renderText,
@@ -40,10 +43,12 @@ const defaultContext: ReceiptNodeContext = {
   defaultLineLength: 42,
   altFontLineLength: 56,
   currentOffset: 0,
+  numColsInLine: 0,
 };
 
-async function renderEscPos(tree: ReceiptAST): Promise<EscPos> {
-  return await _renderEscPos(tree, defaultContext);
+async function renderEscPos(tree: ReceiptAST): Promise<Uint8Array> {
+  const escPosLL = await _renderEscPos(tree, defaultContext);
+  return escPosLL.toUint8Array();
 }
 
 async function _renderEscPos(

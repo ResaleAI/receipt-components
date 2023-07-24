@@ -1,59 +1,83 @@
-import ReceiptComponent from '@resaleai/receipt-components';
-import { EscPos } from '@resaleai/receipt-components/dist/types';
 import process from 'process';
+import { ReceiptAST } from '@resaleai/receipt-components/dist/core/types';
+import {
+  ReceiptComponent,
+  registerRendererPlugin,
+} from '@resaleai/receipt-components/dist/receiptComponent';
+import { registerEscPosRenderer } from '@resaleai/receipt-components/dist/renderer/renderers/escpos';
+import {
+  bytes,
+  charToByte,
+  renderChildBytes,
+} from '@resaleai/receipt-components/dist/renderer/renderers/escpos/util';
+import {
+  ChildBuilder,
+  EscPos,
+} from '../../dist/renderer/renderers/escpos/types';
 
-const SimpleExampleReceipt = new ReceiptComponent({
+const testnode = (props: null, children?: ReceiptAST[]) => {
+  return <const>{
+    name: 'inverse',
+    props,
+    children,
+  };
+};
+
+registerEscPosRenderer(
+  'inverse',
+  async (_props: null, children: ChildBuilder<EscPos>[]) => {
+    return [
+      bytes.GS,
+      charToByte('B'),
+      1,
+      ...(await renderChildBytes(children)),
+      bytes.GS,
+      charToByte('B'),
+      0,
+    ];
+  }
+);
+
+const hr = new ReceiptComponent('hr', {
+  template: `------------------------------------------`,
+});
+
+const TestReceipt = new ReceiptComponent('TestReceipt', {
   template: `
 <receipt>
   <align mode="center">
-    <text bold>Example Receipt</text>
+    <scale width="2" height="2">
+      Riviera 8
+    </scale>
+    <br />
+    <text font="2">
+      510 South Gay Street
+      <br />
+      Knoxville, TN 37902
+      <br />
+    </text>
+    <inverse>
+      SALES RECEIPT
+    </inverse>
   </align>
-  <br/>
-  <align mode="left">
-    <text>Hello, world!</text>
-  </align>
-  <br/>
-  <align mode="right">
-    <text>Goodbye, world!</text>
-  </align>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Linux_logo.jpg?20090908114920" />
-</receipt>`,
-  skipOptimization: true,
+  <br />
+  <hr />
+  <br />
+  <text bold>Item                          Qty   Price </text>
+  <br />
+  <hr />
+  <br />
+  test
+  <br lines="5" />
+</receipt>
+    `,
+  nodes: {
+    inverse: testnode,
+  },
+  components: [hr],
 });
 
-SimpleExampleReceipt.render({}, false).then((ep: EscPos) => {
-  // process.stdout.write(new Uint8Array(ep));
-  console.log(ep);
-});
-
-interface Props {
-  name: string;
-  text: string;
-}
-
-// const buffer = new Uint8Array([
-//   0x1b, 0x40, 0x41, 0x42, 0x1b, 0x64, 0x07, 0x44, 0x45, 0x46, 0x1b, 0x65, 0x03,
-//   0x47, 0x48, 0x49, 0x0a, 0x1d, 0x56, 0x41, 0x03,
-// ]);
-
-// process.stdout.write(buffer);
-
-const ReceiptWithProps = new ReceiptComponent<Props>({
-  template: `
-<receipt>
-  <align mode="center">
-    <text bold>Hello, {name}!</text>
-  </align>
-  <br/>
-  <align mode="left">
-    <text bold>{text}</text>
-  </align>
-</receipt>`,
-});
-
-// ReceiptWithProps.render({ name: 'John Doe', text: 'Hello!' }).then(console.log);
-
-const ReceiptWithChildren = new ReceiptComponent({
-  template: `
-<text bold>{ children }</text>`,
+TestReceipt.render({}, [], 'escpos').then((res) => {
+  // console.log(res);
+  process.stdout.write(Buffer.from(res));
 });

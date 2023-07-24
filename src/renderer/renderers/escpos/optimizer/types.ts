@@ -1,7 +1,5 @@
-import { EscPos } from '../types';
-
 export type OptimizationResult = { startIdx: number; length: number };
-export type OptimizeFunc = (escpos: EscPos) => OptimizationResult[];
+export type OptimizeFunc = (escpos: number[]) => OptimizationResult[];
 
 /* Pattern optimizer */
 export type PatternChar = number | '*';
