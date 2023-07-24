@@ -3,7 +3,9 @@ import AlignNodeBuilder from './align';
 import BuildBarcode from './barcode';
 import BreakNodeBuilder from './break';
 import ColNodeBuilder from './col';
+import FragmentNodeBuilder from './fragment';
 import ImageNodeBuilder from './image';
+import InverseNodeBuilder from './inverse';
 import RootNodeBuilder from './root';
 import RowNodeBuilder from './row';
 import ScaleNodeBuilder from './scale';
@@ -17,14 +19,16 @@ const nodeBuilders = {
   break: BreakNodeBuilder,
   br: BreakNodeBuilder,
   col: ColNodeBuilder,
+  fragment: FragmentNodeBuilder,
   image: ImageNodeBuilder,
   img: ImageNodeBuilder,
+  inverse: InverseNodeBuilder,
   receipt: RootNodeBuilder,
   root: RootNodeBuilder,
   row: RowNodeBuilder,
   scale: ScaleNodeBuilder,
   smooth: SmoothNodeBuilder,
-  template: RootNodeBuilder,
+  template: FragmentNodeBuilder,
   text: TextNodeBuilder,
   textLiteral: TextLiteralNodeBuilder,
 };

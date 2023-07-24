@@ -14,9 +14,11 @@ import renderBarcode from './barcode';
 import renderImage from './image';
 import renderSmooth from './smooth';
 import { ReceiptAST } from '@/core/types';
-import { buildReceiptRenderer } from '@/renderer';
+import { buildReceiptRenderer } from '../../';
 import renderRow from './row';
 import renderCol from './col';
+import renderFragment from './fragment';
+import renderInverse from './inverse';
 
 export const [escPosRenderers, registerEscPosRenderer] = buildReceiptRenderer<
   EscPos,
@@ -26,7 +28,9 @@ export const [escPosRenderers, registerEscPosRenderer] = buildReceiptRenderer<
   barcode: renderBarcode,
   break: renderBreak,
   col: renderCol,
+  fragment: renderFragment,
   image: renderImage,
+  inverse: renderInverse,
   root: renderRoot,
   row: renderRow,
   scale: renderScale,

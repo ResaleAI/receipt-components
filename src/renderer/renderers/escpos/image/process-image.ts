@@ -23,8 +23,6 @@ function processImage(img: any, density: number, maxWidthPct?: number) {
     canvas.width = MAX_WIDTH;
   }
 
-  // console.log(canvas.width, img.width);
-
   // draw image and get its data
   ctx.drawImage(
     img,
