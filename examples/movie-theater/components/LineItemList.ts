@@ -19,7 +19,7 @@ const LineItemListItem = new ReceiptComponent<LineItemListItemProps>(
       const item = JSON.parse(props.item);
 
       const template = `
-  <fragment>
+  <row>
     <col cols="7">
       ${item.name}
     </col>
@@ -29,7 +29,7 @@ const LineItemListItem = new ReceiptComponent<LineItemListItemProps>(
     <col cols="2" justify="right">
       ${item.price.toFixed(2)}
     </col>
-  </fragment>
+  </row>
     `;
       return template;
     },
@@ -47,8 +47,8 @@ const LineItemList = new ReceiptComponent<LineItemListProps>('LineItemList', {
 <fragment>
   <hr />
   <br />
-  <row>
-    <text bold>
+  <text bold>
+    <row>
       <col cols="7">
         Item
       </col>
@@ -58,13 +58,15 @@ const LineItemList = new ReceiptComponent<LineItemListProps>('LineItemList', {
       <col cols="2" justify="right">
         Price
       </col>
-    </text>
-  </row>
+    </row>
+  </text>
   <br />
   <hr />
   <row>
     ${items
-      .map((item) => `<LineItemListItem item="${serializeObject(item)}" />`)
+      .map(
+        (item) => `<LineItemListItem item="${serializeObject(item)}" /><br />`
+      )
       .join('\n')}
     <col cols="8"></col>
     <col cols="2" justify="right">

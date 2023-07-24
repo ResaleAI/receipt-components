@@ -90,10 +90,10 @@ MovieReceipt.render(
     },
   },
   [],
-  'escpos'
+  'html' // 'escpos'
 ).then((res) => {
-  // console.log(res);
-  process.stdout.write(res);
+  console.log(res);
+  // process.stdout.write(res);
 });
 
 export default ReceiptComponent;
