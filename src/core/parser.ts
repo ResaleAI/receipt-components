@@ -3,6 +3,7 @@ import type { ChildNode } from 'domhandler';
 import { ElementType } from 'domelementtype';
 import { ReceiptAST, ReceiptASTNodeRegistry } from './types';
 import TextLiteralNodeBuilder from './node-builders/text-literal';
+import { MultipleRootError } from './errors';
 
 // should this be moved to a separate folder? maybe....
 
@@ -14,6 +15,12 @@ export function parseTemplateForAst(
   const xmlStr = template.replace(/\n\s*/g, '');
   const dom = parseDocument(xmlStr, { xmlMode: true });
   const root = buildAstFromXml(dom.children[0], nodes, children);
+
+  if (dom.children.length > 1) {
+    throw new MultipleRootError(
+      "Template can't have multiple root nodes. (Hint: Try wrapping your template in a <fragment> node)"
+    );
+  }
 
   return root[0];
 }

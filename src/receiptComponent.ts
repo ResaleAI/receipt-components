@@ -17,23 +17,28 @@ export function registerRendererPlugin(rendererPlugin: ReceiptRendererPlugin) {
   config.renderers[rendererPlugin.name] = rendererPlugin.renderer;
 }
 
-interface ReceiptComponentOptions {
-  template: string;
+interface ReceiptComponentOptions<TProps> {
+  render: (props: TProps) => string; // render function should return a template
   components?: ReceiptComponent<any>[];
   nodes?: ReceiptASTNodeRegistry;
   skipOptimization?: boolean;
 }
 export class ReceiptComponent<TProps> {
   name: string;
-  template: string;
   skipOptimization?: boolean;
   nodeRegistry: ReceiptASTNodeRegistry;
+  renderTemplate: (props: TProps) => string;
   constructor(
     name: string,
-    { template, components, nodes, skipOptimization }: ReceiptComponentOptions
+    {
+      render,
+      components,
+      nodes,
+      skipOptimization,
+    }: ReceiptComponentOptions<TProps>
   ) {
     this.name = name;
-    this.template = template;
+    this.renderTemplate = render;
     this.skipOptimization = !!skipOptimization;
     const componentBuilders = components?.reduce(
       (acc, component) => ({
@@ -61,7 +66,20 @@ export class ReceiptComponent<TProps> {
   }
 
   buildAst(props: TProps, children?: ReceiptAST[]) {
-    const populatedTemplate = parseBraces(this.template, props);
-    return parseTemplateForAst(populatedTemplate, this.nodeRegistry, children);
+    try {
+      const template = this.renderTemplate(props);
+      const populatedTemplate = parseBraces(template, props);
+      return parseTemplateForAst(
+        populatedTemplate,
+        this.nodeRegistry,
+        children
+      );
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new Error(`${this.name}: ${e.message}`);
+      } else {
+        throw new Error(`${this.name}: ${e}`);
+      }
+    }
   }
 }
