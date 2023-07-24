@@ -11,6 +11,15 @@ const alignMap = {
   right: 2,
 };
 
+// function loadImage(src: string): Promise<HTMLImageElement> {
+//   return new Promise((resolve, reject) => {
+//     const img = new Image();
+//     img.onload = () => resolve(img);
+//     img.onerror = reject;
+//     img.src = src;
+//   });
+// }
+
 async function renderImage(
   { src, mode, align, maxWidth }: ImageNodeProps,
   _children?: ChildBuilder<EscPos>[],
