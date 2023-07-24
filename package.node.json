@@ -1,0 +1,33 @@
+{
+  "name": "@resaleai/receipt-components",
+  "version": "2.0.3",
+  "type": "commonjs",
+  "files": ["dist/*"],
+  "main": "./dist/main.js",
+  "exports": {
+    ".": {
+      "require": "./dist/main.js"
+    },
+    "./util": {
+      "require": "./dist/util/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "vite build && node dist/main.js",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
+    "vite-plugin-dts": "^1.0.5",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "htmlparser2": "^9.0.0"
+  }
+}
