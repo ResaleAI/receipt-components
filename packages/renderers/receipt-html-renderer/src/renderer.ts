@@ -13,7 +13,6 @@ import renderScale from './scale';
 import renderSmooth from './smooth';
 import renderText from './text';
 import renderTextLiteral from './text-literal';
-import renderImage from './image';
 
 export const [htmlRenderers, registerHtmlRenderer] = buildReceiptRenderer<
   string,
