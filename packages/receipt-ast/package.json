@@ -1,0 +1,31 @@
+{
+  "name": "@resaleai/receipt-ast",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "files": [
+    "dist/*"
+  ],
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/main.mjs",
+      "require": "./dist/main.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "tsup": "^7.1.0",
+    "typescript": "^5.0.2",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "htmlparser2": "^9.0.0"
+  }
+}

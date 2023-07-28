@@ -1,0 +1,43 @@
+{
+  "name": "@resaleai/receipt-escpos-renderer",
+  "version": "1.0.0",
+  "files": [
+    "dist/*"
+  ],
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/main.js",
+      "import": "./dist/main.mjs",
+      "types": "./dist/main.d.ts"
+    },
+    "./util": {
+      "require": "./dist/util/index.js",
+      "import": "./dist/util/index.mjs",
+      "types": "./dist/util/index.d.ts"
+    },
+    "./linked-list": {
+      "require": "./dist/util/linked-list.js",
+      "import": "./dist/util/linked-list.mjs",
+      "types": "./dist/util/linked-list.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "tsup": "^7.1.0",
+    "typescript": "^5.0.2",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "@resaleai/receipt-ast": "file:../../receipt-ast",
+    "@resaleai/receipt-plugin": "file:../../receipt-plugin",
+    "@resaleai/receipt-renderer": "file:../../receipt-renderer"
+  }
+}

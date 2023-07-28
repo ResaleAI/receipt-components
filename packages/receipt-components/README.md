@@ -2,58 +2,44 @@
 
 This package is for building complex and evolving receipts using a simple XML style language and component engine. The XML is converted to a simple JS representation that is then converted to either HTML or an ESC/POS byte array at runtime with supplied data.
 
-## Concepts
-
-### AST
-
-The Abstract Syntax Tree (AST) is an intermediate form for the receipt components representing the structure of a receipt using a tree of receipt nodes that can take certain props
-
-### Component
-
-A component is a special kind of AST node that uses a render function to build a template string that can then be parsed and turned into an AST.
-
-### Renderer
-
-A renderer is a function that takes in an AST and returns a certain kind of output. For example, the default renderer in this project is for ESC/POS and will return a byte array that you can use to print receipts. You can install other kinds of renderers as plugins.
-
-### Plugins
-
-A plugin is one of two things:
-
-- A custom node that defines an AST builder and render functions for different renderers.
-- A custom renderer
-
 ## Getting started
 
-First, install the package with the package manager of your choosing:
+First, install the package with yarn or npm:
 
 `npm install @resaleai/receipt-components`
 
-After that, import the `ReceiptComponent` class and create a new component with a name and render function that should take in props and return an array:
+After that, import the `ReceiptComponent` class and create a new component with a template:
 
 ```javascript
 import { ReceiptComponent } from '@resaleai/receipt-components';
 
-let Receipt = new ReceiptComponent('Receipt', {
+let Receipt = new ReceiptComponent({
   template: `<receipt>
     <text bold>Hello world!</text>
   </receipt>`,
 });
 ```
 
-After building the template, you can render the component into whatever format you like. In this example, we'll render ESC/POS
+## Dependancies
+
+This project tries not to use any deps, but the image processing does require access to a `Canvas` API. This is always available in the browser, and can be simulated using another package, such as...
+
+After building the template, you can render the component into either HTML or the ESC/POS bytes using
 
 ```javascript
-let epBytes = await Receipt.render({}, [], 'escpos'); // build the byte array
+let htmlStr = Receipt.renderHTML(); // build the HTML
+let epBytes = Receipt.renderPrinterBytes(); // build the byte array
 ```
 
 This will output
 
 **printer bytes and html**
 
-## Using props
+## Templated
 
-For some more advanced use-cases you may need to pass data in to a receipt component
+On top of this, there is a simple templating engine built in for putting dynamic data in the receipts.
+
+**example**
 
 ## Components
 
@@ -94,13 +80,9 @@ let output = Receipt.renderPrinterBytes({
 
 Note that the data is global. You must define any data you need in the render function.
 
-## Default Nodes
-
-## Installing Plugins
-
 ### TODO
 
 [ ] allow passing options to a different renderer
-[x] build html renderer
-[x] move images in to a separate package
+[ ] build html renderer
+[ ] move images in to a separate package
 [ ] write docs
