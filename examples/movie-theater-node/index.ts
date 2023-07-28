@@ -93,10 +93,3 @@ const receiptData: MovieReceiptProps = {
     creditBalance: 2400,
   },
 };
-
-async function renderReceipt() {
-  const ep = await MovieReceipt.render(receiptData, [], 'html');
-  process.stdout.write(ep);
-}
-
-renderReceipt();
