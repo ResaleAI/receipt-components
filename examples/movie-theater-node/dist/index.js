@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -22,6 +13,7 @@ const TrxInfo_1 = __importDefault(require("./components/TrxInfo"));
 const TheaterHeader_1 = __importDefault(require("./components/TheaterHeader"));
 const receipt_image_node_1 = __importDefault(require("@resaleai/receipt-image-node"));
 const receipt_html_renderer_1 = __importDefault(require("@resaleai/receipt-html-renderer"));
+const process_1 = __importDefault(require("process"));
 receipt_components_1.default.registerRenderer(receipt_html_renderer_1.default);
 receipt_components_1.default.registerNode(receipt_image_node_1.default);
 const MovieReceipt = new receipt_components_1.default('MovieReceipt', {
@@ -92,10 +84,6 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-function renderReceipt() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const ep = yield MovieReceipt.render(receiptData, [], 'html');
-        process.stdout.write(ep);
-    });
-}
-renderReceipt();
+MovieReceipt.render(receiptData, [], 'html').then((html) => {
+    process_1.default.stdout.write(html);
+});

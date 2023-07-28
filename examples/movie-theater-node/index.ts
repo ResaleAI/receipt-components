@@ -9,6 +9,7 @@ import TrxInfo from './components/TrxInfo';
 import TheaterHeader from './components/TheaterHeader';
 import imagePlugin from '@resaleai/receipt-image-node';
 import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
+import process from 'process';
 
 ReceiptComponent.registerRenderer(htmlRenderPlugin);
 ReceiptComponent.registerNode(imagePlugin);
@@ -93,3 +94,7 @@ const receiptData: MovieReceiptProps = {
     creditBalance: 2400,
   },
 };
+
+MovieReceipt.render(receiptData, [], 'html').then((html) => {
+  process.stdout.write(html);
+});

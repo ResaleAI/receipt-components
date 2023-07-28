@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@resaleai/receipt-components": "file:../../packages/receipt-components",
-    "@resaleai/receipt-plugin": "file:../../packages/receipt-plugin",
     "@resaleai/receipt-html-renderer": "file:../../packages/renderers/receipt-html-renderer",
-    "@resaleai/receipt-image-node": "file:../../packages/nodes/receipt-image-node"
+    "@resaleai/receipt-image-node": "file:../../packages/nodes/receipt-image-node",
+    "@resaleai/receipt-plugin": "file:../../packages/receipt-plugin"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.5"
+  }
 }
