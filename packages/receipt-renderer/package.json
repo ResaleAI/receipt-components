@@ -10,13 +10,15 @@
   "exports": {
     ".": {
       "require": "./dist/main.js",
-      "import": "./dist/main.mjs"
+      "import": "./dist/main.mjs",
+      "types": "./dist/main.d.ts"
     }
   },
   "scripts": {
     "build": "tsup",
     "lint": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf node_modules dist"
   },
   "devDependencies": {
     "@types/node": "^20.2.3",
@@ -25,6 +27,6 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
-    "@resaleai/receipt-ast": "file:../receipt-ast"
+    "@resaleai/receipt-ast": "workspace:*"
   }
 }

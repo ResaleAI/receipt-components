@@ -3,6 +3,9 @@ export interface TextLiteralNodeProps {
 }
 
 function buildTextLiteralNode(props: TextLiteralNodeProps) {
+  if (!props.text) {
+    throw new Error('Text literal must have text');
+  }
   return <const>{
     name: 'textLiteral',
     props,

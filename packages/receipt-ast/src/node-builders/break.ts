@@ -12,6 +12,7 @@ function buildBreakNode(
   props: BreakNodeProps = defaultBreakNodeProps,
   children?: ReceiptAST[]
 ) {
+  props.lines = props.lines || defaultBreakNodeProps.lines;
   return <const>{
     name: 'break',
     props,

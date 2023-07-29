@@ -2,7 +2,9 @@
   "name": "@resaleai/receipt-components",
   "version": "2.0.3",
   "type": "module",
-  "files": ["dist/*"],
+  "files": [
+    "dist/*"
+  ],
   "main": "./dist/main.js",
   "exports": {
     ".": {
@@ -11,21 +13,17 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "vite build && node dist/main.js",
-    "test": "vitest"
+    "clean": "pnpm -r run clean",
+    "clean-cache": "nx reset",
+    "build": "nx run-many -t build"
   },
   "devDependencies": {
     "@types/node": "^20.2.3",
     "typescript": "^5.0.2",
-    "vite": "^4.3.2",
-    "vite-plugin-dts": "^1.0.5",
-    "vitest": "^0.33.0"
+    "vitest": "^0.33.0",
+    "nx": "16.5.5",
+    "tsup": "^7.1.0",
+    "nx-cloud": "latest"
   },
-  "dependencies": {
-    "canvas": "^2.11.2",
-    "htmlparser2": "^9.0.0"
-  }
+  "dependencies": {}
 }

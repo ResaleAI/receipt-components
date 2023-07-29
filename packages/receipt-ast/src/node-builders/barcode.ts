@@ -23,6 +23,7 @@ export interface BarcodeProps {
 }
 
 function BuildBarcode(props: BarcodeProps) {
+  if (!props.data) throw new Error('Barcode data is required');
   props.standard = props.standard || defaultBarcodeProps.standard;
   props.height = props.height || defaultBarcodeProps.height;
   props.width = props.width || defaultBarcodeProps.width;

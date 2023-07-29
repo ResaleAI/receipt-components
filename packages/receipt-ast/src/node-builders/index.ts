@@ -19,8 +19,6 @@ const nodeBuilders = {
   br: buildBreakNode,
   col: buildColNode,
   fragment: buildFragmentNode,
-  // image: buildImageNode,
-  // img: buildImageNode,
   inverse: buildInverseNode,
   receipt: buildRootNode,
   root: buildRootNode,

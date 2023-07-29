@@ -18,6 +18,10 @@ interface ReceiptComponentOptions<TProps> {
   skipOptimization?: boolean;
 }
 
+export interface RenderPluginMap {
+  [key: string]: RCRendererPlugin;
+}
+
 export class ReceiptComponent<TProps> {
   name: string;
   skipOptimization?: boolean;
@@ -52,9 +56,7 @@ export class ReceiptComponent<TProps> {
     };
   }
 
-  static registerRenderer<TOutput extends any>(
-    renderer: RCRendererPlugin<any>
-  ) {
+  static registerRenderer(renderer: RCRendererPlugin) {
     this.renderers[renderer.name] = renderer;
   }
 
@@ -77,7 +79,7 @@ export class ReceiptComponent<TProps> {
     props: TProps,
     children?: ReceiptAST[],
     renderer: RendererName = 'escpos'
-  ): ReturnType<RenderPluginMap[typeof renderer]['renderer']> {
+  ) {
     const ast = this.buildAst(props, children);
 
     const rendererPlugin = ReceiptComponent.renderers[renderer];
@@ -114,5 +116,3 @@ export class ReceiptComponent<TProps> {
     }
   }
 }
-
-type t = ReturnType<RenderPluginMap['escpos']['renderer']>;

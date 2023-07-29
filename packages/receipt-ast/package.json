@@ -17,7 +17,8 @@
   "scripts": {
     "build": "tsup",
     "lint": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf node_modules dist"
   },
   "devDependencies": {
     "@types/node": "^20.2.3",
@@ -26,6 +27,8 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
+    "domelementtype": "^2.3.0",
+    "domhandler": "^5.0.3",
     "htmlparser2": "^9.0.0"
   }
 }

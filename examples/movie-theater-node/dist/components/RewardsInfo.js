@@ -27,7 +27,6 @@ const RewardsInfo = new receipt_components_1.default('RewardsInfo', {
     <scale height="2">
       Register or choose rewards at MyReward.com
     </scale>
-    <br />
   </align>
 </fragment>
     `,

@@ -48,13 +48,16 @@ async function renderHtml(tree: ReceiptAST): Promise<string> {
       padding: 40px 20px;
     }
     .row {
-      display: flex;
+      display: inline-flex;
       width: 100%;
       flex-wrap: wrap;
       flex: 1 1 auto;
     }
     .barcode-39 {
       font-family: 'Libre Barcode 39', cursive;
+    }
+    .fragment {
+      width: 100%;
     }
   </style>`;
 

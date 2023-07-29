@@ -1,7 +1,16 @@
 // returns the appropriate params to the ESC * cmd
 
 import { bytes, charToByte } from '@resaleai/receipt-escpos-renderer/util';
-import { createCanvas, loadImage } from 'canvas';
+import { createCanvas } from 'canvas';
+
+function loadImage(src: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
 
 export async function prepareImage(
   src: string,
@@ -9,10 +18,10 @@ export async function prepareImage(
   maxWidthPct?: number
 ) {
   const MAX_WIDTH = (density > 31 ? 511 : 255) * (maxWidthPct ?? 1);
-  const img = await loadImage(src);
-  // const canvas = document.createElement('canvas');
-  const canvas = createCanvas(img.width, img.height);
+  const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
+
+  const img = await loadImage(src);
 
   canvas.width = img.width;
   canvas.height = img.height;

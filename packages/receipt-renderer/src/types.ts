@@ -10,7 +10,10 @@ export type ReceiptNodeRenderFunc<TProps, TOutput> = (
 ) => Promise<TOutput>;
 
 export type CoreReceiptRenderer<TOutput> = {
-  [key in CoreNodeName]: ReceiptNodeRenderFunc<CoreNodeProps[key], TOutput>;
+  [key in CoreNodeName]: ReceiptNodeRenderFunc<
+    Required<CoreNodeProps[key]>,
+    TOutput
+  >;
 };
 
 export type ReceiptRenderFuncMap<TOutput> = {

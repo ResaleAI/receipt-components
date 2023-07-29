@@ -16,7 +16,8 @@
   "scripts": {
     "build": "tsup",
     "lint": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf node_modules dist"
   },
   "devDependencies": {
     "@types/node": "^20.2.3",
@@ -25,8 +26,8 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
-    "@resaleai/receipt-ast": "file:../../receipt-ast",
-    "@resaleai/receipt-plugin": "file:../../receipt-plugin",
-    "@resaleai/receipt-renderer": "file:../../receipt-renderer"
+    "@resaleai/receipt-ast": "workspace:*",
+    "@resaleai/receipt-plugin": "workspace:*",
+    "@resaleai/receipt-renderer": "workspace:*"
   }
 }
