@@ -4,16 +4,15 @@ import {
   EscPos,
   LinkedListNode,
   ReceiptNodeContext,
-} from './types';
+} from '@/types';
 import {
-  bytes,
   charToByte,
-  duplicateContext,
+  duplicateObject,
   renderChildBytes,
-  renderChildBytesArr,
   renderChildBytesList,
-} from './util';
-import LinkedList from './util/linked-list';
+} from '@/util';
+import LinkedList from '@/linked-list';
+import { bytes } from '@/constants';
 
 async function renderRow(
   { justify }: RowNodeProps,
@@ -24,7 +23,7 @@ async function renderRow(
     throw new Error('Context is required for row node');
   }
 
-  const context = duplicateContext(parentCtx);
+  const context = duplicateObject(parentCtx);
   const childBytesList = await renderChildBytesList(children, context);
   const subLists = buildChildSubLists(childBytesList);
   const subListLength = subLists[0].length;
@@ -37,21 +36,6 @@ async function renderRow(
     childBytes.append(charToByte('\n'));
   }
 
-  parentCtx.currentOffset = context.currentOffset;
-  return childBytes;
-}
-
-export async function renderRowArr(
-  { justify }: RowNodeProps,
-  children?: ChildBuilder<number[]>[],
-  parentCtx?: ReceiptNodeContext
-): Promise<number[]> {
-  if (!parentCtx) {
-    throw new Error('Context is required for row node');
-  }
-
-  const context = duplicateContext(parentCtx);
-  const childBytes = await renderChildBytesArr(children, context);
   parentCtx.currentOffset = context.currentOffset;
   return childBytes;
 }

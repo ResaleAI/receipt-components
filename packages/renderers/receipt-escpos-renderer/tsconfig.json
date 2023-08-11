@@ -29,6 +29,7 @@
   "include": [
     "src/**/*",
     "test/**/*",
-    "../../nodes/receipt-image-node/src/image"
+    "../../nodes/receipt-image-node/src/image",
+    "src/types.ts"
   ]
 }

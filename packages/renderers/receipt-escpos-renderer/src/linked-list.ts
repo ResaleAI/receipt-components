@@ -1,4 +1,4 @@
-import { ILinkedList, LinkedListNode } from '../types';
+import { ILinkedList, LinkedListNode } from './types';
 
 class LinkedList<TData> implements ILinkedList<TData> {
   length: number;
@@ -63,6 +63,12 @@ class LinkedList<TData> implements ILinkedList<TData> {
 
   insertListBefore(list: LinkedList<TData>, node: LinkedListNode<TData>) {
     if (!list.head || !list.tail) return this;
+    if (!this.head || !this.tail) {
+      this.head = list.head;
+      this.tail = list.tail;
+      this.length += list.length;
+      return this;
+    }
     if (node.prev) {
       node.prev.next = list.head;
       list.head.prev = node.prev;
@@ -78,6 +84,12 @@ class LinkedList<TData> implements ILinkedList<TData> {
 
   insertListAfter(list: LinkedList<TData>, node: LinkedListNode<TData>) {
     if (!list.head || !list.tail) return this;
+    if (!this.head || !this.tail) {
+      this.head = list.head;
+      this.tail = list.tail;
+      this.length += list.length;
+      return this;
+    }
     if (node.next) {
       node.next.prev = list.tail;
       list.tail.next = node.next;
@@ -105,18 +117,6 @@ class LinkedList<TData> implements ILinkedList<TData> {
   }
 
   prependList(list: LinkedList<TData>) {
-    // if (!list.tail) return this;
-    // if (this.head) {
-    //   this.head.prev = list.tail;
-    //   list.tail.next = this.head;
-    // }
-    // this.head = list.head;
-    // if (!this.tail) {
-    //   this.tail = list.tail;
-    // }
-    // this.length += list.length;
-    // return this;
-
     if (!list.tail) return this;
     if (!this.head || !this.tail) {
       this.head = list.head;
@@ -135,6 +135,7 @@ class LinkedList<TData> implements ILinkedList<TData> {
     let i = 0;
     while (node) {
       if (!isNumber(node.data)) {
+        console.error('node.data', node.data);
         throw new Error(
           'LinkedList must contain numbers to convert to Uint8Array'
         );
@@ -146,15 +147,15 @@ class LinkedList<TData> implements ILinkedList<TData> {
     return buffer;
   }
 
-  forEach(callback: (value: TData, index: number) => void) {
-    let node = this.head;
-    let i = 0;
-    while (node) {
-      callback(node.data, i++);
-      if (!node.next) break;
-      node = node.next;
-    }
-  }
+  // forEach(callback: (value: TData, index: number) => void) {
+  //   let node = this.head;
+  //   let i = 0;
+  //   while (node) {
+  //     callback(node.data, i++);
+  //     if (!node.next) break;
+  //     node = node.next;
+  //   }
+  // }
 
   static fromString(str: string) {
     const arr = str.split('').map((char) => char.charCodeAt(0));

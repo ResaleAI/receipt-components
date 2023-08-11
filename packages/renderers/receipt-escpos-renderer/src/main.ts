@@ -1,4 +1,4 @@
-import renderEscPos, { registerEscPosRenderer } from './renderer';
+import renderEscPos, { registerEscPosRenderer } from './nodes/renderer';
 import { RCRendererPlugin } from '@resaleai/receipt-plugin';
 
 declare global {

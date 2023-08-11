@@ -1,13 +1,8 @@
 import { ColNodeProps } from '@resaleai/receipt-ast';
-import { ChildBuilder, EscPos, EscPosByte, ReceiptNodeContext } from './types';
-import {
-  bytes,
-  charToByte,
-  duplicateContext,
-  renderChildBytes,
-  renderChildBytesArr,
-} from './util';
-import LinkedList from './util/linked-list';
+import { ChildBuilder, EscPos, EscPosByte, ReceiptNodeContext } from '@/types';
+import { charToByte, duplicateObject, renderChildBytes } from '@/util';
+import LinkedList from '@/linked-list';
+import { bytes } from '@/constants';
 
 const lineCols = 10;
 
@@ -23,7 +18,7 @@ async function renderCol(
     throw new Error('Context is required for row node');
   }
 
-  const context = duplicateContext(parentCtx);
+  const context = duplicateObject(parentCtx);
   const cols = Number(colString);
   const [newDefaultLineLength, newAltFontLineLength] = calculateLineLength(
     parentCtx,
@@ -55,47 +50,6 @@ async function renderCol(
     );
   } else if (justify === 'right') childBytes.prependList(spaces);
   else childBytes.appendList(spaces);
-
-  return childBytes;
-}
-
-export async function renderColArr(
-  { cols: colString, justify }: ColNodeProps,
-  children?: ChildBuilder<number[]>[],
-  parentCtx?: ReceiptNodeContext
-): Promise<number[]> {
-  if (!parentCtx) {
-    throw new Error('Context is required for row node');
-  }
-
-  const context = duplicateContext(parentCtx);
-  const cols = Number(colString);
-  const [newDefaultLineLength, newAltFontLineLength] = calculateLineLength(
-    parentCtx,
-    cols
-  );
-  context.defaultLineLength = newDefaultLineLength;
-  context.altFontLineLength = newAltFontLineLength;
-
-  let childBytes = await renderChildBytesArr(children, context);
-  if (parentCtx.numColsInLine + cols > lineCols) {
-    childBytes.unshift(bytes.LF);
-    parentCtx.numColsInLine = 0;
-  }
-  parentCtx.numColsInLine += cols;
-
-  const offset = context.currentOffset;
-
-  // fill spaces to the end of the line
-  const numSpaces = context.defaultLineLength - offset;
-  const spaces = Array(numSpaces).fill(charToByte(' '));
-  if (justify === 'center') {
-    const leftSpaces = Math.floor(numSpaces / 2);
-    const rightSpaces = numSpaces - leftSpaces;
-    childBytes = Array(leftSpaces).fill(charToByte(' ')).concat(childBytes);
-    childBytes = childBytes.concat(Array(rightSpaces).fill(charToByte(' ')));
-  } else if (justify === 'right') childBytes = spaces.concat(childBytes);
-  else childBytes.concat(spaces);
 
   return childBytes;
 }

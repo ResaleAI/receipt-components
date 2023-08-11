@@ -82,7 +82,4 @@ Note that the data is global. You must define any data you need in the render fu
 
 ### TODO
 
-[ ] allow passing options to a different renderer
-[ ] build html renderer
-[ ] move images in to a separate package
-[ ] write docs
+[ ] write more/better tests and clean up linked list implementation
