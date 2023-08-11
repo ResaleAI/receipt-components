@@ -48,33 +48,84 @@ class LinkedList<TData> implements ILinkedList<TData> {
     this.length++;
   }
 
-  appendList(list: LinkedList<TData>) {
-    if (!list.head) return this;
-    if (this.tail) {
-      this.tail.next = list.head;
-      list.head.prev = this.tail;
+  // creates an exclusive sublit
+  subList(startNode: LinkedListNode<TData>, endNode: LinkedListNode<TData>) {
+    const list = new LinkedList<TData>();
+    let node = startNode;
+    while (node) {
+      if (node === endNode) break;
+      if (node === this.tail) throw new Error('endNode not found');
+      list.append(node.data);
+      node = node.next!; // always defined because of the above check
     }
-    this.tail = list.tail;
-    if (!this.head) {
+    return list;
+  }
+
+  insertListBefore(list: LinkedList<TData>, node: LinkedListNode<TData>) {
+    if (!list.head || !list.tail) return this;
+    if (node.prev) {
+      node.prev.next = list.head;
+      list.head.prev = node.prev;
+    }
+    node.prev = list.tail;
+    list.tail.next = node;
+    this.length += list.length;
+    if (node === this.head) {
       this.head = list.head;
     }
-    this.length += list.length;
-
     return this;
   }
 
-  prependList(list: LinkedList<TData>) {
-    if (!list.tail) return this;
-    if (this.head) {
-      this.head.prev = list.tail;
-      list.tail.next = this.head;
+  insertListAfter(list: LinkedList<TData>, node: LinkedListNode<TData>) {
+    if (!list.head || !list.tail) return this;
+    if (node.next) {
+      node.next.prev = list.tail;
+      list.tail.next = node.next;
     }
-    this.head = list.head;
-    if (!this.tail) {
+    node.next = list.head;
+    list.head.prev = node;
+    this.length += list.length;
+    if (node === this.tail) {
       this.tail = list.tail;
     }
-    this.length += list.length;
     return this;
+  }
+
+  appendList(list: LinkedList<TData>) {
+    if (!list.tail) return this;
+
+    if (!this.head || !this.tail) {
+      this.head = list.head;
+      this.tail = list.tail;
+      this.length += list.length;
+      return this;
+    }
+
+    return this.insertListAfter(list, this.tail);
+  }
+
+  prependList(list: LinkedList<TData>) {
+    // if (!list.tail) return this;
+    // if (this.head) {
+    //   this.head.prev = list.tail;
+    //   list.tail.next = this.head;
+    // }
+    // this.head = list.head;
+    // if (!this.tail) {
+    //   this.tail = list.tail;
+    // }
+    // this.length += list.length;
+    // return this;
+
+    if (!list.tail) return this;
+    if (!this.head || !this.tail) {
+      this.head = list.head;
+      this.tail = list.tail;
+      this.length += list.length;
+      return this;
+    }
+
+    return this.insertListBefore(list, this.head);
   }
 
   toUint8Array(): Uint8Array {
@@ -93,6 +144,16 @@ class LinkedList<TData> implements ILinkedList<TData> {
       node = node.next;
     }
     return buffer;
+  }
+
+  forEach(callback: (value: TData, index: number) => void) {
+    let node = this.head;
+    let i = 0;
+    while (node) {
+      callback(node.data, i++);
+      if (!node.next) break;
+      node = node.next;
+    }
   }
 
   static fromString(str: string) {

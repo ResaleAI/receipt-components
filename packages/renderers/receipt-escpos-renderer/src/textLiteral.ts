@@ -19,7 +19,12 @@ async function renderTextLiteral(
   // if context.multiLine is true, add newline char every `lineLength` chars
   const lineLength = getLineLength(parentCtx);
   // offset could be wonky... test with scaling and alt font
-  const splitText = splitLines(text, lineLength, parentCtx.currentOffset, 1);
+  const splitText = splitLines(
+    text,
+    lineLength,
+    parentCtx.currentOffset,
+    parentCtx.textJustify
+  );
   let counter = parentCtx.currentOffset;
   for (let i = splitText.length - 1; i >= 0; i--) {
     if (splitText[i] === '\n') {
@@ -50,7 +55,13 @@ export async function renderTextLiteralArr(
   // if context.multiLine is true, add newline char every `lineLength` chars
   const lineLength = getLineLength(parentCtx);
   // offset could be wonky... test with scaling and alt font
-  const splitText = splitLines(text, lineLength, parentCtx.currentOffset, 1);
+  console.log(parentCtx.textJustify);
+  const splitText = splitLines(
+    text,
+    lineLength,
+    parentCtx.currentOffset,
+    parentCtx.textJustify
+  );
   let counter = parentCtx.currentOffset;
   for (let i = splitText.length - 1; i >= 0; i--) {
     if (splitText[i] === '\n') {
@@ -59,7 +70,6 @@ export async function renderTextLiteralArr(
     }
     counter++;
   }
-  const scaleWidth = (parentCtx.scaleBits >>> 4) + 1;
   parentCtx.currentOffset = counter >= lineLength ? 0 : counter;
 
   return [...Buffer.from(splitText)];

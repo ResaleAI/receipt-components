@@ -67,6 +67,18 @@ export async function renderChildBytes(
   return renderedChildren;
 }
 
+export async function renderChildBytesList(
+  children?: ChildBuilder<EscPos>[],
+  context?: ReceiptNodeContext
+): Promise<EscPos[]> {
+  let renderedChildren: EscPos[] = [];
+  if (!children) return renderedChildren;
+  for (const child of children) {
+    renderedChildren.push(await child(context));
+  }
+  return renderedChildren;
+}
+
 export async function renderChildBytesArr(
   children?: ChildBuilder<number[]>[],
   context?: ReceiptNodeContext
@@ -109,7 +121,7 @@ export function splitLines(
   text: string,
   lineLength: number,
   offset: number,
-  scaleWidth: number
+  justify: 'left' | 'center' | 'right' = 'left'
 ) {
   let lines: string[] = [];
   let line = '';
@@ -122,5 +134,23 @@ export function splitLines(
     line += word + ' ';
   }
   lines.push(line);
-  return lines.join('\n').trimEnd();
+  // trying to add spaces
+  const res = lines.map((line) => {
+    const trimmedLine = line.trimEnd();
+    if (justify === 'left') {
+      return trimmedLine.padEnd(lineLength, ' ');
+    }
+    if (justify === 'right') {
+      return trimmedLine.padStart(lineLength, ' ');
+    }
+    if (justify === 'center') {
+      const spaceCount = lineLength - trimmedLine.length;
+      const leftSpaceCount = Math.floor(spaceCount / 2);
+      const rightSpaceCount = spaceCount - leftSpaceCount;
+      return trimmedLine
+        .padStart(leftSpaceCount + trimmedLine.length, ' ')
+        .padEnd(rightSpaceCount + trimmedLine.length, ' ');
+    }
+  });
+  return res.join('\n');
 }

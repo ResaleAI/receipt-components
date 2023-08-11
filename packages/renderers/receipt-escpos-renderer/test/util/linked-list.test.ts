@@ -1,5 +1,5 @@
 import { describe, it, assert, expect } from 'vitest';
-import LinkedList from '../util/linked-list';
+import LinkedList from '../../src/util/linked-list';
 
 describe('linked-list', () => {
   describe('append', () => {
@@ -127,6 +127,30 @@ describe('linked-list', () => {
       assert(list.head!.data === 3);
       assert(list.tail!.data === 2);
       assert(list.length === 3);
+    });
+  });
+
+  describe('subList', () => {
+    it('should return a sub list that doesnt include the given end node', () => {
+      const list = new LinkedList([1, 2, 3, 4]);
+      const subList = list.subList(list.head!, list.tail!.prev!);
+      assert(subList.head!.data === list.head!.data);
+      assert(subList.tail!.data === list.head!.next!.data);
+      assert(subList.length === 2);
+    });
+
+    it('should return a sub list without any references to original list', () => {
+      const list = new LinkedList([1, 2, 3, 4]);
+      const subList = list.subList(list.head!, list.tail!.prev!);
+      assert(subList.head !== list.head);
+      assert(subList.tail !== list.head!.next);
+    });
+
+    it('should throw and error if endNode is not in the list', () => {
+      const list = new LinkedList([1, 2, 3, 4]);
+      expect(() =>
+        list.subList(list.head!, { data: 2, next: null, prev: null })
+      ).to.throw();
     });
   });
 });

@@ -63,6 +63,7 @@ const defaultContext: ReceiptNodeContext = {
   altFontLineLength: 56,
   currentOffset: 0,
   numColsInLine: 0,
+  textJustify: 'left',
 };
 
 async function renderEscPos(tree: ReceiptAST): Promise<Uint8Array> {

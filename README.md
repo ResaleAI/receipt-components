@@ -105,11 +105,13 @@ Note that the data is global. You must define any data you need in the render fu
 - [ ] create package just for types to reduce imported packages for plugin dev
 - [ ] create better way for passing objects as props automatically
 - [ ] create component option for just using function nodes
-- [ ] fix col new line and scale thing
+- [x] fix col new line and scale thing
 - [ ] create offset prop for col
 - [ ] allow row elem to control num cols in row
 - [ ] nail down issues with text wrapping, scaling, and whatnot
 - [ ] write docs and wiki
-- [ ] allow passing options to a different renderer
+- [ ] allow passing and extending options to a different renderer
 - [x] build html renderer
 - [x] move images in to a separate package
+- [ ] figure out way to let escpos context be extended
+- [ ] write tests and clean up

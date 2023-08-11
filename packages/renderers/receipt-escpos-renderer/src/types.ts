@@ -9,6 +9,7 @@ export interface ReceiptNodeContext {
   altFontLineLength: number;
   currentOffset: number;
   numColsInLine: number;
+  textJustify: 'left' | 'center' | 'right';
 }
 
 export type ChildBuilder<
@@ -28,8 +29,20 @@ export interface ILinkedList<TData> {
   tail: LinkedListNode<TData> | null;
   append(data: TData): void;
   prepend(data: TData): void;
+  insertListBefore(
+    list: ILinkedList<TData>,
+    node: LinkedListNode<TData>
+  ): ILinkedList<TData>;
+  insertListAfter(
+    list: ILinkedList<TData>,
+    node: LinkedListNode<TData>
+  ): ILinkedList<TData>;
   appendList(list: ILinkedList<TData>): ILinkedList<TData>;
   prependList(list: ILinkedList<TData>): ILinkedList<TData>;
+  subList(
+    startNode: LinkedListNode<TData>,
+    endNode: LinkedListNode<TData>
+  ): ILinkedList<TData>;
   toUint8Array(): Uint8Array;
 }
 
