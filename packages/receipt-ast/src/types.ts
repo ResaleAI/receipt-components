@@ -15,10 +15,9 @@ export type ReceiptASTNodeRegistry = {
   [key: string]: ReceiptASTNodeBuilder<any>;
 };
 
-export type RegisterASTBuilderFunc<TProps> = (
-  name: string,
-  build: (props: TProps, children?: ReceiptAST[]) => ReceiptASTNode<TProps>
-) => void;
-
-export type { CoreNodeName, CoreNodeProps } from './node-builders';
+export type {
+  CoreNodeName,
+  CoreNodeProps,
+  RegisterNodeBuilderFunc,
+} from './node-builders';
 export * from './node-builders/types';

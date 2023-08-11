@@ -1,8 +1,8 @@
 import { ReceiptAST } from '../types';
 
 export interface ScaleNodeProps {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 const defaultScaleNodeProps = {

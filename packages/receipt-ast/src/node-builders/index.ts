@@ -1,6 +1,6 @@
-import { ReceiptASTNodeRegistry, RegisterASTBuilderFunc } from '../types';
+import { ReceiptAST, ReceiptASTNode, ReceiptASTNodeRegistry } from '../types';
 import buildAlignNode from './align';
-import BuildBarcode from './barcode';
+import buildBarcodeNode from './barcode';
 import buildBreakNode from './break';
 import buildColNode from './col';
 import buildFragmentNode from './fragment';
@@ -12,9 +12,12 @@ import buildSmoothNode from './smooth';
 import buildTextNode from './text';
 import buildTextLiteralNode from './text-literal';
 
+// todo: we need a way to define aliases at this level so that
+// user created nodes and core nodes can be aliased using the
+// same mechanism.
 const nodeBuilders = {
   align: buildAlignNode,
-  barcode: BuildBarcode,
+  barcode: buildBarcodeNode,
   break: buildBreakNode,
   br: buildBreakNode,
   col: buildColNode,
@@ -44,9 +47,12 @@ export type CoreNodeProps = {
   >['props'];
 };
 
-export const registerASTPlugin: RegisterASTBuilderFunc<unknown> = (
+// TODO: fixtypes
+export function registerNodeBuilder<TProps>(
   name: string,
-  builder
-) => {
+  builder: (props: TProps, children?: ReceiptAST[]) => ReceiptASTNode<TProps>
+) {
   nodeRegistry[name] = builder;
-};
+}
+
+export type RegisterNodeBuilderFunc = typeof registerNodeBuilder;

@@ -10,51 +10,63 @@ import { MultipleRootError } from './errors';
 export function parseTemplateForAst(
   template: string,
   nodes: ReceiptASTNodeRegistry,
-  children?: ReceiptAST[]
+  children?: ReceiptAST[],
+  strict: boolean = false
 ) {
   const xmlStr = template.replace(/\n\s*/g, '');
   const dom = parseDocument(xmlStr, { xmlMode: true });
   if (dom.children[0] === undefined) {
-    throw new Error('Template is empty');
-  }
-
-  const root = buildAstFromXml(dom.children[0], nodes, children);
-
-  if (dom.children.length > 1) {
+    throw new Error('Root is empty');
+  } else if (dom.children.length > 1) {
     throw new MultipleRootError(
-      "Template can't have multiple root nodes. (Hint: Try wrapping your template in a <fragment> node)"
+      'Root cannot have multiple root nodes. (Hint: Try wrapping your template in a <fragment> node)'
     );
   }
 
+  const root = buildAstFromXml(dom.children[0], nodes, strict, children);
+
+  // this cant be tested, should i change types to accomodate this?
   return root[0];
 }
 
 export function buildAstFromXml(
   xmlNode: ChildNode,
   nodes: ReceiptASTNodeRegistry,
+  strict: boolean,
   children?: ReceiptAST[]
 ): ReceiptAST[] {
   if (xmlNode.type === ElementType.Tag) {
     const nodeBuilder = nodes[xmlNode.name];
+    const booleanizedAttribs = Object.keys(xmlNode.attribs).forEach(
+      (attrib) => {
+        if (xmlNode.attribs[attrib] === '') {
+          // @ts-expect-error
+          xmlNode.attribs[attrib] = true; // breaking typescript here on purpose
+        }
+      }
+    );
+    const props =
+      Object.keys(xmlNode.attribs).length > 0 ? xmlNode.attribs : null;
     const nodeChildren = xmlNode.children.map(
-      (child) => buildAstFromXml(child, nodes, children)[0]!
+      (child) => buildAstFromXml(child, nodes, strict, children)[0]!
     );
     if (!nodeBuilder) {
-      // throw new Error(`Unknown node: ${xmlNode.name}`);
-      // create the node using the info we have
+      if (strict) throw new Error(`Unknown node: ${xmlNode.name}`);
+
+      // create the node using the info we have if not strict
       return [
         {
           name: xmlNode.name,
-          props: xmlNode.attribs,
+          props: props,
           children: nodeChildren,
         },
       ];
     }
-    const ret = [nodeBuilder(xmlNode.attribs, nodeChildren)];
+    const ret = [nodeBuilder(props, nodeChildren)];
     return ret;
   }
   if (xmlNode.type === ElementType.Text) {
-    const textData = xmlNode.data.trimEnd();
+    const textData = xmlNode.data.trimEnd(); // is this doing anything?
     if (textData === '{ children }') {
       return children ?? [];
     }

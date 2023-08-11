@@ -1,5 +1,5 @@
 export type { AlignNodeProps } from './align';
-export type { BarcodeProps, Standards } from './barcode';
+export type { BarcodeNodeProps as BarcodeProps, Standards } from './barcode';
 export type { BreakNodeProps } from './break';
 export type { ColNodeProps } from './col';
 export type { RowNodeProps } from './row';

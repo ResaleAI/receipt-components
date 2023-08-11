@@ -1,10 +1,10 @@
 import { ReceiptAST } from '../types';
 
 export interface AlignNodeProps {
-  mode: 'left' | 'center' | 'right';
+  mode?: 'left' | 'center' | 'right';
 }
 
-const defaultAlignProps = {
+const defaultAlignProps = <const>{
   mode: 'left',
 };
 

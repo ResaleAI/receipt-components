@@ -1,7 +1,7 @@
 import { ReceiptAST } from '../types';
 
 export interface BreakNodeProps {
-  lines: number;
+  lines?: number;
 }
 
 const defaultBreakNodeProps: BreakNodeProps = {
