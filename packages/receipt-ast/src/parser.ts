@@ -3,7 +3,7 @@ import type { ChildNode } from 'domhandler';
 import { ElementType } from 'domelementtype';
 import { ReceiptAST, ReceiptASTNodeRegistry } from './types';
 import buildTextLiteralNode from './node-builders/text-literal';
-import { MultipleRootError } from './errors';
+import { EmptyRootError, MultipleRootError, ParseError } from './errors';
 
 // should this be moved to a separate folder? maybe....
 
@@ -16,7 +16,7 @@ export function parseTemplateForAst(
   const xmlStr = template.replace(/\n\s*/g, '');
   const dom = parseDocument(xmlStr, { xmlMode: true });
   if (dom.children[0] === undefined) {
-    throw new Error('Root is empty');
+    throw new EmptyRootError('Root is empty');
   } else if (dom.children.length > 1) {
     throw new MultipleRootError(
       'Root cannot have multiple root nodes. (Hint: Try wrapping your template in a <fragment> node)'
@@ -37,21 +37,22 @@ export function buildAstFromXml(
 ): ReceiptAST[] {
   if (xmlNode.type === ElementType.Tag) {
     const nodeBuilder = nodes[xmlNode.name];
-    const booleanizedAttribs = Object.keys(xmlNode.attribs).forEach(
-      (attrib) => {
-        if (xmlNode.attribs[attrib] === '') {
-          // @ts-expect-error
-          xmlNode.attribs[attrib] = true; // breaking typescript here on purpose
-        }
+    Object.keys(xmlNode.attribs).forEach((attrib) => {
+      if (xmlNode.attribs[attrib] === '') {
+        // @ts-expect-error
+        xmlNode.attribs[attrib] = true; // breaking typescript here on purpose
+      } else if (isNumeric(xmlNode.attribs[attrib]!)) {
+        // @ts-expect-error
+        xmlNode.attribs[attrib] = Number(xmlNode.attribs[attrib]);
       }
-    );
+    });
     const props =
       Object.keys(xmlNode.attribs).length > 0 ? xmlNode.attribs : null;
     const nodeChildren = xmlNode.children.map(
       (child) => buildAstFromXml(child, nodes, strict, children)[0]!
     );
     if (!nodeBuilder) {
-      if (strict) throw new Error(`Unknown node: ${xmlNode.name}`);
+      if (strict) throw new ParseError(`Unknown node: ${xmlNode.name}`);
 
       // create the node using the info we have if not strict
       return [
@@ -73,4 +74,14 @@ export function buildAstFromXml(
     return [buildTextLiteralNode({ text: xmlNode.data })];
   }
   return [];
+}
+
+// From https://stackoverflow.com/a/175787
+export function isNumeric(str: string) {
+  if (typeof str != 'string') return false; // we only process strings!
+  return (
+    //@ts-expect-error
+    !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+    !isNaN(parseFloat(str))
+  ); // ...and ensure strings of whitespace fail
 }

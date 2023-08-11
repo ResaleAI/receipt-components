@@ -1,5 +1,6 @@
+import { EmptyRootError, MultipleRootError, ParseError } from '@/errors';
 import { nodeRegistry } from '@/node-builders';
-import { buildAstFromXml, parseTemplateForAst } from '@/parser';
+import { buildAstFromXml, isNumeric, parseTemplateForAst } from '@/parser';
 import { ReceiptAST } from '@/types';
 import { parseDocument } from 'htmlparser2';
 import { describe, expect, it } from 'vitest';
@@ -7,13 +8,18 @@ import { describe, expect, it } from 'vitest';
 describe('parser', () => {
   describe('parseTemplateForAst', () => {
     it('should throw an error if the root is empty', () => {
-      expect(() => parseTemplateForAst('', {})).toThrow('Root is empty');
+      expect(() => parseTemplateForAst('', {})).toThrow(EmptyRootError);
     });
 
     it('should throw an error if the root has multiple children', () => {
       expect(() => parseTemplateForAst('<div></div><div></div>', {})).toThrow(
-        'Root cannot have multiple root nodes'
+        MultipleRootError
       );
+    });
+
+    it('should build an ast from a template', () => {
+      const ast = parseTemplateForAst('<root></root>', nodeRegistry);
+      expect(ast).toEqual({ name: 'root', props: null, children: [] });
     });
   });
   describe('buildAstFromXml', () => {
@@ -57,7 +63,7 @@ describe('parser', () => {
     it('should throw an error if the node is not in the registry and strict mode is enabled', () => {
       const dom = parseDocument('<root></root>', { xmlMode: true });
       expect(() => buildAstFromXml(dom.children[0]!, {}, true)).toThrow(
-        'Unknown node'
+        ParseError
       );
     });
 
@@ -115,6 +121,56 @@ describe('parser', () => {
           children: [],
         },
       ]);
+    });
+
+    it('should convert number attributes to number', () => {
+      const dom = parseDocument('<root num="1"></root>', { xmlMode: true });
+      const ast = buildAstFromXml(dom.children[0]!, nodeRegistry, false);
+      expect(ast).toEqual([
+        {
+          name: 'root',
+          props: { num: 1 },
+          children: [],
+        },
+      ]);
+    });
+  });
+
+  describe('isNumeric', () => {
+    it('should return true for numbers', () => {
+      expect(isNumeric('1')).toBe(true);
+      expect(isNumeric('1.1')).toBe(true);
+      expect(isNumeric('1.1e1')).toBe(true);
+      expect(isNumeric('1.1e-1')).toBe(true);
+      expect(isNumeric('1.1e+1')).toBe(true);
+    });
+
+    it('should return false for non-numbers', () => {
+      expect(isNumeric('a')).toBe(false);
+      expect(isNumeric('1a')).toBe(false);
+      expect(isNumeric('1.1a')).toBe(false);
+      expect(isNumeric('1.1e1a')).toBe(false);
+      expect(isNumeric('1.1e-1a')).toBe(false);
+      expect(isNumeric('1.1e+1a')).toBe(false);
+    });
+
+    it('should return false for non-strings', () => {
+      // @ts-ignore
+      expect(isNumeric(1)).toBe(false);
+      // @ts-ignore
+      expect(isNumeric(1.1)).toBe(false);
+      // @ts-ignore
+      expect(isNumeric(true)).toBe(false);
+      // @ts-ignore
+      expect(isNumeric(false)).toBe(false);
+      // @ts-ignore
+      expect(isNumeric(null)).toBe(false);
+      // @ts-ignore
+      expect(isNumeric(undefined)).toBe(false);
+      // @ts-ignore
+      expect(isNumeric({})).toBe(false);
+      // @ts-ignore
+      expect(isNumeric([])).toBe(false);
     });
   });
 });

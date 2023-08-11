@@ -1,4 +1,4 @@
-import { ReceiptAST, ReceiptASTNode, ReceiptASTNodeRegistry } from '../types';
+import { ReceiptAST, ReceiptASTNode, ReceiptASTNodeRegistry } from '@/types';
 import buildAlignNode from './align';
 import buildBarcodeNode from './barcode';
 import buildBreakNode from './break';

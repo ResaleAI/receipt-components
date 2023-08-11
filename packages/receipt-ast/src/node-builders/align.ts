@@ -1,4 +1,4 @@
-import { ReceiptAST } from '../types';
+import { ReceiptAST } from '@/types';
 
 export interface AlignNodeProps {
   mode?: 'left' | 'center' | 'right';

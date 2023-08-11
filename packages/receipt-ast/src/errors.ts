@@ -11,3 +11,10 @@ export class MultipleRootError extends Error {
     this.name = 'MultipleRootError';
   }
 }
+
+export class EmptyRootError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'EmptyRootError';
+  }
+}

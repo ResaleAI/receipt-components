@@ -1,4 +1,4 @@
-import { ReceiptAST } from '../types';
+import { ReceiptAST } from '@/types';
 
 export interface BreakNodeProps {
   lines?: number;

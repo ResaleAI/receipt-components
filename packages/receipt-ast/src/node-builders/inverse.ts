@@ -1,4 +1,4 @@
-import { ReceiptAST } from '../types';
+import { ReceiptAST } from '@/types';
 
 function buildInverseNode(props: null, children?: ReceiptAST[]) {
   return <const>{

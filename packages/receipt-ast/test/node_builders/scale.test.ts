@@ -24,12 +24,12 @@ describe('scale', () => {
     });
   });
 
-  it('should default width and height to 1', () => {
+  it('should not set default props', () => {
     const scaleNode = buildScaleNode({});
 
     expect(scaleNode).toEqual({
       name: 'scale',
-      props: { width: 1, height: 1 },
+      props: {},
       children: undefined,
     });
   });
