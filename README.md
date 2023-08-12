@@ -122,6 +122,10 @@ const Receipt = new ReceiptComponent<null>('Receipt', {
 let epBytes = Receipt.render({}, 'escpos');
 ```
 
+# Contributing
+
+Want to help build this project? Check out the [contributing guide](./CONTRIBUTING.md) for more info. Don't know what to do? Check the TODO list below or open an issue to discuss ideas.
+
 ### TODO
 
 - [x] update image package to correctly display images in html
