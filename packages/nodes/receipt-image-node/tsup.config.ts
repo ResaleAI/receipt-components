@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  name: 'receipt-ast',
+  name: 'receipt-image-node',
   entry: ['src/main.ts'],
   outDir: 'dist',
   dts: true,

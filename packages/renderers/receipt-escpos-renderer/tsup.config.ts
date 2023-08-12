@@ -1,8 +1,8 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  name: 'receipt-components',
-  entry: ['src/main.ts', 'src/util/index.ts', 'src/util/linked-list.ts'],
+  name: 'receipt-escpos-renderer',
+  entry: ['src/main.ts', 'src/util/index.ts', 'src/linked-list.ts'],
   outDir: 'dist',
   dts: true,
   splitting: false,

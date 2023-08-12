@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  name: 'receipt-components',
+  name: 'receipt-html-renderer',
   entry: ['src/main.ts'],
   outDir: 'dist',
   dts: true,
