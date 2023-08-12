@@ -13,6 +13,7 @@
   "scripts": {
     "clean": "pnpm -r run clean",
     "clean-cache": "nx reset",
+    "test:unit": "pnpm -r run test:unit",
     "build": "nx run-many -t build",
     "release": "pnpm -r publish packages"
   },

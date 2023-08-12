@@ -14,5 +14,6 @@ const escPosRendererPlugin: RCRendererPlugin = {
 };
 
 export * from './types';
+export * from './constants';
 
 export default escPosRendererPlugin;

@@ -5,7 +5,7 @@ import LinkedList from '@/linked-list';
 import { bytes } from '@/constants';
 
 async function renderBreak(
-  { lines }: BreakNodeProps,
+  { lines }: Required<BreakNodeProps>,
   _children: ChildBuilder<EscPos>[],
   parentCtx: ReceiptNodeContext
 ) {

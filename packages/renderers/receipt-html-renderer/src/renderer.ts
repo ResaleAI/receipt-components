@@ -4,11 +4,9 @@ import { HtmlRenderer } from './types';
 import renderAlign from './align';
 import renderBarcode from './barcode';
 import renderBreak from './break';
-import renderCol from './col';
 import renderFragment from './fragment';
 import renderInverse from './inverse';
 import renderRoot from './root';
-import renderRow from './row';
 import renderScale from './scale';
 import renderSmooth from './smooth';
 import renderText from './text';
@@ -21,11 +19,9 @@ export const [htmlRenderers, registerHtmlRenderer] = buildReceiptRenderer<
   align: renderAlign,
   barcode: renderBarcode,
   break: renderBreak,
-  col: renderCol,
   fragment: renderFragment,
   inverse: renderInverse,
   root: renderRoot,
-  row: renderRow,
   scale: renderScale,
   smooth: renderSmooth,
   text: renderText,

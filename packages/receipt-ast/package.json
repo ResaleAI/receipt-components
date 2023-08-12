@@ -11,13 +11,15 @@
   "exports": {
     ".": {
       "import": "./dist/main.mjs",
-      "require": "./dist/main.js"
+      "require": "./dist/main.js",
+      "types": "./dist/main.d.ts"
     }
   },
   "scripts": {
     "build": "tsup",
     "lint": "tsc",
     "test": "vitest",
+    "test:unit": "vitest run",
     "coverage": "vitest --coverage",
     "clean": "rm -rf node_modules dist"
   },

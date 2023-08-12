@@ -25,7 +25,7 @@ async function renderTextLiteral(
     text,
     lineLength,
     parentCtx.currentOffset,
-    parentCtx.textJustify
+    parentCtx.currentAlign === 0 ? parentCtx.textJustify : undefined
   ).join('\n');
 
   // i forget what this does...

@@ -2,11 +2,9 @@ import { ReceiptAST, ReceiptASTNode, ReceiptASTNodeRegistry } from '@/types';
 import buildAlignNode from './align';
 import buildBarcodeNode from './barcode';
 import buildBreakNode from './break';
-import buildColNode from './col';
 import buildFragmentNode from './fragment';
 import buildInverseNode from './inverse';
 import buildRootNode from './root';
-import buildRowNode from './row';
 import buildScaleNode from './scale';
 import buildSmoothNode from './smooth';
 import buildTextNode from './text';
@@ -20,12 +18,10 @@ const nodeBuilders = {
   barcode: buildBarcodeNode,
   break: buildBreakNode,
   br: buildBreakNode,
-  col: buildColNode,
   fragment: buildFragmentNode,
   inverse: buildInverseNode,
   receipt: buildRootNode,
   root: buildRootNode,
-  row: buildRowNode,
   scale: buildScaleNode,
   smooth: buildSmoothNode,
   template: buildFragmentNode,

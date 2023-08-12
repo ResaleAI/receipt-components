@@ -8,16 +8,15 @@ import {
 } from '@/util';
 import LinkedList from '@/linked-list';
 import { bytes } from '@/constants';
-import { MissingContextError } from '@/errors';
 
-const modeMap: Record<AlignNodeProps['mode'], 0 | 1 | 2> = {
+const modeMap: Record<Required<AlignNodeProps>['mode'], 0 | 1 | 2> = {
   left: 0x00,
   center: 0x01,
   right: 0x02,
 } as const;
 
 async function renderAlign(
-  { mode }: AlignNodeProps,
+  { mode }: Required<AlignNodeProps>,
   children?: ChildBuilder<EscPos>[],
   parentCtx?: ReceiptNodeContext
 ) {

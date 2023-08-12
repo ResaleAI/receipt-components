@@ -1,13 +1,14 @@
 import type { ImageNodeProps } from './types';
 import { loadImage } from 'canvas';
 import { imageToEscPos } from './process-image';
-import { bytes, charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
 import {
   ChildBuilder,
   EscPos,
   ReceiptNodeContext,
+  bytes,
 } from '@resaleai/receipt-escpos-renderer';
-import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
 
 const alignMap = {
   left: 0,

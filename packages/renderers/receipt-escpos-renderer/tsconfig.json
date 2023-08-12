@@ -30,6 +30,8 @@
     "src/**/*",
     "test/**/*",
     "../../nodes/receipt-image-node/src/image",
-    "src/types.ts"
+    "src/types.ts",
+    "../../nodes/receipt-layout/src/row/escpos-renderer.ts",
+    "../../nodes/receipt-layout/src/col/escpos-renderer.ts"
   ]
 }

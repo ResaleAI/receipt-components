@@ -21,14 +21,14 @@ export const charToByte = (char: string): number => {
  * @param text The text to split
  * @param lineLength The length of each line
  * @param offset The offset of the initial line
- * @param justify The justification of each line
+ * @param justify The justification of each line, undefined if no justification
  * @returns The text split into lines
  */
 export function splitLines(
   text: string,
   lineLength: number,
   offset: number,
-  justify: 'left' | 'center' | 'right' = 'left'
+  justify?: 'left' | 'center' | 'right'
 ) {
   let lines: string[] = [];
   let line = '';
@@ -42,22 +42,25 @@ export function splitLines(
   }
   lines.push(line);
   // trying to add spaces
-  const res = lines.map((line) => {
-    const trimmedLine = line.trimEnd();
-    if (justify === 'left') {
-      return trimmedLine.padEnd(lineLength, ' ');
-    }
-    if (justify === 'right') {
-      return trimmedLine.padStart(lineLength, ' ');
-    }
-    if (justify === 'center') {
-      const spaceCount = lineLength - trimmedLine.length;
-      const leftSpaceCount = Math.floor(spaceCount / 2);
-      const rightSpaceCount = spaceCount - leftSpaceCount;
-      return trimmedLine
-        .padStart(leftSpaceCount + trimmedLine.length, ' ')
-        .padEnd(rightSpaceCount + trimmedLine.length, ' ');
-    }
-  });
-  return res;
+  if (justify !== undefined) {
+    return lines.map((line) => {
+      const trimmedLine = line.trimEnd();
+      if (justify === 'left') {
+        return trimmedLine.padEnd(lineLength, ' ');
+      }
+      if (justify === 'right') {
+        return trimmedLine.padStart(lineLength, ' ');
+      }
+      if (justify === 'center') {
+        const spaceCount = lineLength - trimmedLine.length;
+        const leftSpaceCount = Math.floor(spaceCount / 2);
+        const rightSpaceCount = spaceCount - leftSpaceCount;
+        return trimmedLine
+          .padStart(leftSpaceCount + trimmedLine.length, ' ')
+          .padEnd(rightSpaceCount + trimmedLine.length, ' ');
+      }
+    });
+  }
+
+  return lines.map((line) => line.trimEnd());
 }

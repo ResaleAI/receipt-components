@@ -8,6 +8,10 @@ This package is for building complex and evolving receipts using a simple XML st
 
 The Abstract Syntax Tree (AST) is an intermediate form for the receipt components representing the structure of a receipt using a tree of receipt nodes that can take certain props
 
+### Node
+
+A node is a basic object that can then be transformed by renderers into a desired output. As opposed to components, when creating nodes you define the exact outputs for nodes which can allow for custom behavior not possible with components.
+
 ### Component
 
 A component is a special kind of AST node that uses a render function to build a template string that can then be parsed and turned into an AST.
@@ -29,74 +33,94 @@ First, install the package with the package manager of your choosing:
 
 `npm install @resaleai/receipt-components`
 
-After that, import the `ReceiptComponent` class and create a new component with a name and render function that should take in props and return an array:
+After that, import the `ReceiptComponent` class and create a new component with a name and render function that takes in props and returns a template:
 
-```javascript
+```typescript
 import { ReceiptComponent } from '@resaleai/receipt-components';
 
-let Receipt = new ReceiptComponent('Receipt', {
-  template: `<receipt>
-    <text bold>Hello world!</text>
+let Receipt = new ReceiptComponent<{ text: string }>('Receipt', {
+  render: (props: { text: string }) => `<receipt>
+    <text bold>${props.text}</text>
   </receipt>`,
 });
 ```
 
-After building the template, you can render the component into whatever format you like. In this example, we'll render ESC/POS
+After creating your component, you can then run the following to get your desired output:
 
 ```javascript
-let epBytes = await Receipt.render({}, [], 'escpos'); // build the byte array
+let epBytes = await Receipt.render({ text: 'Hello, world!' }, 'escpos'); // build the byte array
 ```
-
-This will output
-
-**printer bytes and html**
-
-## Using props
-
-For some more advanced use-cases you may need to pass data in to a receipt component
 
 ## Components
 
 The component system is simple, but surprisingly powerful. Take, for instance, some sort of legalise that needs to be put on the bottom of every receipt:
 
-```javascript
-let ReceiptLegalise = new ReceiptComponent({
-  template: `<receipt>
+```typescript
+let ReceiptLegalise = new ReceiptComponent<{ legal: string }>({
+  render: (props: { legal: string }) => `<receipt>
     <align mode="center">
-      <text scale="7:0">-------</text>
-      <break lines="3" />
-      <text font="2" multiLine>{{ tnLegal }}</text>
-      <break lines="3" />
-      <text scale="7:0">-------</text>
+      -------------------------------
+      <br />
+      <text font="2">This is a legal statement, you are legally obligated to star this repo ;)</text>
+      -------------------------------
     </align>
   </receipt>`,
 });
 ```
 
-This component, as well as any other components we need, can be used in the template of any other receipt component by registering it in the `components` constructor param.
+This component, as well as any other components we need, can be used in the template of any other receipt component by registering it in the `components` constructor option.
 
-```javascript
+```typescript
 let Receipt = new ReceiptComponent({
   template:
   `<receipt>
     ...
     <ReceiptLegalise />
   </receipt>`
-  components: {
+  components: [
     ReceiptLegalise
-  }
+  ]
 })
 
-let output = Receipt.renderPrinterBytes({
-  tnLegal: "This is the legal statement, you are legally obligated to have a good time :)"
-})
+let epBytes = await Receipt.render({ text: 'Hello, world!' }, 'escpos'); // build the byte array
+
 ```
-
-Note that the data is global. You must define any data you need in the render function.
 
 ## Default Nodes
 
+Some nodes are packaged with this library by default, for a full list of those check the wiki.
+
 ## Installing Plugins
+
+On top of the default functionality provided by this package, you can add custom renderers and nodes. For example, if I wanted to use the experimental HTML renderer to get a preview of my receipt before printing it, I can use the following code after installing the package:
+
+```typescript
+import htmlRenderer from '@resaleai/receipt-html-renderer';
+
+ReceiptComponent.registerRenderer(htmlRenderer);
+
+const Receipt = new ReceiptComponent('Receipt', ...)
+
+let htmlStr = Receipt.render({}, 'html') // HTML markup that can be displayed in a browser
+```
+
+You can also install custom nodes. For example, to use images in a NodeJS environment:
+
+```typescript
+import imagePlugin from '@resaleai/receipt-image-node';
+
+ReceiptComponent.registerNodes(imagePlugin);
+
+const Receipt = new ReceiptComponent<null>('Receipt', {
+  render: (props: null) => `
+  <receipt>
+    <img src="..." />
+  </receipt>
+  `,
+});
+
+let epBytes = Receipt.render({}, 'escpos');
+```
 
 ### TODO
 
@@ -114,4 +138,6 @@ Note that the data is global. You must define any data you need in the render fu
 - [x] build html renderer
 - [x] move images in to a separate package
 - [ ] figure out way to let escpos context be extended
-- [ ] write tests and clean up
+- [x] write tests and clean up
+- [ ] rebuild esc pos optimizer to work w new stuff
+- [ ] disallow/only allow certain children on ast

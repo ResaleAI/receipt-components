@@ -19,14 +19,14 @@ describe('parser', () => {
 
     it('should build an ast from a template', () => {
       const ast = parseTemplateForAst('<root></root>', nodeRegistry);
-      expect(ast).toEqual({ name: 'root', props: null, children: [] });
+      expect(ast).toEqual({ name: 'root', props: {}, children: [] });
     });
   });
   describe('buildAstFromXml', () => {
     it('should build an ast from a domhandler node', () => {
       const dom = parseDocument('<root></root>', { xmlMode: true });
       const ast = buildAstFromXml(dom.children[0]!, nodeRegistry, false);
-      expect(ast).toEqual([{ name: 'root', props: null, children: [] }]);
+      expect(ast).toEqual([{ name: 'root', props: {}, children: [] }]);
     });
 
     it('should build an ast from a domhandler node with props', () => {
@@ -45,10 +45,10 @@ describe('parser', () => {
       expect(ast).toEqual([
         {
           name: 'root',
-          props: null,
+          props: {},
           children: [
-            { name: 'text', props: null, children: [] },
-            { name: 'text', props: null, children: [] },
+            { name: 'text', props: {}, children: [] },
+            { name: 'text', props: {}, children: [] },
           ],
         },
       ]);
@@ -57,7 +57,7 @@ describe('parser', () => {
     it('should create a node if it is not in the registry and strict mode is disabled', () => {
       const dom = parseDocument('<root></root>', { xmlMode: true });
       const ast = buildAstFromXml(dom.children[0]!, {}, false);
-      expect(ast).toEqual([{ name: 'root', props: null, children: [] }]);
+      expect(ast).toEqual([{ name: 'root', props: {}, children: [] }]);
     });
 
     it('should throw an error if the node is not in the registry and strict mode is enabled', () => {
@@ -105,7 +105,7 @@ describe('parser', () => {
       expect(ast).toEqual([
         {
           name: 'root',
-          props: null,
+          props: {},
           children,
         },
       ]);

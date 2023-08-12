@@ -19,15 +19,16 @@
       "types": "./dist/util/index.d.ts"
     },
     "./linked-list": {
-      "require": "./dist/util/linked-list.js",
-      "import": "./dist/util/linked-list.mjs",
-      "types": "./dist/util/linked-list.d.ts"
+      "require": "./dist/linked-list.js",
+      "import": "./dist/linked-list.mjs",
+      "types": "./dist/linked-list.d.ts"
     }
   },
   "scripts": {
     "build": "tsup",
     "lint": "tsc",
     "test": "vitest",
+    "test:unit": "vitest run",
     "coverage": "vitest --coverage",
     "clean": "rm -rf node_modules dist"
   },

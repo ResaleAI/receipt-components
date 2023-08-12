@@ -12,7 +12,7 @@ export function parseTemplateForAst(
   nodes: ReceiptASTNodeRegistry,
   children?: ReceiptAST[],
   strict: boolean = false
-) {
+): ReceiptAST {
   const xmlStr = template.replace(/\n\s*/g, '');
   const dom = parseDocument(xmlStr, { xmlMode: true });
   if (dom.children[0] === undefined) {
@@ -25,8 +25,12 @@ export function parseTemplateForAst(
 
   const root = buildAstFromXml(dom.children[0], nodes, strict, children);
 
+  if (root.length === 0) {
+    throw new EmptyRootError('Root is empty');
+  }
+
   // this cant be tested, should i change types to accomodate this?
-  return root[0];
+  return root[0]!;
 }
 
 export function buildAstFromXml(
@@ -46,8 +50,11 @@ export function buildAstFromXml(
         xmlNode.attribs[attrib] = Number(xmlNode.attribs[attrib]);
       }
     });
+
+    // unfortunately we need to break typescript. if a node has a props with defaults and nothing is passed in, it will be null,
+    // which breaks some stuff
     const props =
-      Object.keys(xmlNode.attribs).length > 0 ? xmlNode.attribs : null;
+      Object.keys(xmlNode.attribs).length > 0 ? xmlNode.attribs : {};
     const nodeChildren = xmlNode.children.map(
       (child) => buildAstFromXml(child, nodes, strict, children)[0]!
     );

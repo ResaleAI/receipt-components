@@ -60,18 +60,21 @@ export class ReceiptComponent<TProps> {
     this.renderers[renderer.name] = renderer;
   }
 
-  static registerNode<TProps>(node: RCNodePlugin<TProps>) {
-    this.astBuilders[node.name] = node.buildNode;
-    for (const name of node.aliases ?? []) {
-      this.astBuilders[name] = node.buildNode;
-    }
-
-    Object.entries(node.renderers).forEach(([rendererName, renderFunc]) => {
-      const renderer = this.renderers[rendererName as RendererName];
-      if (!renderer) {
-        return;
+  // TODO: rename? maybe registerNodePlugin?
+  static registerNodes(nodes: RCNodePlugin<any>[]) {
+    nodes.forEach((node) => {
+      this.astBuilders[node.name] = node.buildNode;
+      for (const name of node.aliases ?? []) {
+        this.astBuilders[name] = node.buildNode;
       }
-      renderer.registerRenderFunc(node.name, renderFunc);
+
+      Object.entries(node.renderers).forEach(([rendererName, renderFunc]) => {
+        const renderer = this.renderers[rendererName as RendererName];
+        if (!renderer) {
+          return;
+        }
+        renderer.registerRenderFunc(node.name, renderFunc);
+      });
     });
   }
 

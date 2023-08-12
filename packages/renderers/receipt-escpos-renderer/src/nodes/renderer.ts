@@ -15,8 +15,6 @@ import renderBarcode from './barcode';
 import renderSmooth from './smooth';
 import { ReceiptAST } from '@resaleai/receipt-ast';
 import { buildReceiptRenderer } from '@resaleai/receipt-renderer';
-import renderRow from './row';
-import renderCol from './col';
 import renderFragment from './fragment';
 import renderInverse from './inverse';
 import { InvalidNodeError } from '@/errors';
@@ -28,11 +26,9 @@ export const [escPosRenderers, registerEscPosRenderer] = buildReceiptRenderer<
   align: renderAlign,
   barcode: renderBarcode,
   break: renderBreak,
-  col: renderCol,
   fragment: renderFragment,
   inverse: renderInverse,
   root: renderRoot,
-  row: renderRow,
   scale: renderScale,
   smooth: renderSmooth,
   text: renderText,

@@ -1,7 +1,7 @@
 export class InvalidNodeError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'UnrecognizedNodeError';
+    this.name = 'InvalidNodeError';
   }
 }
 
