@@ -1,4 +1,3 @@
-import { parseBraces } from './util';
 import {
   ReceiptAST,
   ReceiptASTNodeRegistry,
@@ -10,6 +9,7 @@ import {
   RCRendererPlugin,
   RendererName,
 } from '@resaleai/receipt-plugin';
+import { InvalidRendererError } from './errors';
 
 interface ReceiptComponentOptions<TProps> {
   render: (props: TProps) => string; // render function should return a template
@@ -69,50 +69,33 @@ export class ReceiptComponent<TProps> {
     Object.entries(node.renderers).forEach(([rendererName, renderFunc]) => {
       const renderer = this.renderers[rendererName as RendererName];
       if (!renderer) {
-        throw new Error(`Renderer ${rendererName} not found`);
+        return;
       }
       renderer.registerRenderFunc(node.name, renderFunc);
     });
   }
 
-  render(
+  async render<TOutput>(
     props: TProps,
-    children?: ReceiptAST[],
-    renderer: RendererName = 'escpos'
-  ) {
+    renderer: RendererName,
+    children?: ReceiptAST[]
+  ): Promise<TOutput> {
     const ast = this.buildAst(props, children);
 
     const rendererPlugin = ReceiptComponent.renderers[renderer];
     if (!rendererPlugin) {
-      throw new Error(
+      throw new InvalidRendererError(
         `Renderer ${renderer} not found, must be one of ${Object.keys(
           ReceiptComponent.renderers
         )}`
       );
     }
 
-    if (!ast) {
-      throw new Error('Error creating AST');
-    }
-
     return rendererPlugin.renderer(ast);
   }
 
   buildAst(props: TProps, children?: ReceiptAST[]) {
-    try {
-      const template = this.renderTemplate(props);
-      const populatedTemplate = parseBraces(template, props);
-      return parseTemplateForAst(
-        populatedTemplate,
-        this.nodeRegistry,
-        children
-      );
-    } catch (e) {
-      if (e instanceof Error) {
-        throw new Error(`${this.name}: ${e.message}`);
-      } else {
-        throw new Error(`${this.name}: ${e}`);
-      }
-    }
+    const template = this.renderTemplate(props);
+    return parseTemplateForAst(template, this.nodeRegistry, children);
   }
 }

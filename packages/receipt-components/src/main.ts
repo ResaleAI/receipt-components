@@ -1,5 +1,5 @@
 import escPosRendererPlugin from '@resaleai/receipt-escpos-renderer';
-import { ReceiptComponent } from './receiptComponent';
+import { ReceiptComponent } from './receipt-component';
 
 declare global {
   interface RenderPluginMap {
