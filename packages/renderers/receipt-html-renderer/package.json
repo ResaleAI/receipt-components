@@ -1,0 +1,33 @@
+{
+  "name": "@resaleai/receipt-html-renderer",
+  "version": "1.0.0",
+  "files": [
+    "dist/*"
+  ],
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/main.js",
+      "import": "./dist/main.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "test": "vitest",
+    "clean": "rm -rf node_modules dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "tsup": "^7.1.0",
+    "typescript": "^5.0.2",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "@resaleai/receipt-ast": "workspace:*",
+    "@resaleai/receipt-plugin": "workspace:*",
+    "@resaleai/receipt-renderer": "workspace:*"
+  }
+}

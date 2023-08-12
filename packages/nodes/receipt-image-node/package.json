@@ -1,0 +1,34 @@
+{
+  "name": "@resaleai/receipt-image-node",
+  "version": "1.0.0",
+  "files": [
+    "dist/*"
+  ],
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/main.js",
+      "import": "./dist/main.mjs"
+    }
+  },
+  "scripts": {
+    "lint": "tsc",
+    "build": "tsup",
+    "start": "vite build && node dist/main.js",
+    "test": "vitest",
+    "clean": "rm -rf node_modules dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "tsup": "^7.1.0",
+    "typescript": "^5.0.2",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "@resaleai/receipt-escpos-renderer": "workspace:*",
+    "@resaleai/receipt-plugin": "workspace:*",
+    "canvas": "^2.11.2"
+  }
+}

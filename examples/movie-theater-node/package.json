@@ -1,0 +1,23 @@
+{
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@resaleai/receipt-components": "file:../../packages/receipt-components",
+    "@resaleai/receipt-html-renderer": "file:../../packages/renderers/receipt-html-renderer",
+    "@resaleai/receipt-image-node": "file:../../packages/nodes/receipt-image-node",
+    "@resaleai/receipt-layout": "file:../../packages/nodes/receipt-layout",
+    "@resaleai/receipt-plugin": "file:../../packages/receipt-plugin"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.5"
+  }
+}
