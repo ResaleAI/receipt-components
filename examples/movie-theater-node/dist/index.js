@@ -14,8 +14,13 @@ const TheaterHeader_1 = __importDefault(require("./components/TheaterHeader"));
 const receipt_image_node_1 = __importDefault(require("@resaleai/receipt-image-node"));
 const receipt_html_renderer_1 = __importDefault(require("@resaleai/receipt-html-renderer"));
 const process_1 = __importDefault(require("process"));
+const receipt_layout_1 = __importDefault(require("@resaleai/receipt-layout"));
 receipt_components_1.default.registerRenderer(receipt_html_renderer_1.default);
-receipt_components_1.default.registerNode(receipt_image_node_1.default);
+receipt_components_1.default.registerNodes(receipt_image_node_1.default);
+receipt_components_1.default.registerNodes(receipt_layout_1.default);
+// TODO: add when layout package is ready
+// <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
+// <TrxInfo trxId="${props.trxInfo.trxId}" dateStr="${trxDateStr}" cashier="${props.trxInfo.cashier}" register="${props.trxInfo.register}" />
 const MovieReceipt = new receipt_components_1.default('MovieReceipt', {
     render: (props) => {
         const lineItems = (0, util_1.serializeObject)(props.lineItems);
@@ -30,9 +35,7 @@ const MovieReceipt = new receipt_components_1.default('MovieReceipt', {
         return `
 <receipt>
   <TheaterHeader theaterName="${props.theaterName}" address="${props.address}" city="${props.city}" state="${props.state}" zip="${props.zip}" />
-  <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
   <img maxWidth=".3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png" align="center" />
-  <TrxInfo trxId="${props.trxInfo.trxId}" dateStr="${trxDateStr}" cashier="${props.trxInfo.cashier}" register="${props.trxInfo.register}" />
   <AdmissionDisclaimer />
   <br />
   <RewardsInfo cardNumberLast4="${props.rewardInfo.cardNumberLast4}" creditsEarned="${props.rewardInfo.creditsEarned}" creditsUsed="${props.rewardInfo.creditsUsed}" creditBalance="${props.rewardInfo.creditBalance}" />
@@ -84,6 +87,44 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-MovieReceipt.render(receiptData, [], 'html').then((html) => {
+MovieReceipt.render(receiptData, 'escpos').then((html) => {
     process_1.default.stdout.write(html);
 });
+// const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
+//   render(props) {
+//     return `
+// <receipt>
+//   <row>
+//     <col cols="4">
+//       This is a long string, testing how line breaking works
+//     </col>
+//     <col cols="2" />
+//     <col cols="3" justify="center">
+//       This is a long string, testing how line breaking works
+//     </col>
+//   </row>
+// </receipt>`;
+//   },
+// });
+// TestReceipt.render<Uint8Array>(null, 'escpos').then((html) => {
+//   process.stdout.write(html);
+// });
+// const TestReceipt2 = new ReceiptComponent<null>('TestReceipt2', {
+//   render(props) {
+//     return `
+// <receipt>
+//   <row>
+//     <col cols="4">
+//       Test
+//     </col>
+//     <col cols="2" />
+//     <col cols="3" justify="right">
+//       Test
+//     </col>
+//   </row>
+// </receipt>`;
+//   },
+// });
+// TestReceipt2.render<Uint8Array>(null, 'escpos').then((html) => {
+//   process.stdout.write(html);
+// });

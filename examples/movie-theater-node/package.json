@@ -12,6 +12,7 @@
     "@resaleai/receipt-components": "file:../../packages/receipt-components",
     "@resaleai/receipt-html-renderer": "file:../../packages/renderers/receipt-html-renderer",
     "@resaleai/receipt-image-node": "file:../../packages/nodes/receipt-image-node",
+    "@resaleai/receipt-layout": "file:../../packages/nodes/receipt-layout",
     "@resaleai/receipt-plugin": "file:../../packages/receipt-plugin"
   },
   "author": "",

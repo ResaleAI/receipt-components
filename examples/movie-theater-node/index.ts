@@ -10,9 +10,11 @@ import TheaterHeader from './components/TheaterHeader';
 import imagePlugin from '@resaleai/receipt-image-node';
 import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
 import process from 'process';
+import layoutPlugin from '@resaleai/receipt-layout';
 
 ReceiptComponent.registerRenderer(htmlRenderPlugin);
-ReceiptComponent.registerNode(imagePlugin);
+ReceiptComponent.registerNodes(imagePlugin);
+ReceiptComponent.registerNodes(layoutPlugin);
 
 interface MovieReceiptProps {
   theaterName: string;
@@ -24,6 +26,9 @@ interface MovieReceiptProps {
   trxInfo: TransactionInfo;
   rewardInfo: RewardCreditInfo;
 }
+// TODO: add when layout package is ready
+// <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
+// <TrxInfo trxId="${props.trxInfo.trxId}" dateStr="${trxDateStr}" cashier="${props.trxInfo.cashier}" register="${props.trxInfo.register}" />
 
 const MovieReceipt = new ReceiptComponent<MovieReceiptProps>('MovieReceipt', {
   render: (props) => {
@@ -39,9 +44,7 @@ const MovieReceipt = new ReceiptComponent<MovieReceiptProps>('MovieReceipt', {
     return `
 <receipt>
   <TheaterHeader theaterName="${props.theaterName}" address="${props.address}" city="${props.city}" state="${props.state}" zip="${props.zip}" />
-  <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
   <img maxWidth=".3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png" align="center" />
-  <TrxInfo trxId="${props.trxInfo.trxId}" dateStr="${trxDateStr}" cashier="${props.trxInfo.cashier}" register="${props.trxInfo.register}" />
   <AdmissionDisclaimer />
   <br />
   <RewardsInfo cardNumberLast4="${props.rewardInfo.cardNumberLast4}" creditsEarned="${props.rewardInfo.creditsEarned}" creditsUsed="${props.rewardInfo.creditsUsed}" creditBalance="${props.rewardInfo.creditBalance}" />
@@ -95,6 +98,48 @@ const receiptData: MovieReceiptProps = {
   },
 };
 
-MovieReceipt.render(receiptData, [], 'html').then((html) => {
+MovieReceipt.render<Uint8Array>(receiptData, 'escpos').then((html) => {
   process.stdout.write(html);
 });
+
+// const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
+//   render(props) {
+//     return `
+// <receipt>
+//   <row>
+//     <col cols="4">
+//       This is a long string, testing how line breaking works
+//     </col>
+//     <col cols="2" />
+//     <col cols="3" justify="center">
+//       This is a long string, testing how line breaking works
+//     </col>
+//   </row>
+// </receipt>`;
+//   },
+// });
+
+// TestReceipt.render<Uint8Array>(null, 'escpos').then((html) => {
+//   process.stdout.write(html);
+// });
+
+// const TestReceipt2 = new ReceiptComponent<null>('TestReceipt2', {
+//   render(props) {
+//     return `
+// <receipt>
+//   <row>
+//     <col cols="4">
+//       Test
+//     </col>
+//     <col cols="2" />
+//     <col cols="3" justify="right">
+//       Test
+//     </col>
+//   </row>
+// </receipt>`;
+//   },
+// });
+
+// TestReceipt2.render<Uint8Array>(null, 'escpos').then((html) => {
+//   process.stdout.write(html);
+// });
