@@ -18,7 +18,7 @@
     "build": "tsup",
     "start": "vite build && node dist/main.js",
     "test": "vitest",
-    "clean": "rm -rf node_modules dist"
+    "clean": "rm -rf node_modules dist coverage"
   },
   "devDependencies": {
     "@types/node": "^20.2.3",
