@@ -42,25 +42,25 @@ export function splitLines(
   }
   lines.push(line);
   // trying to add spaces
-  if (justify !== undefined) {
-    return lines.map((line) => {
-      const trimmedLine = line.trimEnd();
-      if (justify === 'left') {
-        return trimmedLine.padEnd(lineLength, ' ');
-      }
-      if (justify === 'right') {
-        return trimmedLine.padStart(lineLength, ' ');
-      }
-      if (justify === 'center') {
-        const spaceCount = lineLength - trimmedLine.length;
-        const leftSpaceCount = Math.floor(spaceCount / 2);
-        const rightSpaceCount = spaceCount - leftSpaceCount;
-        return trimmedLine
-          .padStart(leftSpaceCount + trimmedLine.length, ' ')
-          .padEnd(rightSpaceCount + trimmedLine.length, ' ');
-      }
-    });
-  }
+  // if (justify !== undefined) {
+  //   return lines.map((line) => {
+  //     const trimmedLine = line.trimEnd();
+  //     if (justify === 'left') {
+  //       return trimmedLine.padEnd(lineLength, ' ');
+  //     }
+  //     if (justify === 'right') {
+  //       return trimmedLine.padStart(lineLength, ' ');
+  //     }
+  //     if (justify === 'center') {
+  //       const spaceCount = lineLength - trimmedLine.length;
+  //       const leftSpaceCount = Math.floor(spaceCount / 2);
+  //       const rightSpaceCount = spaceCount - leftSpaceCount;
+  //       return trimmedLine
+  //         .padStart(leftSpaceCount + trimmedLine.length, ' ')
+  //         .padEnd(rightSpaceCount + trimmedLine.length, ' ');
+  //     }
+  //   });
+  // }
 
   return lines.map((line) => line.trimEnd());
 }
