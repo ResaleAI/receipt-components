@@ -37,6 +37,12 @@ const MovieReceipt = new receipt_components_1.default('MovieReceipt', {
   <TheaterHeader theaterName="${props.theaterName}" address="${props.address}" city="${props.city}" state="${props.state}" zip="${props.zip}" />
   <img maxWidth=".3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png" align="center" />
   <AdmissionDisclaimer />
+  ${props.lineItems.map((li) => {
+            return `<text>
+    ${li.name} (x${li.quantity}): ${li.price}
+  </text>
+  <br />`;
+        }).join('')}
   <br />
   <RewardsInfo cardNumberLast4="${props.rewardInfo.cardNumberLast4}" creditsEarned="${props.rewardInfo.creditsEarned}" creditsUsed="${props.rewardInfo.creditsUsed}" creditBalance="${props.rewardInfo.creditBalance}" />
 </receipt>
@@ -87,7 +93,7 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-MovieReceipt.render(receiptData, 'escpos').then((html) => {
+MovieReceipt.render(receiptData, 'html').then((html) => {
     process_1.default.stdout.write(html);
 });
 // const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
