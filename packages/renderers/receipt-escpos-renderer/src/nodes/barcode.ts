@@ -18,7 +18,7 @@ async function renderBarcode({
     bytes.GS,
     charToByte('w'),
     width,
-    bytes.ESC,
+    bytes.GS,
     charToByte('k'),
     standard,
   ]);
