@@ -10,6 +10,8 @@ async function renderBarcode({
   data,
   standard,
 }: Required<BarcodeProps>): Promise<EscPos> {
+  // Data may be a number, so we need to convert it to a string :(
+  data = `${data}`
   const dataBuff = LinkedList.fromString(data);
   const prependBytes = new LinkedList([
     bytes.GS,
