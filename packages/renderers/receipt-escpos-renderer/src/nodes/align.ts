@@ -37,6 +37,7 @@ async function renderAlign(
     modeByte,
   ]);
   const appendBytes = new LinkedList<EscPosByte>([
+    bytes.LF,
     bytes.ESC,
     charToByte('a'),
     parentCtx.currentAlign,

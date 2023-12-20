@@ -2,6 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   name: 'receipt-plugin',
+  target: 'es2019',
   entry: ['src/main.ts'],
   outDir: 'dist',
   dts: true,
