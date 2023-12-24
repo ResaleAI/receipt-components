@@ -1,7 +1,6 @@
 // returns the appropriate params to the ESC * cmd
-
-import { bytes, charToByte } from '@resaleai/receipt-escpos-renderer/util';
-import { createCanvas } from 'canvas';
+import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import { bytes } from '@resaleai/receipt-escpos-renderer';
 
 function loadImage(src: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
