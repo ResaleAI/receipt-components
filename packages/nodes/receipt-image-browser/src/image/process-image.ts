@@ -1,7 +1,6 @@
 // returns the appropriate params to the ESC * cmd
-
-import { bytes, charToByte } from '@resaleai/receipt-escpos-renderer/util';
-import { createCanvas } from 'canvas';
+import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import { bytes } from '@resaleai/receipt-escpos-renderer';
 
 function loadImage(src: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -69,7 +68,8 @@ export async function imageToHtml(
     let lightness = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
 
     lightness = lightness < 127 ? 0 : 255;
-    lightness = pixels[i + 4] / 255 > 0 ? lightness : 255;
+    // I think we don't need this in the browser version.
+    // lightness = pixels[i + 4] / 255 > 0 ? lightness : 255;
 
     pixels[i] = lightness;
     pixels[i + 1] = lightness;
