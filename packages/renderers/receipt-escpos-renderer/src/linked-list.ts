@@ -130,7 +130,7 @@ class LinkedList<TData> implements ILinkedList<TData> {
 
   toUint8Array(): Uint8Array {
     if (!this.head) return new Uint8Array(0);
-    const buffer = Buffer.alloc(this.length);
+    const buffer = new Uint8Array(this.length);
     let node = this.head;
     let i = 0;
     while (node) {

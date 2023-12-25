@@ -1,7 +1,8 @@
 import type { ImageNodeProps } from './types';
-import { loadImage } from 'canvas';
 import { imageToEscPos } from './process-image';
-import { bytes, charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import { bytes } from '@resaleai/receipt-escpos-renderer';
+
 import {
   ChildBuilder,
   EscPos,
