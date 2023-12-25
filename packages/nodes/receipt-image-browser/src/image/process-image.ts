@@ -68,7 +68,8 @@ export async function imageToHtml(
     let lightness = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
 
     lightness = lightness < 127 ? 0 : 255;
-    lightness = pixels[i + 4] / 255 > 0 ? lightness : 255;
+    // I think we don't need this in the browser version.
+    // lightness = pixels[i + 4] / 255 > 0 ? lightness : 255;
 
     pixels[i] = lightness;
     pixels[i + 1] = lightness;
