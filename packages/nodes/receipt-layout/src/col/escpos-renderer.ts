@@ -1,7 +1,6 @@
 import {
   ChildBuilder,
   EscPos,
-  ReceiptNodeContext,
 } from '@resaleai/receipt-escpos-renderer';
 import {
   charToByte,
@@ -37,12 +36,31 @@ async function renderCol(
 
   const childBytes = await renderChildBytes(children, context);
   if (parentCtx.numColsInLine + cols > lineCols) {
+    // there may be overflow issues with page mode. check this
     childBytes.prepend(bytes.LF);
     parentCtx.numColsInLine = 0;
   }
+  const offset = calculateHorizontalPosition(context.horizontalUnits, parentCtx.numColsInLine);
   parentCtx.numColsInLine += cols;
 
-  const offset = context.currentOffset;
+
+  /* Set start position */
+  const prependBytes = new LinkedList([
+    bytes.GS,
+    charToByte('$'),
+    0x00,
+    0x00,
+    bytes.ESC,
+    charToByte('$'),
+    offset % 256,
+    Math.floor(offset / 256),
+  ]);
+
+  childBytes.prependList(prependBytes);
+
+  return childBytes;
+
+  // const offset = context.currentOffset;
 
   // fill spaces to the end of the line
   // const numSpaces = context.defaultLineLength - offset;
@@ -76,6 +94,18 @@ function calculateLineLength(
   const colAltFontLength = singleAltFontColWidth * cols;
 
   return [colDefaultLength, colAltFontLength];
+}
+
+function calculateHorizontalPosition(
+  horizontalUnits: number,
+  cols: number
+) {
+  const singleColWidth = Math.floor(
+    (horizontalUnits * 3.15) / lineCols
+  );
+  const colWidth = singleColWidth * cols;
+
+  return colWidth;
 }
 
 export default renderCol;

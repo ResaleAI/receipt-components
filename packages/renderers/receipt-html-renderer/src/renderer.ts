@@ -67,6 +67,7 @@ async function _renderHtml(tree: ReceiptAST): Promise<string> {
   const { name, props, children } = tree;
   const renderer = htmlRenderers[name];
   if (!renderer) {
+    console.log(htmlRenderers)
     throw new Error(`Renderer for ${name} not found`);
   }
   let nodeChildren: string[];

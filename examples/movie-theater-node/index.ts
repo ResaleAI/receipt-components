@@ -12,8 +12,7 @@ import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
 import process from 'process';
 import layoutPlugin from '@resaleai/receipt-layout';
 
-ReceiptComponent.registerRenderer(htmlRenderPlugin);
-ReceiptComponent.registerNodes(imagePlugin);
+ReceiptComponent.use([htmlRenderPlugin, imagePlugin]);
 ReceiptComponent.registerNodes(layoutPlugin);
 
 interface MovieReceiptProps {
@@ -104,30 +103,30 @@ const receiptData: MovieReceiptProps = {
   },
 };
 
-MovieReceipt.render<Uint8Array>(receiptData, 'escpos').then((html) => {
-  process.stdout.write(html);
+// MovieReceipt.render(receiptData, 'escpos').then((html) => {
+//   process.stdout.write(html);
+// });
+
+const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
+    render(props) {
+        return `
+<receipt>
+    <row>
+        <col cols="4">
+            This is a long string, testing how line breaking works
+        </col>
+        <col cols="2" />
+        <col cols="3" justify="center">
+            This is a long string, testing how line breaking works
+        </col>
+    </row>
+</receipt>`;
+    },
 });
 
-// const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
-  //   render(props) {
-    //     return `
-// <receipt>
-  //   <row>
-    //     <col cols="4">
-      //       This is a long string, testing how line breaking works
-    //     </col>
-    //     <col cols="2" />
-    //     <col cols="3" justify="center">
-      //       This is a long string, testing how line breaking works
-    //     </col>
-  //   </row>
-// </receipt>`;
-  //   },
-// });
-
-// TestReceipt.render<Uint8Array>(null, 'escpos').then((html) => {
-  //   process.stdout.write(html);
-// });
+TestReceipt.render(null, 'escpos').then((html) => {
+  console.log(JSON.stringify({ data: Array.from(html) }))
+});
 
 // const TestReceipt2 = new ReceiptComponent<null>('TestReceipt2', {
 //   render(props) {

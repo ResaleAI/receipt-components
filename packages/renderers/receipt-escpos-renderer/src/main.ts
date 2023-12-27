@@ -16,6 +16,8 @@ declare global {
     currentOffset: number;
     numColsInLine: number;
     textJustify: 'left' | 'center' | 'right';
+    horizontalUnits: number;
+    verticalUnits: number;
   }
 }
 

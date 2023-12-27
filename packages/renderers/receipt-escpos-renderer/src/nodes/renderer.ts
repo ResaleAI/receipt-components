@@ -42,8 +42,10 @@ export const defaultContext: ReceiptNodeContext = {
   defaultLineLength: 42,
   altFontLineLength: 56,
   currentOffset: 0,
-  numColsInLine: 0,
+  numColsInLine: 0, /* i think this is unused */
   textJustify: 'left',
+  horizontalUnits: 180,
+  verticalUnits: 360,
 };
 
 async function renderEscPos(tree: ReceiptAST): Promise<Uint8Array> {

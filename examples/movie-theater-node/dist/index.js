@@ -13,10 +13,8 @@ const TrxInfo_1 = __importDefault(require("./components/TrxInfo"));
 const TheaterHeader_1 = __importDefault(require("./components/TheaterHeader"));
 const receipt_image_node_1 = __importDefault(require("@resaleai/receipt-image-node"));
 const receipt_html_renderer_1 = __importDefault(require("@resaleai/receipt-html-renderer"));
-const process_1 = __importDefault(require("process"));
 const receipt_layout_1 = __importDefault(require("@resaleai/receipt-layout"));
-receipt_components_1.default.registerRenderer(receipt_html_renderer_1.default);
-receipt_components_1.default.registerNodes(receipt_image_node_1.default);
+receipt_components_1.default.use([receipt_html_renderer_1.default, receipt_image_node_1.default]);
 receipt_components_1.default.registerNodes(receipt_layout_1.default);
 // TODO: add when layout package is ready
 // <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
@@ -93,28 +91,28 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-MovieReceipt.render(receiptData, 'html').then((html) => {
-    process_1.default.stdout.write(html);
-});
-// const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
-//   render(props) {
-//     return `
-// <receipt>
-//   <row>
-//     <col cols="4">
-//       This is a long string, testing how line breaking works
-//     </col>
-//     <col cols="2" />
-//     <col cols="3" justify="center">
-//       This is a long string, testing how line breaking works
-//     </col>
-//   </row>
-// </receipt>`;
-//   },
-// });
-// TestReceipt.render<Uint8Array>(null, 'escpos').then((html) => {
+// MovieReceipt.render(receiptData, 'escpos').then((html) => {
 //   process.stdout.write(html);
 // });
+const TestReceipt = new receipt_components_1.default('TestReceipt', {
+    render(props) {
+        return `
+<receipt>
+    <row>
+        <col cols="4">
+            This is a long string, testing how line breaking works
+        </col>
+        <col cols="2" />
+        <col cols="3" justify="center">
+            This is a long string, testing how line breaking works
+        </col>
+    </row>
+</receipt>`;
+    },
+});
+TestReceipt.render(null, 'escpos').then((html) => {
+    console.log(JSON.stringify({ data: Array.from(html) }));
+});
 // const TestReceipt2 = new ReceiptComponent<null>('TestReceipt2', {
 //   render(props) {
 //     return `

@@ -2,7 +2,6 @@ import {
   ChildBuilder,
   EscPos,
   LinkedListNode,
-  ReceiptNodeContext,
 } from '@resaleai/receipt-escpos-renderer';
 import {
   charToByte,
@@ -23,20 +22,47 @@ async function renderRow(
     throw new Error('Context is required for row node');
   }
 
+  // const context = duplicateObject(parentCtx);
+  // const childBytesList = await renderChildBytesList(children, context);
+  // const subLists = buildChildSubLists(childBytesList);
+  // const subListLength = subLists[0].length;
+  // const childBytes: EscPos = new LinkedList();
+
+  // for (let i = 0; i < subListLength; i++) {
+  //   for (let j = 0; j < childBytesList.length; j++) {
+  //     childBytes.appendList(subLists[j][i]);
+  //   }
+  //   childBytes.append(charToByte('\n'));
+  // }
+
+  // parentCtx.currentOffset = context.currentOffset;
+  // return childBytes;
+
   const context = duplicateObject(parentCtx);
-  const childBytesList = await renderChildBytesList(children, context);
-  const subLists = buildChildSubLists(childBytesList);
-  const subListLength = subLists[0].length;
-  const childBytes: EscPos = new LinkedList();
+  const childBytes = await renderChildBytes(children, context);
+  /* Enter page mode */
+  const prependBytes = new LinkedList([
+    /* Reset printer */
+    bytes.ESC,
+    charToByte('@'),
+    /* ------------- */
 
-  for (let i = 0; i < subListLength; i++) {
-    for (let j = 0; j < childBytesList.length; j++) {
-      childBytes.appendList(subLists[j][i]);
-    }
-    childBytes.append(charToByte('\n'));
-  }
+    /* Enter page mode */
+    bytes.ESC,
+    charToByte('L'),
+    /* --------------- */
+  ])
 
-  parentCtx.currentOffset = context.currentOffset;
+  const appendBytes = new LinkedList([
+    /* Print and exit page mode */
+    bytes.ESC,
+    bytes.FF,
+    /* ------------------------ */
+  ])
+
+  childBytes.prependList(prependBytes);
+  childBytes.appendList(appendBytes);
+
   return childBytes;
 }
 
