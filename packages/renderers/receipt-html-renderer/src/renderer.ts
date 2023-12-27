@@ -42,6 +42,7 @@ async function renderHtml(tree: ReceiptAST): Promise<string> {
       border: 1px solid black;
       width: 328px;
       padding: 40px 20px;
+      font-size: 13px;
     }
     .row {
       display: inline-flex;

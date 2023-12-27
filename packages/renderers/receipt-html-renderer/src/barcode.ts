@@ -10,6 +10,8 @@ async function renderBarcode(
   if (standard === 4) {
     return `<p class="barcode-39" style="font-size: ${fontSize}; transform: ${transformScale}; margin: 0; margin-top: ${marginTop}">${data}</p>`;
   }
+
+  // TODO: support other barcode standards
   return `<span>Barcode standard not supported</span>`;
 }
 
