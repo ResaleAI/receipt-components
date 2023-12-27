@@ -78,11 +78,11 @@ export class ReceiptComponent<TProps> {
     });
   }
 
-  async render<TOutput>(
+  async render<TRenderer extends keyof RendererMap>(
     props: TProps,
-    renderer: RendererName,
+    renderer: TRenderer,
     children?: ReceiptAST[]
-  ): Promise<TOutput> {
+  ): Promise<RendererMap[TRenderer]> {
     const ast = this.buildAst(props, children);
 
     const rendererPlugin = ReceiptComponent.renderers[renderer];

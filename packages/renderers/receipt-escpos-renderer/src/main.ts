@@ -2,8 +2,8 @@ import renderEscPos, { registerEscPosRenderer } from './nodes/renderer';
 import { RCRendererPlugin } from '@resaleai/receipt-plugin';
 
 declare global {
-  interface RenderPluginMap {
-    escpos: {};
+  interface RendererMap {
+    escpos: Uint8Array;
   }
 }
 
