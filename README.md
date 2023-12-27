@@ -92,7 +92,7 @@ let epBytes = await Receipt.render(null, 'escpos'); // build the byte array
 
 ## Default Nodes
 
-Some nodes are packaged with this library by default, for a full list of those check the wiki.
+Some nodes are packaged with this library by default, for a full list of those check the [wiki](https://github.com/ResaleAI/receipt-components/wiki/Nodes).
 
 ## Installing Plugins
 
