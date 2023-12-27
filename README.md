@@ -53,7 +53,7 @@ let epBytes = await Receipt.render({ text: 'Hello, world!' }, 'escpos'); // buil
 
 ## Components
 
-The component system is simple, but surprisingly powerful. Take, for instance, some sort of legalise that needs to be put on the bottom of every receipt:
+The component system is simple, but powerful. Take, for instance, some sort of legalise that needs to be put on the bottom of every receipt:
 
 ```typescript
 let ReceiptLegalise = new ReceiptComponent<{ legal: string }>({
@@ -61,7 +61,7 @@ let ReceiptLegalise = new ReceiptComponent<{ legal: string }>({
     <align mode="center">
       -------------------------------
       <br />
-      <text font="2">This is a legal statement, you are legally obligated to star this repo ;)</text>
+      <text font="2">${ legal }</text>
       -------------------------------
     </align>
   </receipt>`,
@@ -71,18 +71,18 @@ let ReceiptLegalise = new ReceiptComponent<{ legal: string }>({
 This component, as well as any other components we need, can be used in the template of any other receipt component by registering it in the `components` constructor option.
 
 ```typescript
-let Receipt = new ReceiptComponent({
+let Receipt = new ReceiptComponent<null>({
   template:
   `<receipt>
     ...
-    <ReceiptLegalise />
+    <ReceiptLegalise legal="This is a legal statement, you are legally obligated to star this repo ;)" />
   </receipt>`
   components: [
     ReceiptLegalise
   ]
 })
 
-let epBytes = await Receipt.render({ text: 'Hello, world!' }, 'escpos'); // build the byte array
+let epBytes = await Receipt.render(null, 'escpos'); // build the byte array
 
 ```
 
@@ -97,7 +97,7 @@ On top of the default functionality provided by this package, you can add custom
 ```typescript
 import htmlRenderer from '@resaleai/receipt-html-renderer';
 
-ReceiptComponent.registerRenderer(htmlRenderer);
+ReceiptComponent.use([htmlRenderer]);
 
 const Receipt = new ReceiptComponent('Receipt', ...)
 
@@ -109,7 +109,7 @@ You can also install custom nodes. For example, to use images in a NodeJS enviro
 ```typescript
 import imagePlugin from '@resaleai/receipt-image-node';
 
-ReceiptComponent.registerNodes(imagePlugin);
+ReceiptComponent.use([imagePlugin]);
 
 const Receipt = new ReceiptComponent<null>('Receipt', {
   render: (props: null) => `
@@ -121,6 +121,28 @@ const Receipt = new ReceiptComponent<null>('Receipt', {
 
 let epBytes = Receipt.render({}, 'escpos');
 ```
+
+You can install multiple plugins at the same time:
+
+```typescript
+import imagePlugin from '@resaleai/receipt-image-node';
+import htmlRenderer from '@resaleai/receipt-html-renderer';
+
+ReceiptComponent.use([imagePlugin, htmlRenderer]);
+
+const Receipt = new ReceiptComponent<null>('Receipt', {
+  render: (props: null) => `
+  <receipt>
+    <img src="..." />
+  </receipt>
+  `,
+});
+
+let htmlStr = Receipt.render({}, 'html');
+```
+
+>[!NOTE]
+> Nodes you install may not be comptible with all renderers. If you run into this, please contact the maintainer of the node plugin to see if they can add support for the renderer you want to use.
 
 # Contributing
 
