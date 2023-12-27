@@ -1,5 +1,5 @@
 import { AlignNodeProps } from '@resaleai/receipt-ast';
-import { ChildBuilder, EscPos, EscPosByte, ReceiptNodeContext } from '@/types';
+import { ChildBuilder, EscPos, EscPosByte } from '@/types';
 import {
   charToByte,
   duplicateObject,

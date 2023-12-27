@@ -164,7 +164,7 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 - [ ] allow passing and extending options to a different renderer
 - [x] build html renderer
 - [x] move images in to a separate package
-- [ ] figure out way to let escpos context be extended
+- [x] figure out way to let escpos context be extended
 - [x] write tests and clean up
 - [ ] rebuild esc pos optimizer to work w new stuff
 - [ ] disallow/only allow certain children on ast

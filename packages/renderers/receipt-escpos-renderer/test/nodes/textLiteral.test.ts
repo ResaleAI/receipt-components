@@ -6,7 +6,6 @@ import {
 import LinkedList from '@/linked-list';
 import { defaultContext } from '@/nodes/renderer';
 import renderTextLiteral, { getLineLength } from '@/nodes/textLiteral';
-import { ReceiptNodeContext } from '@/types';
 import { describe, it, expect } from 'vitest';
 import dummyChildBuilder from '../helpers/dummyChildBuilder';
 

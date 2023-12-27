@@ -1,7 +1,6 @@
 import { EscPos } from '@/../dist/main.mjs';
 import LinkedList from '@/linked-list';
 import renderBreak from '@/nodes/break';
-import { ReceiptNodeContext } from '@/types';
 import { describe, expect, assert, it } from 'vitest';
 
 describe('break', () => {

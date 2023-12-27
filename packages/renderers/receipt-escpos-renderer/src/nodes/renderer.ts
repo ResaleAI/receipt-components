@@ -3,7 +3,6 @@ import {
   EscPos,
   EscPosRenderer,
   EscPosRendererArr,
-  ReceiptNodeContext,
 } from '@/types';
 import renderAlign from './align';
 import renderText from './text';

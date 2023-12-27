@@ -1,7 +1,6 @@
 import { bytes } from '@/constants';
 import LinkedList from '@/linked-list';
 import renderAlign from '@/nodes/align';
-import { ReceiptNodeContext } from '@/types';
 import { describe, it, expect, assert, afterEach, vi } from 'vitest';
 import dummyChildBuilder from '../helpers/dummyChildBuilder';
 import { MissingContextError, MissingContextPropertiesError } from '@/errors';

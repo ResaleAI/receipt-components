@@ -4,7 +4,6 @@ import renderRoot from '@/nodes/root';
 import { charToByte } from '@/util';
 import { describe, it, expect } from 'vitest';
 import dummyChildBuilder from '../helpers/dummyChildBuilder';
-import { ReceiptNodeContext } from '@/types';
 
 describe('root', () => {
   describe('renderRoot', () => {

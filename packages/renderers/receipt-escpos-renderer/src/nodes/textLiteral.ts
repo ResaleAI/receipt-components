@@ -1,5 +1,5 @@
 import { TextLiteralNodeProps } from '@resaleai/receipt-ast';
-import { ChildBuilder, EscPos, ReceiptNodeContext } from '@/types';
+import { ChildBuilder, EscPos } from '@/types';
 import { disallowChildren, requireContextKeys, splitLines } from '@/util';
 import LinkedList from '@/linked-list';
 
