@@ -39,7 +39,7 @@ describe('receipt-component', () => {
       });
 
       it('should use ReceiptComponent.astBuilders in nodeRegistry', () => {
-        ReceiptComponent.registerNode(dummyNodePlugin);
+        ReceiptComponent.registerNodes([dummyNodePlugin]);
         const component = new ReceiptComponent('test', {
           render: () => '',
         });
@@ -90,13 +90,13 @@ describe('receipt-component', () => {
     describe('buildAst', () => {
       it('should build AST from renderTemplate function', () => {
         const render = () => '<root></root>';
-        const component = new ReceiptComponent('test', {
+        const component = new ReceiptComponent<null>('test', {
           render,
         });
-        const ast = component.buildAst({});
+        const ast = component.buildAst(null);
         expect(ast).toEqual({
           name: 'root',
-          props: null,
+          props: {},
           children: [],
         });
       });
@@ -137,21 +137,21 @@ describe('receipt-component', () => {
     });
     it('should register a node', () => {
       ReceiptComponent.registerRenderer(dummyRendererPlugin);
-      ReceiptComponent.registerNode(dummyNodePlugin);
+      ReceiptComponent.registerNodes([dummyNodePlugin]);
       expect(ReceiptComponent.astBuilders.dummyNode).toBe(
         dummyNodePlugin.buildNode
       );
     });
 
     it('should allow registering a node with renderers not defined on instance', () => {
-      ReceiptComponent.registerNode(dummyNodePlugin);
+      ReceiptComponent.registerNodes([dummyNodePlugin]);
       expect(ReceiptComponent.astBuilders.dummyNode).toBe(
         dummyNodePlugin.buildNode
       );
     });
 
     it('should register aliases for a node', () => {
-      ReceiptComponent.registerNode(dummyNodePluginWithAlias);
+      ReceiptComponent.registerNodes([dummyNodePluginWithAlias]);
       expect(ReceiptComponent.astBuilders.dummyNode).toBe(
         dummyNodePluginWithAlias.buildNode
       );
@@ -161,8 +161,8 @@ describe('receipt-component', () => {
     });
 
     it('should allow overriding a node', () => {
-      ReceiptComponent.registerNode(dummyNodePlugin);
-      ReceiptComponent.registerNode(dummyNodePluginWithAlias);
+      ReceiptComponent.registerNodes([dummyNodePlugin]);
+      ReceiptComponent.registerNodes([dummyNodePluginWithAlias]);
       expect(ReceiptComponent.astBuilders.dummyNode).toBe(
         dummyNodePluginWithAlias.buildNode
       );
@@ -170,7 +170,7 @@ describe('receipt-component', () => {
 
     it('should register node renderers to installed renderers', () => {
       ReceiptComponent.registerRenderer(dummyRendererPlugin);
-      ReceiptComponent.registerNode(dummyNodePlugin);
+      ReceiptComponent.registerNodes([dummyNodePlugin]);
       expect(dummyRenderFuncRegistry.dummyNode).toBeDefined();
     });
   });
