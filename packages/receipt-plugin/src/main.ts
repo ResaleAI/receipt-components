@@ -6,10 +6,10 @@ import {
 } from '@resaleai/receipt-renderer';
 
 declare global {
-  interface RenderPluginMap {}
+  interface RendererMap {}
 }
 
-export type RendererName = keyof RenderPluginMap;
+export type RendererName = keyof RendererMap;
 
 export type RCRendererPlugin = {
   name: string;
