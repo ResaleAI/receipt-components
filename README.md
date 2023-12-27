@@ -134,9 +134,7 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 - [ ] create better way for passing objects as props automatically
 - [ ] create component option for just using function nodes
 - [x] fix col new line and scale thing
-- [ ] create offset prop for col
-- [ ] allow row elem to control num cols in row
-- [ ] nail down issues with text wrapping, scaling, and whatnot
+- [x] nail down issues with text wrapping, scaling, and whatnot
 - [ ] write docs and wiki
 - [ ] allow passing and extending options to a different renderer
 - [x] build html renderer
@@ -145,3 +143,7 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 - [x] write tests and clean up
 - [ ] rebuild esc pos optimizer to work w new stuff
 - [ ] disallow/only allow certain children on ast
+- [ ] create layout package to allow for rows and cols
+- [ ] move parser into separate package
+- [ ] reduce packages (i think we can put plugin, ast, and renderer packages into main package)
+- [ ] create examples for different frameworks (react, vue, etc)

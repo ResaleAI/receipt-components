@@ -78,6 +78,17 @@ export class ReceiptComponent<TProps> {
     });
   }
 
+  static use(plugins: (RCNodePlugin<any> | RCRendererPlugin)[]) {
+    const nodes = plugins.filter(
+      (plugin): plugin is RCNodePlugin<any> => (plugin as RCNodePlugin<any>).buildNode !== undefined
+    );
+    const renderers = plugins.filter(
+      (plugin): plugin is RCRendererPlugin => (plugin as RCRendererPlugin).renderer !== undefined
+    );
+    this.registerNodes(nodes);
+    renderers.forEach((renderer) => this.registerRenderer(renderer));
+  }
+
   async render<TRenderer extends keyof RendererMap>(
     props: TProps,
     renderer: TRenderer,
