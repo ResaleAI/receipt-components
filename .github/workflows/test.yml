@@ -16,4 +16,5 @@ jobs:
           node-version: 18
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: cd packages/receipt-components
       - run: pnpm test:unit
