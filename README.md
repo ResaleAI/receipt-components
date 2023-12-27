@@ -75,11 +75,12 @@ This component, as well as any other components we need, can be used in the temp
 
 ```typescript
 let Receipt = new ReceiptComponent<null>({
-  template:
-  `<receipt>
-    ...
-    <ReceiptLegalise legal="This is a legal statement, you are legally obligated to star this repo ;)" />
-  </receipt>`
+  render: () => {
+    `<receipt>
+      ...
+      <ReceiptLegalise legal="This is a legal statement, you are legally obligated to star this repo ;)" />
+    </receipt>`
+  },
   components: [
     ReceiptLegalise
   ]
