@@ -1,7 +1,6 @@
 import { bytes } from '@/constants';
 import LinkedList from '@/linked-list';
 import renderSmooth from '@/nodes/smooth';
-import { ReceiptNodeContext } from '@/types';
 import { describe, it, expect } from 'vitest';
 import dummyChildBuilder from '../helpers/dummyChildBuilder';
 

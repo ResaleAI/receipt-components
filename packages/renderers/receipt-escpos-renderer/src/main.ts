@@ -5,6 +5,18 @@ declare global {
   interface RendererMap {
     escpos: Uint8Array;
   }
+
+  interface ReceiptNodeContext {
+    textMode: number;
+    scaleBits: number;
+    currentAlign: 0 | 1 | 2;
+    multiLine: boolean;
+    defaultLineLength: number;
+    altFontLineLength: number;
+    currentOffset: number;
+    numColsInLine: number;
+    textJustify: 'left' | 'center' | 'right';
+  }
 }
 
 const escPosRendererPlugin: RCRendererPlugin = {

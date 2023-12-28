@@ -1,7 +1,6 @@
 import { MissingContextError, MissingContextPropertiesError } from '@/errors';
 import LinkedList from '@/linked-list';
 import renderScale, { computeScaleBits } from '@/nodes/scale';
-import { ReceiptNodeContext } from '@/types';
 import { describe, assert, it, expect } from 'vitest';
 import dummyChildBuilder from '../helpers/dummyChildBuilder';
 import { bytes } from '@/constants';

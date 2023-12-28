@@ -1,6 +1,5 @@
 import LinkedList from '@/linked-list';
 import renderBarcode from '@/nodes/barcode';
-import { ReceiptNodeContext } from '@/types';
 import { describe, expect, it, assert } from 'vitest';
 
 describe('barcode', () => {

@@ -1,7 +1,6 @@
 import { MissingContextError, MissingContextPropertiesError } from '@/errors';
 import LinkedList from '@/linked-list';
 import renderText, { computeModeBits } from '@/nodes/text';
-import { ReceiptNodeContext } from '@/types';
 import { describe, it, expect } from 'vitest';
 import dummyChildBuilder from '../helpers/dummyChildBuilder';
 

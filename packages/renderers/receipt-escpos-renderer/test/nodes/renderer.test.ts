@@ -2,7 +2,6 @@ import { bytes } from '@/constants';
 import { InvalidNodeError } from '@/errors';
 import LinkedList from '@/linked-list';
 import renderEscPos, { _renderEscPos, defaultContext } from '@/nodes/renderer';
-import { ReceiptNodeContext } from '@/types';
 import { charToByte } from '@/util';
 import { describe, expect, it } from 'vitest';
 

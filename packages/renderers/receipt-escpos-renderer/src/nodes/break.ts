@@ -1,6 +1,6 @@
 import { BreakNodeProps } from '@resaleai/receipt-ast';
 import { charToByte } from '@/util';
-import { ChildBuilder, EscPos, ReceiptNodeContext } from '@/types';
+import { ChildBuilder, EscPos } from '@/types';
 import LinkedList from '@/linked-list';
 import { bytes } from '@/constants';
 

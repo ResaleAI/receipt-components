@@ -1,4 +1,4 @@
-import { ChildBuilder, EscPos, ReceiptNodeContext } from '@/types';
+import { ChildBuilder, EscPos } from '@/types';
 import { renderChildBytes } from '@/util';
 
 async function renderFragment(

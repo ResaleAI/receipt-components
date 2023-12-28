@@ -1,5 +1,5 @@
 import LinkedList from '@/linked-list';
-import { ReceiptNodeContext, EscPos } from '@/types';
+import { EscPos } from '@/types';
 
 export default async function dummyChildBuilder(
   ctx?: ReceiptNodeContext

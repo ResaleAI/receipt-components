@@ -1,4 +1,4 @@
-import { ChildBuilder, EscPos, ReceiptNodeContext } from '@/types';
+import { ChildBuilder, EscPos } from '@/types';
 import LinkedList from '@/linked-list';
 import {
   ChildrenNotAllowedError,

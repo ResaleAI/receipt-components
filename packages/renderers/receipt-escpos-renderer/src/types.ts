@@ -1,17 +1,5 @@
 export type EscPosByte = number;
 
-export interface ReceiptNodeContext {
-  textMode: number;
-  scaleBits: number;
-  currentAlign: 0 | 1 | 2;
-  multiLine: boolean;
-  defaultLineLength: number;
-  altFontLineLength: number;
-  currentOffset: number;
-  numColsInLine: number;
-  textJustify: 'left' | 'center' | 'right';
-}
-
 export type ChildBuilder<
   TOutput,
   TContext extends ReceiptNodeContext = ReceiptNodeContext

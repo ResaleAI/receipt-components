@@ -1,5 +1,5 @@
 import { ScaleNodeProps } from '@resaleai/receipt-ast';
-import { ChildBuilder, EscPos, ReceiptNodeContext } from '@/types';
+import { ChildBuilder, EscPos } from '@/types';
 import {
   charToByte,
   duplicateObject,

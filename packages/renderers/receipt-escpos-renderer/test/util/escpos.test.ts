@@ -3,7 +3,6 @@ import {
   MissingContextError,
   MissingContextPropertiesError,
 } from '@/errors';
-import { EscPos, ReceiptNodeContext } from '@/types';
 import {
   disallowChildren,
   renderChildBytes,
