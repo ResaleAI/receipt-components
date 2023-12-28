@@ -13,7 +13,7 @@ import process from 'process';
 import layoutPlugin from '@resaleai/receipt-layout';
 
 ReceiptComponent.registerRenderer(htmlRenderPlugin);
-ReceiptComponent.registerNodes(imagePlugin);
+ReceiptComponent.registerNodes([imagePlugin]);
 ReceiptComponent.registerNodes(layoutPlugin);
 
 interface MovieReceiptProps {
@@ -104,7 +104,7 @@ const receiptData: MovieReceiptProps = {
   },
 };
 
-MovieReceipt.render<Uint8Array>(receiptData, 'escpos').then((html) => {
+MovieReceipt.render(receiptData, 'escpos').then((html) => {
   process.stdout.write(html);
 });
 

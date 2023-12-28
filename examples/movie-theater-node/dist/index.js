@@ -93,7 +93,7 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-MovieReceipt.render(receiptData, 'html').then((html) => {
+MovieReceipt.render(receiptData, 'escpos').then((html) => {
     process_1.default.stdout.write(html);
 });
 // const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
