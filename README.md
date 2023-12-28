@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/@resaleai%2Freceipt-components.svg)](https://www.npmjs.com/package/@resaleai/receipt-components)
 [![Tests](https://github.com/ResaleAI/receipt-components/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ResaleAI/receipt-components/actions/workflows/test.yml)
 
-This package is for building complex and evolving receipts using a simple XML style language and component engine. The XML is converted to a simple JS representation that is then converted to either HTML or an ESC/POS byte array at runtime with supplied data.
+This package is for building complex and evolving receipts using a simple XML style language and component engine. The XML is converted to a simple JS representation that is can then be rendered to any desired output. The maintainers of this package provide two renderers, one for ESC/POS and one for HTML previews.
 
 ## Concepts
 
