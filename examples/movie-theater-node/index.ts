@@ -12,9 +12,9 @@ import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
 import process from 'process';
 import layoutPlugin from '@resaleai/receipt-layout';
 
-ReceiptComponent.registerRenderer(htmlRenderPlugin);
 ReceiptComponent.registerNodes([imagePlugin]);
 ReceiptComponent.registerNodes(layoutPlugin);
+ReceiptComponent.registerRenderer(htmlRenderPlugin);
 
 interface MovieReceiptProps {
   theaterName: string;
@@ -104,7 +104,7 @@ const receiptData: MovieReceiptProps = {
   },
 };
 
-MovieReceipt.render(receiptData, 'escpos').then((html) => {
+MovieReceipt.render(receiptData, 'html').then((html) => {
   process.stdout.write(html);
 });
 

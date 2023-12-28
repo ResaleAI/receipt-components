@@ -15,9 +15,9 @@ const receipt_image_node_1 = __importDefault(require("@resaleai/receipt-image-no
 const receipt_html_renderer_1 = __importDefault(require("@resaleai/receipt-html-renderer"));
 const process_1 = __importDefault(require("process"));
 const receipt_layout_1 = __importDefault(require("@resaleai/receipt-layout"));
-receipt_components_1.default.registerRenderer(receipt_html_renderer_1.default);
-receipt_components_1.default.registerNodes(receipt_image_node_1.default);
+receipt_components_1.default.registerNodes([receipt_image_node_1.default]);
 receipt_components_1.default.registerNodes(receipt_layout_1.default);
+receipt_components_1.default.registerRenderer(receipt_html_renderer_1.default);
 // TODO: add when layout package is ready
 // <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
 // <TrxInfo trxId="${props.trxInfo.trxId}" dateStr="${trxDateStr}" cashier="${props.trxInfo.cashier}" register="${props.trxInfo.register}" />
@@ -93,7 +93,7 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-MovieReceipt.render(receiptData, 'escpos').then((html) => {
+MovieReceipt.render(receiptData, 'html').then((html) => {
     process_1.default.stdout.write(html);
 });
 // const TestReceipt = new ReceiptComponent<null>('TestReceipt', {

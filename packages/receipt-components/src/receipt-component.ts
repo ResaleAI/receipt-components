@@ -29,6 +29,7 @@ export class ReceiptComponent<TProps> {
   renderTemplate: (props: TProps) => string;
   static renderers: RenderPluginMap = {} as RenderPluginMap;
   static astBuilders: ReceiptASTNodeRegistry = nodeRegistry;
+  static nodePlugins: RCNodePlugin<any>[] = [];
 
   constructor(
     name: string,
@@ -58,13 +59,28 @@ export class ReceiptComponent<TProps> {
 
   static registerRenderer(renderer: RCRendererPlugin) {
     this.renderers[renderer.name] = renderer;
+
+    // iterate through all node plugins and register render functions
+    this.nodePlugins.forEach((plugin) => {
+      if (plugin.renderers[renderer.name]) {
+        renderer.registerRenderFunc(plugin.name, plugin.renderers[renderer.name]);
+      }
+    });
   }
 
   // TODO: rename? maybe registerNodePlugin?
   static registerNodes(nodes: RCNodePlugin<any>[]) {
     nodes.forEach((node) => {
+      // warn when node is already registered, as this may cause unexpected behavior
+      if (this.astBuilders[node.name]) {
+        console.warn('Node already registered', node.name);
+      }
       this.astBuilders[node.name] = node.buildNode;
+      this.nodePlugins.push(node);
       for (const name of node.aliases ?? []) {
+        if (this.astBuilders[name]) {
+          console.warn('Node already registered', name);
+        }
         this.astBuilders[name] = node.buildNode;
       }
 
