@@ -23,10 +23,16 @@ function TestReceipt(props: null) {
   ]);
 }
 
+const t4 = (props: null) => rc('align', { mode: 'right'}, [
+  rc('scale', { width: 2, height: 2 }, [
+    t('Hello World')
+  ])
+])
+
 const Receipt = rcFromTemplate((props: null) => `
-  <receipt>
+  <align mode="center">
     <TestReceipt />
-  </receipt>`,
+  </align>`,
   {
     components: {
       TestReceipt
@@ -34,8 +40,20 @@ const Receipt = rcFromTemplate((props: null) => `
   }
 );
 
+const Final = rcFromTemplate((props: null) => `
+  <receipt>
+    <Receipt />
+  </receipt>
+`, {
+  components: {
+    Receipt
+  }
+});
 
-renderRC(Receipt, 'escpos', null).then((ep) => {
+
+
+
+renderRC(t4, 'escpos', null).then((ep) => {
   console.log(ep);
 })
 

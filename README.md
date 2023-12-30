@@ -158,7 +158,7 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 - [x] finish browser image package
 - [ ] create package just for types to reduce imported packages for plugin dev
 - [ ] create better way for passing objects as props automatically
-- [ ] create component option for just using function nodes
+- [x] create component option for just using function nodes
 - [x] fix col new line and scale thing
 - [x] nail down issues with text wrapping, scaling, and whatnot
 - [ ] write docs and wiki
