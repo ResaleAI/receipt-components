@@ -105,6 +105,14 @@ export class ReceiptComponent<TProps> {
     renderers.forEach((renderer) => this.registerRenderer(renderer));
   }
 
+  static getRenderer(renderer: keyof RendererMap) {
+    return this.renderers[renderer];
+  }
+
+  static getNodes() {
+    return this.astBuilders;
+  }
+
   async render<TRenderer extends keyof RendererMap>(
     props: TProps,
     renderer: TRenderer,
