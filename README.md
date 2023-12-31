@@ -156,7 +156,6 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 
 - [x] update image package to correctly display images in html
 - [x] finish browser image package
-- [ ] create package just for types to reduce imported packages for plugin dev
 - [ ] create better way for passing objects as props automatically
 - [x] create component option for just using function nodes
 - [x] fix col new line and scale thing
@@ -170,6 +169,13 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 - [ ] rebuild esc pos optimizer to work w new stuff
 - [ ] disallow/only allow certain children on ast
 - [ ] create layout package to allow for rows and cols
-- [ ] move parser into separate package
-- [ ] reduce packages (i think we can put plugin, ast, and renderer packages into main package)
 - [ ] create examples for different frameworks (react, vue, etc)
+
+#### v4 TODO
+- [ ] rethink plugins (model after vue)
+- [ ] make xml parser separate package
+- [ ] move ast, renderer, and plugin packages into main package
+- [ ] make v4 backwards compatible with v3
+- [ ] new naming convention? (prefix related packages with rc-)
+- [ ] general clean up
+- [ ] update docs

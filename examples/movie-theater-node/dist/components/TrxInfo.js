@@ -1,11 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const receipt_components_1 = __importDefault(require("@resaleai/receipt-components"));
-const TrxInfo = new receipt_components_1.default('TrxInfo', {
-    render: (props) => `
+const receipt_components_1 = require("@resaleai/receipt-components");
+const TrxInfo = (0, receipt_components_1.rcFromTemplate)((props) => `
 <fragment>
   <row>
     <col cols="6">
@@ -24,6 +20,5 @@ const TrxInfo = new receipt_components_1.default('TrxInfo', {
       Register: No${props.register}
     </col>
   </row>
-</fragment>`,
-});
+</fragment>`);
 exports.default = TrxInfo;

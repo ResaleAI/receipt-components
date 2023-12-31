@@ -1,9 +1,9 @@
 import { ReceiptComponent } from '@/receipt-component';
-import { RCNodePlugin, RCRendererPlugin } from '@resaleai/receipt-plugin';
+import { RCNodePlugin, RCRendererPlugin } from '@/plugins';
 import {
   CoreReceiptRenderer,
   buildReceiptRenderer,
-} from '@resaleai/receipt-renderer';
+} from '@/renderers';
 import { vi } from 'vitest';
 
 export const dummyNodePlugin: RCNodePlugin<null> = {
@@ -33,6 +33,6 @@ export const dummyRendererPlugin: RCRendererPlugin = {
   registerRenderFunc: dummyRegisterFunc,
 };
 
-export const dummyComponent = new ReceiptComponent('dummyComponent', {
-  render: vi.fn(() => ''),
-});
+// export const dummyComponent = new ReceiptComponent('dummyComponent', {
+//   render: vi.fn(() => ''),
+// });

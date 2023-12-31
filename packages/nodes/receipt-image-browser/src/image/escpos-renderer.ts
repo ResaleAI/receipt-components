@@ -1,13 +1,6 @@
 import type { ImageNodeProps } from './types';
 import { imageToEscPos } from './process-image';
-import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
-import { bytes } from '@resaleai/receipt-escpos-renderer';
-
-import {
-  ChildBuilder,
-  EscPos,
-} from '@resaleai/receipt-escpos-renderer';
-import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
+import { charToByte, bytes, ChildBuilder, EscPos, LinkedList } from '@resaleai/receipt-components/escpos';
 
 const alignMap = {
   left: 0,
@@ -27,7 +20,7 @@ const alignMap = {
 async function renderImage(
   { src, mode, align, maxWidth }: ImageNodeProps,
   _children?: ChildBuilder<EscPos>[],
-  context?: ReceiptNodeContext
+  context?: RC.ReceiptNodeContext
 ) {
   maxWidth = Number(maxWidth);
   if (!align) {

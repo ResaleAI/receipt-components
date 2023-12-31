@@ -3,10 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const receipt_components_1 = __importDefault(require("@resaleai/receipt-components"));
+const receipt_components_1 = require("@resaleai/receipt-components");
 const hr_1 = __importDefault(require("./hr"));
-const RewardsInfo = new receipt_components_1.default('RewardsInfo', {
-    render: (props) => `
+const RewardsInfo = (0, receipt_components_1.rcFromTemplate)((props) => `
 <fragment>
   <hr />
   <align mode="center">
@@ -18,10 +17,10 @@ const RewardsInfo = new receipt_components_1.default('RewardsInfo', {
     <br />
     Credits earned:     ${props.creditsEarned}
     <br />
-    Credits used:          ${props.creditsUsed}
+    Credits used:       ${props.creditsUsed}
     <br />
     <inverse>
-      Credit Balance:     ${props.creditBalance}
+    Credit Balance:     ${props.creditBalance}
     </inverse>
     <br />
     <scale height="2">
@@ -29,7 +28,9 @@ const RewardsInfo = new receipt_components_1.default('RewardsInfo', {
     </scale>
   </align>
 </fragment>
-    `,
-    components: [hr_1.default],
+`, {
+    components: {
+        hr: hr_1.default
+    },
 });
 exports.default = RewardsInfo;

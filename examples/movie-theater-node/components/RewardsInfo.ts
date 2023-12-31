@@ -1,4 +1,4 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import ReceiptComponent, { rcFromTemplate } from '@resaleai/receipt-components';
 import hr from './hr';
 
 interface RewardsInfoProps {
@@ -8,8 +8,7 @@ interface RewardsInfoProps {
   creditBalance: number;
 }
 
-const RewardsInfo = new ReceiptComponent<RewardsInfoProps>('RewardsInfo', {
-  render: (props) => `
+const RewardsInfo = rcFromTemplate((props: RewardsInfoProps) => `
 <fragment>
   <hr />
   <align mode="center">
@@ -21,10 +20,10 @@ const RewardsInfo = new ReceiptComponent<RewardsInfoProps>('RewardsInfo', {
     <br />
     Credits earned:     ${props.creditsEarned}
     <br />
-    Credits used:          ${props.creditsUsed}
+    Credits used:       ${props.creditsUsed}
     <br />
     <inverse>
-      Credit Balance:     ${props.creditBalance}
+    Credit Balance:     ${props.creditBalance}
     </inverse>
     <br />
     <scale height="2">
@@ -32,8 +31,10 @@ const RewardsInfo = new ReceiptComponent<RewardsInfoProps>('RewardsInfo', {
     </scale>
   </align>
 </fragment>
-    `,
-  components: [hr],
-});
+`, {
+  components: {
+    hr
+  },
+})
 
 export default RewardsInfo;

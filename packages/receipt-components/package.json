@@ -11,6 +11,10 @@
     ".": {
       "require": "./dist/main.js",
       "import": "./dist/main.mjs"
+    },
+    "./escpos": {
+      "require": "./dist/renderers/escpos/index.js",
+      "import": "./dist/renderers/escpos/index.mjs"
     }
   },
   "scripts": {
@@ -47,10 +51,5 @@
         ]
       }
     }
-  },
-  "dependencies": {
-    "@resaleai/receipt-ast": "workspace:*",
-    "@resaleai/receipt-escpos-renderer": "workspace:*",
-    "@resaleai/receipt-plugin": "workspace:*"
   }
 }

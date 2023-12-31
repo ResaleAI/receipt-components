@@ -1,14 +1,13 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import ReceiptComponent, { rcFromTemplate } from '@resaleai/receipt-components';
 
-const AdmissionDisclaimer = new ReceiptComponent('AdmissionDisclaimer', {
-  render: () => `
+const AdmissionDisclaimer = rcFromTemplate(() => `
   <align mode="center">
     ***************************
     <br />
     Not valid for admission
     <br />
     ***************************
-  </align>`,
-});
+  </align>
+`)
 
 export default AdmissionDisclaimer;

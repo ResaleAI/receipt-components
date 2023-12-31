@@ -29,12 +29,9 @@ importers:
 
   packages/nodes/receipt-image-browser:
     dependencies:
-      '@resaleai/receipt-escpos-renderer':
+      '@resaleai/receipt-components':
         specifier: workspace:*
-        version: link:../../renderers/receipt-escpos-renderer
-      '@resaleai/receipt-plugin':
-        specifier: workspace:*
-        version: link:../../receipt-plugin
+        version: link:../../receipt-components
     devDependencies:
       '@types/node':
         specifier: ^20.10.5
@@ -51,12 +48,9 @@ importers:
 
   packages/nodes/receipt-image-node:
     dependencies:
-      '@resaleai/receipt-escpos-renderer':
+      '@resaleai/receipt-components':
         specifier: workspace:*
-        version: link:../../renderers/receipt-escpos-renderer
-      '@resaleai/receipt-plugin':
-        specifier: workspace:*
-        version: link:../../receipt-plugin
+        version: link:../../receipt-components
       canvas:
         specifier: ^2.11.2
         version: 2.11.2
@@ -74,21 +68,27 @@ importers:
         specifier: ^0.33.0
         version: 0.33.0
 
-  packages/nodes/receipt-layout:
+  packages/rc-xml:
     dependencies:
-      '@resaleai/receipt-ast':
+      '@resaleai/receipt-components':
         specifier: workspace:*
-        version: link:../../receipt-ast
-      '@resaleai/receipt-escpos-renderer':
-        specifier: workspace:*
-        version: link:../../renderers/receipt-escpos-renderer
-      '@resaleai/receipt-plugin':
-        specifier: workspace:*
-        version: link:../../receipt-plugin
+        version: link:../receipt-components
+      domelementtype:
+        specifier: ^2.3.0
+        version: 2.3.0
+      domhandler:
+        specifier: ^5.0.3
+        version: 5.0.3
+      htmlparser2:
+        specifier: ^9.0.0
+        version: 9.0.0
     devDependencies:
       '@types/node':
         specifier: ^20.10.5
         version: 20.10.5
+      '@vitest/coverage-v8':
+        specifier: ^0.34.6
+        version: 0.34.6(vitest@0.33.0)
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(typescript@5.3.3)
@@ -128,16 +128,6 @@ importers:
         version: 0.33.0
 
   packages/receipt-components:
-    dependencies:
-      '@resaleai/receipt-ast':
-        specifier: workspace:*
-        version: link:../receipt-ast
-      '@resaleai/receipt-escpos-renderer':
-        specifier: workspace:*
-        version: link:../renderers/receipt-escpos-renderer
-      '@resaleai/receipt-plugin':
-        specifier: workspace:*
-        version: link:../receipt-plugin
     devDependencies:
       '@resaleai/receipt-renderer':
         specifier: workspace:*
@@ -164,28 +154,6 @@ importers:
         specifier: ^0.33.0
         version: 0.33.0
 
-  packages/receipt-plugin:
-    dependencies:
-      '@resaleai/receipt-ast':
-        specifier: workspace:*
-        version: link:../receipt-ast
-      '@resaleai/receipt-renderer':
-        specifier: workspace:*
-        version: link:../receipt-renderer
-    devDependencies:
-      '@types/node':
-        specifier: ^20.10.5
-        version: 20.10.5
-      tsup:
-        specifier: ^7.2.0
-        version: 7.2.0(typescript@5.3.3)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-      vitest:
-        specifier: ^0.33.0
-        version: 0.33.0
-
   packages/receipt-renderer:
     dependencies:
       '@resaleai/receipt-ast':
@@ -205,45 +173,14 @@ importers:
         specifier: ^0.33.0
         version: 0.33.0
 
-  packages/renderers/receipt-escpos-renderer:
-    dependencies:
-      '@resaleai/receipt-ast':
-        specifier: workspace:*
-        version: link:../../receipt-ast
-      '@resaleai/receipt-plugin':
-        specifier: workspace:*
-        version: link:../../receipt-plugin
-      '@resaleai/receipt-renderer':
-        specifier: workspace:*
-        version: link:../../receipt-renderer
-    devDependencies:
-      '@types/node':
-        specifier: ^20.10.5
-        version: 20.10.5
-      '@vitest/coverage-v8':
-        specifier: ^0.34.6
-        version: 0.34.6(vitest@0.33.0)
-      tsup:
-        specifier: ^7.2.0
-        version: 7.2.0(typescript@5.3.3)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-      vitest:
-        specifier: ^0.33.0
-        version: 0.33.0
-
   packages/renderers/receipt-html-renderer:
     dependencies:
       '@resaleai/receipt-ast':
         specifier: workspace:*
         version: link:../../receipt-ast
-      '@resaleai/receipt-plugin':
+      '@resaleai/receipt-components':
         specifier: workspace:*
-        version: link:../../receipt-plugin
-      '@resaleai/receipt-renderer':
-        specifier: workspace:*
-        version: link:../../receipt-renderer
+        version: link:../../receipt-components
     devDependencies:
       '@types/node':
         specifier: ^20.10.5

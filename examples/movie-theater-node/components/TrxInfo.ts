@@ -1,4 +1,4 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import ReceiptComponent, { rcFromTemplate } from '@resaleai/receipt-components';
 
 interface TrxInfoProps {
   trxId: number;
@@ -7,8 +7,7 @@ interface TrxInfoProps {
   dateStr: string;
 }
 
-const TrxInfo = new ReceiptComponent<TrxInfoProps>('TrxInfo', {
-  render: (props) => `
+const TrxInfo = rcFromTemplate((props: TrxInfoProps) => `
 <fragment>
   <row>
     <col cols="6">
@@ -27,7 +26,6 @@ const TrxInfo = new ReceiptComponent<TrxInfoProps>('TrxInfo', {
       Register: No${props.register}
     </col>
   </row>
-</fragment>`,
-});
+</fragment>`)
 
 export default TrxInfo;

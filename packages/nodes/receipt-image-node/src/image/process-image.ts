@@ -1,6 +1,5 @@
 // returns the appropriate params to the ESC * cmd
-import { bytes } from '@resaleai/receipt-escpos-renderer';
-import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
+import { bytes, charToByte } from '@resaleai/receipt-components/escpos';
 import { createCanvas, loadImage } from 'canvas';
 
 export async function prepareImage(

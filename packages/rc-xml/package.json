@@ -1,0 +1,39 @@
+{
+  "name": "@resaleai/rc-xml",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "files": [
+    "dist/*"
+  ],
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/main.mjs",
+      "require": "./dist/main.js",
+      "types": "./dist/main.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "test": "vitest",
+    "test:unit": "vitest run",
+    "coverage": "vitest --coverage",
+    "clean": "rm -rf node_modules dist coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@vitest/coverage-v8": "^0.34.6",
+    "tsup": "^7.2.0",
+    "typescript": "^5.3.3",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "domelementtype": "^2.3.0",
+    "domhandler": "^5.0.3",
+    "htmlparser2": "^9.0.0",
+    "@resaleai/receipt-components": "workspace:*"
+  }
+}

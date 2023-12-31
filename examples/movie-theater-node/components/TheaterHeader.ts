@@ -1,4 +1,4 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import ReceiptComponent, { rcFromTemplate } from '@resaleai/receipt-components';
 
 interface TheaterHeaderProps {
   theaterName: string;
@@ -8,10 +8,7 @@ interface TheaterHeaderProps {
   zip: string;
 }
 
-const TheaterHeader = new ReceiptComponent<TheaterHeaderProps>(
-  'TheaterHeader',
-  {
-    render: (props) => `
+const TheaterHeader = rcFromTemplate((props: TheaterHeaderProps) => `
 <align mode="center">
   <scale width="2" height="2">
     ${props.theaterName}
@@ -27,9 +24,6 @@ const TheaterHeader = new ReceiptComponent<TheaterHeaderProps>(
     SALES RECEIPT
   </inverse>
   <br />
-</align>
-    `,
-  }
-);
+</align>`)
 
 export default TheaterHeader;

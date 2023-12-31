@@ -1,8 +1,6 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import { rcFromTemplate } from '@resaleai/receipt-components';
 
-// todo: convert to raw node?
-const hr = new ReceiptComponent('hr', {
-  render: () => `------------------------------------------`,
-});
+
+const hr = rcFromTemplate(() => `------------------------------------------`)
 
 export default hr;
