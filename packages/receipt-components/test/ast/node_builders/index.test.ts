@@ -2,6 +2,7 @@ import { nodeRegistry, registerNodeBuilder } from '@ast/node-builders';
 import { ReceiptAST } from '@ast/types';
 import { describe, expect, it } from 'vitest';
 
+
 describe('node-builders', () => {
   describe('registerNodeBuilder', () => {
     it('should register a node builder', () => {
@@ -11,6 +12,7 @@ describe('node-builders', () => {
         children,
       });
 
+      // @ts-expect-error
       registerNodeBuilder('simple', simpleNodeBuilder);
 
       expect(nodeRegistry.simple).toBe(simpleNodeBuilder);
@@ -29,9 +31,11 @@ describe('node-builders', () => {
         children,
       });
 
+      // @ts-expect-error
       registerNodeBuilder('simple', simpleNodeBuilder);
       expect(nodeRegistry.simple).toBe(simpleNodeBuilder);
 
+      // @ts-expect-error
       registerNodeBuilder('simple', simpleNodeBuilder2);
       expect(nodeRegistry.simple).toBe(simpleNodeBuilder2);
     });

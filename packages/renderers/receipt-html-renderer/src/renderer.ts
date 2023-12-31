@@ -1,4 +1,4 @@
-import { ReceiptAST, buildReceiptRenderer } from '@resaleai/receipt-components';
+import { ReceiptAST, buildReceiptRenderer, ReceiptRenderFuncMap, RegisterRendererFunc } from '@resaleai/receipt-components';
 import { HtmlRenderer } from './types';
 import renderAlign from './nodes/align';
 import renderBarcode from './nodes/barcode';
@@ -11,7 +11,8 @@ import renderSmooth from './nodes/smooth';
 import renderText from './nodes/text';
 import renderTextLiteral from './nodes/text-literal';
 
-export const [htmlRenderers, registerHtmlRenderer] = buildReceiptRenderer<
+// Why do I have to type this?!?
+export const [htmlRenderers, registerHtmlRenderer]: [ReceiptRenderFuncMap<string>, RegisterRendererFunc<HtmlRenderer<any>>] = buildReceiptRenderer<
   string,
   HtmlRenderer<any>
 >({

@@ -1,61 +1,14 @@
 import { ReceiptAST, ReceiptASTNode, ReceiptASTNodeRegistry } from '@ast/types';
-import buildAlignNode, { AlignNodeProps } from './align';
-import buildBarcodeNode, { BarcodeNodeProps } from './barcode';
-import buildBreakNode, { BreakNodeProps } from './break';
+import buildAlignNode from './align';
+import buildBarcodeNode from './barcode';
+import buildBreakNode from './break';
 import buildFragmentNode from './fragment';
 import buildInverseNode from './inverse';
 import buildRootNode from './root';
-import buildScaleNode, { ScaleNodeProps } from './scale';
+import buildScaleNode from './scale';
 import buildSmoothNode from './smooth';
-import buildTextNode, { TextNodeProps } from './text';
-import buildTextLiteralNode, { TextLiteralNodeProps } from './text-literal';
-
-declare global {
-  namespace RC {
-    interface NodeMap {
-      align: {
-        props: AlignNodeProps;
-        builder: typeof buildAlignNode;
-      };
-      barcode: {
-        props: BarcodeNodeProps;
-        builder: typeof buildBarcodeNode;
-      };
-      break: {
-        props: BreakNodeProps
-        builder: typeof buildBreakNode;
-      };
-      fragment: {
-        props: null;
-        builder: typeof buildFragmentNode;
-      };
-      inverse: {
-        props: null;
-        builder: typeof buildInverseNode;
-      };
-      receipt: {
-        props: null,
-        builder: typeof buildRootNode;
-      },
-      scale: {
-        props: ScaleNodeProps
-        builder: typeof buildScaleNode;
-      };
-      smooth: {
-        props: null;
-        builder: typeof buildSmoothNode;
-      };
-      textLiteral: {
-        props: TextLiteralNodeProps;
-        builder: typeof buildTextLiteralNode;
-      };
-      text: {
-        props: TextNodeProps
-        builder: typeof buildTextNode;
-      };
-    }
-  }
-}
+import buildTextNode from './text';
+import buildTextLiteralNode from './text-literal';
 
 const nodeBuilders = {
   align: buildAlignNode,
@@ -83,3 +36,14 @@ export function registerNodeBuilder<TProps>(
 }
 
 export type RegisterNodeBuilderFunc = typeof registerNodeBuilder;
+
+export { default as buildAlignNode } from './align';
+export { default as buildBarcodeNode } from './barcode';
+export { default as buildBreakNode } from './break';
+export { default as buildFragmentNode } from './fragment';
+export { default as buildInverseNode } from './inverse';
+export { default as buildRootNode } from './root';
+export { default as buildScaleNode } from './scale';
+export { default as buildSmoothNode } from './smooth';
+export { default as buildTextNode } from './text';
+export { default as buildTextLiteralNode } from './text-literal';

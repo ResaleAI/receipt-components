@@ -1,9 +1,8 @@
-import { ReceiptComponent } from '@/receipt-component';
 import { RCNodePlugin, RCRendererPlugin } from '@/plugins';
 import {
   CoreReceiptRenderer,
   buildReceiptRenderer,
-} from '@/renderers';
+} from '@/renderer';
 import { vi } from 'vitest';
 
 export const dummyNodePlugin: RCNodePlugin<null> = {
@@ -21,6 +20,8 @@ export const dummyNodePluginWithAlias: RCNodePlugin<null> = {
     dummyRenderer: vi.fn(async (props: null) => ({})),
   },
 };
+
+
 
 export const [dummyRenderFuncRegistry, dummyRegisterFunc] =
   buildReceiptRenderer({} as CoreReceiptRenderer<any>);

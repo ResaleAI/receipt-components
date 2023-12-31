@@ -2,8 +2,10 @@ import renderHtml, { registerHtmlRenderer } from './renderer';
 import { RCPlugin, RCRendererPlugin } from '@resaleai/receipt-components';
 
 declare global {
-  interface RendererMap {
-    html: string;
+  namespace RC {
+    interface RendererMap {
+      html: string;
+    }
   }
 }
 

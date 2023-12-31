@@ -6,12 +6,6 @@ import {
 } from '@/renderer';
 import { ReceiptComponent } from './receipt-component';
 
-declare global {
-  namespace RC {
-    interface RendererMap {}
-  }
-}
-
 export type RCPlugin = {
   // TODO: remove generic arg from RC class after people have updated
   install: (rc: typeof ReceiptComponent) => void
