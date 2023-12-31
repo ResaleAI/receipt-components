@@ -6,6 +6,7 @@ declare global {
   interface RendererMap {
     escpos: Uint8Array;
   }
+  interface NodeMap {}
 }
 
 ReceiptComponent.registerRenderer(escPosRendererPlugin);

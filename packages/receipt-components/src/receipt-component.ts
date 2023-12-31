@@ -1,8 +1,8 @@
 import {
   ReceiptAST,
+  ReceiptASTNode,
   ReceiptASTNodeRegistry,
   nodeRegistry,
-  parseTemplateForAst,
 } from '@resaleai/receipt-ast';
 import {
   RCNodePlugin,
@@ -11,50 +11,17 @@ import {
 } from '@resaleai/receipt-plugin';
 import { InvalidRendererError } from './errors';
 
-interface ReceiptComponentOptions<TProps> {
-  render: (props: TProps) => string; // render function should return a template
-  components?: ReceiptComponent<any>[];
-  nodes?: ReceiptASTNodeRegistry;
-  skipOptimization?: boolean;
-}
-
 export interface RenderPluginMap {
   [key: string]: RCRendererPlugin;
 }
 
-export class ReceiptComponent<TProps> {
-  name: string;
-  skipOptimization?: boolean;
-  nodeRegistry: ReceiptASTNodeRegistry;
-  renderTemplate: (props: TProps) => string;
-  static renderers: RenderPluginMap = {} as RenderPluginMap;
-  static astBuilders: ReceiptASTNodeRegistry = nodeRegistry;
-  static nodePlugins: RCNodePlugin<any>[] = [];
+export class ReceiptComponent {
+  private static renderers: RenderPluginMap = {} as RenderPluginMap;
+  private static astBuilders: ReceiptASTNodeRegistry = nodeRegistry;
+  private static nodePlugins: RCNodePlugin<any>[] = [];
 
-  constructor(
-    name: string,
-    {
-      render,
-      components,
-      nodes,
-      skipOptimization,
-    }: ReceiptComponentOptions<TProps>
-  ) {
-    this.name = name;
-    this.renderTemplate = render;
-    this.skipOptimization = !!skipOptimization;
-    const componentBuilders = components?.reduce(
-      (acc, component) => ({
-        ...acc,
-        [component.name]: component.buildAst.bind(component),
-      }),
-      {}
-    );
-    this.nodeRegistry = {
-      ...nodes,
-      ...ReceiptComponent.astBuilders,
-      ...componentBuilders,
-    };
+  constructor() {
+    throw new Error('ReceiptComponent should not be instantiated');
   }
 
   static registerRenderer(renderer: RCRendererPlugin) {
@@ -105,27 +72,34 @@ export class ReceiptComponent<TProps> {
     renderers.forEach((renderer) => this.registerRenderer(renderer));
   }
 
-  async render<TRenderer extends keyof RendererMap>(
-    props: TProps,
-    renderer: TRenderer,
-    children?: ReceiptAST[]
-  ): Promise<RendererMap[TRenderer]> {
-    const ast = this.buildAst(props, children);
-
-    const rendererPlugin = ReceiptComponent.renderers[renderer];
-    if (!rendererPlugin) {
-      throw new InvalidRendererError(
-        `Renderer ${renderer} not found, must be one of ${Object.keys(
-          ReceiptComponent.renderers
-        )}`
-      );
-    }
-
-    return rendererPlugin.renderer(ast);
+  static getNodes() {
+    return this.astBuilders;
   }
 
-  buildAst(props: TProps, children?: ReceiptAST[]) {
-    const template = this.renderTemplate(props);
-    return parseTemplateForAst(template, this.nodeRegistry, children);
+  static getRenderers() {
+    return this.renderers;
   }
+}
+
+// type of functional receipt component
+export type RFC<TProps> = (props: TProps, children?: ReceiptAST[]) => ReceiptASTNode<TProps>;
+
+export function rc<TNodeName extends keyof NodeMap>(name: TNodeName, ...args: Parameters<NodeMap[TNodeName]['builder']>) {
+  // @ts-ignore
+  return ReceiptComponent.getNodes()[name](...args);
+}
+
+export function text(text: string) {
+  return rc('textLiteral', { text });
+}
+
+export async function render<TProps, TRendererName extends keyof RendererMap>(component: RFC<TProps>, rendererName: TRendererName, props: TProps, children?: ReceiptAST[]): Promise<RendererMap[TRendererName]> {
+  const ast = component(props, children);
+  const renderer = ReceiptComponent.getRenderers()[rendererName];
+
+  if (!renderer) {
+    throw new InvalidRendererError(`Renderer ${rendererName} not found`);
+  }
+
+  return renderer.renderer(ast);
 }
