@@ -1,7 +1,6 @@
 import {
   ChildBuilder,
   EscPos,
-  ReceiptNodeContext,
 } from '@resaleai/receipt-escpos-renderer';
 import {
   charToByte,

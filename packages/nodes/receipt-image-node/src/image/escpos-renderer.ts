@@ -6,7 +6,6 @@ import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
 import {
   ChildBuilder,
   EscPos,
-  ReceiptNodeContext,
   bytes,
 } from '@resaleai/receipt-escpos-renderer';
 

@@ -1,4 +1,4 @@
-import { BarcodeProps } from '@resaleai/receipt-ast';
+import { BarcodeNodeProps } from '@resaleai/receipt-ast';
 import { EscPos } from '@/types';
 import LinkedList from '@/linked-list';
 import { charToByte } from '@/util';
@@ -9,7 +9,7 @@ async function renderBarcode({
   width,
   data,
   standard,
-}: Required<BarcodeProps>): Promise<EscPos> {
+}: Required<BarcodeNodeProps>): Promise<EscPos> {
   // Data may be a number, so we need to convert it to a string :(
   data = `${data}`
   const dataBuff = LinkedList.fromString(data);

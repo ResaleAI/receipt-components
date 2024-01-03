@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 describe('text', () => {
   it('should build text node', () => {
     const textNode = buildTextNode({
-      font: '1',
+      font: 1,
       bold: true,
       underline: true,
       reset: false,
@@ -13,7 +13,7 @@ describe('text', () => {
     expect(textNode).toEqual({
       name: 'text',
       props: {
-        font: '1',
+        font: 1,
         bold: true,
         underline: true,
         reset: false,
@@ -25,7 +25,7 @@ describe('text', () => {
   it('should build text node with children', () => {
     const textNode = buildTextNode(
       {
-        font: '1',
+        font: 1,
         bold: true,
         underline: true,
         reset: false,
@@ -36,7 +36,7 @@ describe('text', () => {
     expect(textNode).toEqual({
       name: 'text',
       props: {
-        font: '1',
+        font: 1,
         bold: true,
         underline: true,
         reset: false,

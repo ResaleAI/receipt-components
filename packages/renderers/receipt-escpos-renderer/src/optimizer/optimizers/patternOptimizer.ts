@@ -1,6 +1,7 @@
+import { bytes } from '@/constants';
 import { EscPos } from '../../types';
-import { bytes, charToByte } from '../../util';
-import { Pattern, OptimizationResult, PatternTree } from '@/types';
+import { charToByte } from '../../util';
+import { Pattern, OptimizationResult, PatternTree } from '../types';
 
 const patterns: Pattern[] = [
   [bytes.ESC, charToByte('!'), '*'],

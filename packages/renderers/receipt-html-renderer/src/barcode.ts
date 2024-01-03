@@ -1,7 +1,7 @@
-import { BarcodeProps } from '@resaleai/receipt-ast';
+import { BarcodeNodeProps } from '@resaleai/receipt-ast';
 
 async function renderBarcode(
-  { data, width, standard, height }: BarcodeProps,
+  { data, width, standard, height }: BarcodeNodeProps,
   children?: string[]
 ) {
   const fontSize = Number(width || 100) * 0.4;
