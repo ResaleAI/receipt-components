@@ -1,28 +1,19 @@
 import type { ImageNodeProps } from './types';
 import { loadImage } from 'canvas';
 import { imageToEscPos } from './process-image';
-import { charToByte } from '@resaleai/receipt-escpos-renderer/util';
-import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
 import {
+  charToByte,
+  LinkedList,
   ChildBuilder,
   EscPos,
   bytes,
-} from '@resaleai/receipt-escpos-renderer';
+} from '@resaleai/receipt-components';
 
 const alignMap = {
   left: 0,
   center: 1,
   right: 2,
 };
-
-// function loadImage(src: string): Promise<HTMLImageElement> {
-//   return new Promise((resolve, reject) => {
-//     const img = new Image();
-//     img.onload = () => resolve(img);
-//     img.onerror = reject;
-//     img.src = src;
-//   });
-// }
 
 async function renderImage(
   { src, mode, align, maxWidth }: ImageNodeProps,

@@ -1,4 +1,4 @@
-import { RCNodePlugin } from '@resaleai/receipt-plugin';
+import { RCNodePlugin } from '@resaleai/receipt-components';
 import { RowNodeProps } from './row/types';
 import { ColNodeProps } from './col/types';
 import { buildRowNode, rowEscPosRenderer, rowHtmlRenderer } from './row';

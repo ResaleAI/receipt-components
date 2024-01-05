@@ -1,4 +1,4 @@
-import { RCNodePlugin } from '@resaleai/receipt-plugin';
+import { RCNodePlugin } from '@resaleai/receipt-components';
 import { buildImageNode, escPosRenderer, htmlRenderer } from './image';
 import { ImageNodeProps } from './image/types';
 

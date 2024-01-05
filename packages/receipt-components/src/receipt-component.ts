@@ -8,7 +8,7 @@ import {
   RCNodePlugin,
   RCRendererPlugin,
   RendererName,
-} from '@resaleai/receipt-plugin';
+} from '@/plugin';
 import { InvalidRendererError } from './errors';
 
 interface ReceiptComponentOptions<TProps> {

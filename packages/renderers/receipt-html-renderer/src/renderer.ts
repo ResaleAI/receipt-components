@@ -1,5 +1,5 @@
 import { ReceiptAST } from '@resaleai/receipt-ast';
-import { buildReceiptRenderer } from '@resaleai/receipt-renderer';
+import { buildReceiptRenderer } from '@resaleai/receipt-components';
 import { HtmlRenderer } from './types';
 import renderAlign from './align';
 import renderBarcode from './barcode';

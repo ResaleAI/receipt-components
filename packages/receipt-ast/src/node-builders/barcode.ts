@@ -6,7 +6,7 @@ export enum Standards {
   CODE39 = 4,
 }
 
-const defaultBarcodeProps: BarcodeNodeProps = {
+const defaultBarcodeNodeProps: BarcodeNodeProps = {
   data: '',
   standard: Standards.CODE39,
   height: 80,
@@ -24,10 +24,10 @@ export interface BarcodeNodeProps {
 
 function buildBarcodeNode(props: BarcodeNodeProps) {
   if (!props.data) throw new Error('Barcode data is required');
-  props.standard = props.standard || defaultBarcodeProps.standard;
-  props.height = props.height || defaultBarcodeProps.height;
-  props.width = props.width || defaultBarcodeProps.width;
-  props.align = props.align || defaultBarcodeProps.align;
+  props.standard = props.standard || defaultBarcodeNodeProps.standard;
+  props.height = props.height || defaultBarcodeNodeProps.height;
+  props.width = props.width || defaultBarcodeNodeProps.width;
+  props.align = props.align || defaultBarcodeNodeProps.align;
   return <const>{
     name: 'barcode',
     props,
