@@ -6,5 +6,6 @@ ReceiptComponent.registerRenderer(escPosRendererPlugin);
 export * from './plugin';
 export * from '@ep';
 export * from '@renderer';
+export * from './receipt-component';
 
 export default ReceiptComponent;
