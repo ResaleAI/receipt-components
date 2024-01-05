@@ -27,6 +27,43 @@ importers:
         specifier: ^0.33.0
         version: 0.33.0
 
+  packages/inputs/rc-xml:
+    dependencies:
+      '@resaleai/receipt-components':
+        specifier: workspace:*
+        version: link:../../receipt-components
+      domelementtype:
+        specifier: ^2.3.0
+        version: 2.3.0
+      domhandler:
+        specifier: ^5.0.3
+        version: 5.0.3
+      htmlparser2:
+        specifier: ^9.0.0
+        version: 9.0.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.10.5
+        version: 20.10.5
+      '@vitest/coverage-v8':
+        specifier: ^0.34.6
+        version: 0.34.6(vitest@0.33.0)
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(typescript@5.3.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+      vite:
+        specifier: ^4.5.1
+        version: 4.5.1(@types/node@20.10.5)
+      vite-plugin-dts:
+        specifier: ^1.7.3
+        version: 1.7.3(@types/node@20.10.5)(vite@4.5.1)
+      vitest:
+        specifier: ^0.33.0
+        version: 0.33.0
+
   packages/nodes/receipt-image-browser:
     dependencies:
       '@resaleai/receipt-components':
@@ -70,9 +107,6 @@ importers:
 
   packages/nodes/receipt-layout:
     dependencies:
-      '@resaleai/receipt-ast':
-        specifier: workspace:*
-        version: link:../../receipt-ast
       '@resaleai/receipt-components':
         specifier: workspace:*
         version: link:../../receipt-components
@@ -80,34 +114,6 @@ importers:
       '@types/node':
         specifier: ^20.10.5
         version: 20.10.5
-      tsup:
-        specifier: ^7.2.0
-        version: 7.2.0(typescript@5.3.3)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-      vitest:
-        specifier: ^0.33.0
-        version: 0.33.0
-
-  packages/receipt-ast:
-    dependencies:
-      domelementtype:
-        specifier: ^2.3.0
-        version: 2.3.0
-      domhandler:
-        specifier: ^5.0.3
-        version: 5.0.3
-      htmlparser2:
-        specifier: ^9.0.0
-        version: 9.0.0
-    devDependencies:
-      '@types/node':
-        specifier: ^20.10.5
-        version: 20.10.5
-      '@vitest/coverage-v8':
-        specifier: ^0.34.6
-        version: 0.34.6(vitest@0.33.0)
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(typescript@5.3.3)
