@@ -3,13 +3,13 @@ import {
   ReceiptASTNodeRegistry,
   nodeRegistry,
   parseTemplateForAst,
-} from '@resaleai/receipt-ast';
+} from "@resaleai/receipt-ast";
 import {
   RCNodePlugin,
   RCRendererPlugin,
   RendererName,
-} from '@resaleai/receipt-plugin';
-import { InvalidRendererError } from './errors';
+} from "@resaleai/receipt-plugin";
+import { InvalidRendererError } from "./errors";
 
 interface ReceiptComponentOptions<TProps> {
   render: (props: TProps) => string; // render function should return a template
@@ -63,7 +63,10 @@ export class ReceiptComponent<TProps> {
     // iterate through all node plugins and register render functions
     this.nodePlugins.forEach((plugin) => {
       if (plugin.renderers[renderer.name]) {
-        renderer.registerRenderFunc(plugin.name, plugin.renderers[renderer.name]);
+        renderer.registerRenderFunc(
+          plugin.name,
+          plugin.renderers[renderer.name]
+        );
       }
     });
   }
@@ -73,13 +76,13 @@ export class ReceiptComponent<TProps> {
     nodes.forEach((node) => {
       // warn when node is already registered, as this may cause unexpected behavior
       if (this.astBuilders[node.name]) {
-        console.warn('Node already registered', node.name);
+        console.warn("Node already registered", node.name);
       }
       this.astBuilders[node.name] = node.buildNode;
       this.nodePlugins.push(node);
       for (const name of node.aliases ?? []) {
         if (this.astBuilders[name]) {
-          console.warn('Node already registered', name);
+          console.warn("Node already registered", name);
         }
         this.astBuilders[name] = node.buildNode;
       }
@@ -96,10 +99,12 @@ export class ReceiptComponent<TProps> {
 
   static use(plugins: (RCNodePlugin<any> | RCRendererPlugin)[]) {
     const nodes = plugins.filter(
-      (plugin): plugin is RCNodePlugin<any> => (plugin as RCNodePlugin<any>).buildNode !== undefined
+      (plugin): plugin is RCNodePlugin<any> =>
+        (plugin as RCNodePlugin<any>).buildNode !== undefined
     );
     const renderers = plugins.filter(
-      (plugin): plugin is RCRendererPlugin => (plugin as RCRendererPlugin).renderer !== undefined
+      (plugin): plugin is RCRendererPlugin =>
+        (plugin as RCRendererPlugin).renderer !== undefined
     );
     this.registerNodes(nodes);
     renderers.forEach((renderer) => this.registerRenderer(renderer));

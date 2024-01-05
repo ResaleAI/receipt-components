@@ -5,16 +5,13 @@ module.exports = {
     node: true,
     jest: true,
   },
-  extends: ['eslint:recommended', 'prettier'],
+  extends: [
+    "eslint:recommended",
+    "prettier, plugin:@typescript-eslint/recommended",
+  ],
   parserOptions: {
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  plugins: ['prettier'],
-  rules: {
-    indent: ['error', 2, { SwitchCase: 1 }],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
-  },
+  plugins: ["prettier", "@typescript-eslint"],
 };
