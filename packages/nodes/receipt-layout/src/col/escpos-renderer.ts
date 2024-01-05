@@ -1,15 +1,10 @@
 import {
   ChildBuilder,
   EscPos,
-  ReceiptNodeContext,
-} from '@resaleai/receipt-escpos-renderer';
-import {
-  charToByte,
   duplicateObject,
   renderChildBytes,
-} from '@resaleai/receipt-escpos-renderer/util';
-import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
-import { bytes } from '@resaleai/receipt-escpos-renderer';
+  bytes,
+} from '@resaleai/receipt-components';
 import { ColNodeProps } from './types';
 
 const lineCols = 10;

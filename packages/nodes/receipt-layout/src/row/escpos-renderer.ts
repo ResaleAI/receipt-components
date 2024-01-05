@@ -2,16 +2,12 @@ import {
   ChildBuilder,
   EscPos,
   LinkedListNode,
-  ReceiptNodeContext,
-} from '@resaleai/receipt-escpos-renderer';
-import {
   charToByte,
   duplicateObject,
-  renderChildBytes,
   renderChildBytesList,
-} from '@resaleai/receipt-escpos-renderer/util';
-import LinkedList from '@resaleai/receipt-escpos-renderer/linked-list';
-import { bytes } from '@resaleai/receipt-escpos-renderer';
+  LinkedList,
+  bytes,
+} from '@resaleai/receipt-components';
 import { RowNodeProps } from './types';
 
 async function renderRow(
@@ -27,7 +23,7 @@ async function renderRow(
   const childBytesList = await renderChildBytesList(children, context);
   const subLists = buildChildSubLists(childBytesList);
   const subListLength = subLists[0].length;
-  const childBytes: EscPos = new LinkedList();
+  const childBytes: EscPos = new LinkedList<number>();
 
   for (let i = 0; i < subListLength; i++) {
     for (let j = 0; j < childBytesList.length; j++) {

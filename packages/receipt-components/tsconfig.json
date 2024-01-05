@@ -10,7 +10,11 @@
     /* Alias */
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@ep/*": ["renderers/escpos/*"],
+      "@ep": ["renderers/escpos"],
+      "@renderer/*": ["renderer/*"],
+      "@renderer": ["renderer"],
     },
 
     /* Bundler mode */

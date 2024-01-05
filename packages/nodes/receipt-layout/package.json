@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "@resaleai/receipt-ast": "workspace:*",
-    "@resaleai/receipt-escpos-renderer": "workspace:*",
-    "@resaleai/receipt-plugin": "workspace:*"
+    "@resaleai/receipt-components": "workspace:*"
   }
 }
