@@ -1,7 +1,7 @@
-import escPosRendererPlugin from '@ep';
+import escPosPlugin from '@ep';
 import { ReceiptComponent } from './receipt-component';
 
-ReceiptComponent.registerRenderer(escPosRendererPlugin);
+ReceiptComponent.use(escPosPlugin);
 
 export * from '@ast';
 export * from '@ep';

@@ -1,10 +1,10 @@
-import { RCNodePlugin } from '@resaleai/receipt-components';
+import { RCNodePlugin, RCPlugin } from '@resaleai/receipt-components';
 import { RowNodeProps } from './row/types';
 import { ColNodeProps } from './col/types';
 import { buildRowNode, rowEscPosRenderer, rowHtmlRenderer } from './row';
 import { buildColNode, colEscPosRenderer, colHtmlRenderer } from './col';
 
-const layoutPlugin: [RCNodePlugin<RowNodeProps>, RCNodePlugin<ColNodeProps>] = [
+const layoutNodePlugin: [RCNodePlugin<RowNodeProps>, RCNodePlugin<ColNodeProps>] = [
   {
     name: 'row',
     buildNode: buildRowNode,
@@ -22,5 +22,11 @@ const layoutPlugin: [RCNodePlugin<RowNodeProps>, RCNodePlugin<ColNodeProps>] = [
     },
   },
 ];
+
+const layoutPlugin: RCPlugin = {
+  install(rc) {
+    rc.registerNodes(layoutNodePlugin);
+  },
+}
 
 export default layoutPlugin;

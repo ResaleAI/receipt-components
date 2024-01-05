@@ -1,16 +1,16 @@
 import { ReceiptAST } from '@resaleai/receipt-components';
 import { buildReceiptRenderer } from '@resaleai/receipt-components';
 import { HtmlRenderer } from './types';
-import renderAlign from './align';
-import renderBarcode from './barcode';
-import renderBreak from './break';
-import renderFragment from './fragment';
-import renderInverse from './inverse';
-import renderRoot from './root';
-import renderScale from './scale';
-import renderSmooth from './smooth';
-import renderText from './text';
-import renderTextLiteral from './text-literal';
+import renderAlign from './nodes/align';
+import renderBarcode from './nodes/barcode';
+import renderBreak from './nodes/break';
+import renderFragment from './nodes/fragment';
+import renderInverse from './nodes/inverse';
+import renderRoot from './nodes/root';
+import renderScale from './nodes/scale';
+import renderSmooth from './nodes/smooth';
+import renderText from './nodes/text';
+import renderTextLiteral from './nodes/text-literal';
 
 export const [htmlRenderers, registerHtmlRenderer] = buildReceiptRenderer<
   string,

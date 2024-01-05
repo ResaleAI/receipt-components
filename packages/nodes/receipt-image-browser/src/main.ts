@@ -1,8 +1,8 @@
-import { RCNodePlugin } from '@resaleai/receipt-components';
+import { RCNodePlugin, RCPlugin } from '@resaleai/receipt-components';
 import { buildImageNode, escPosRenderer, htmlRenderer } from './image';
 import { ImageNodeProps } from './image/types';
 
-const imagePlugin: RCNodePlugin<ImageNodeProps> = {
+const imageNodePlugin: RCNodePlugin<ImageNodeProps> = {
   name: 'image',
   aliases: ['img'],
   buildNode: buildImageNode,
@@ -11,5 +11,11 @@ const imagePlugin: RCNodePlugin<ImageNodeProps> = {
     html: htmlRenderer,
   },
 };
+
+const imagePlugin: RCPlugin = {
+  install(rc) {
+    rc.registerNodes([imageNodePlugin]);
+  },
+}
 
 export default imagePlugin;

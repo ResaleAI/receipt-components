@@ -7,6 +7,7 @@ import {
 } from '@ast';
 import {
   RCNodePlugin,
+  RCPlugin,
   RCRendererPlugin,
   RendererName,
 } from '@/plugin';
@@ -62,15 +63,10 @@ export class ReceiptComponent {
     });
   }
 
-  static use(plugins: (RCNodePlugin<any> | RCRendererPlugin)[]) {
-    const nodes = plugins.filter(
-      (plugin): plugin is RCNodePlugin<any> => (plugin as RCNodePlugin<any>).buildNode !== undefined
-    );
-    const renderers = plugins.filter(
-      (plugin): plugin is RCRendererPlugin => (plugin as RCRendererPlugin).renderer !== undefined
-    );
-    this.registerNodes(nodes);
-    renderers.forEach((renderer) => this.registerRenderer(renderer));
+  static use(plugin: RCPlugin) {
+    plugin.install(this);
+
+    return this;
   }
 
   static getNodes() {

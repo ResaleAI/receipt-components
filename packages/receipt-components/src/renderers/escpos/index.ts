@@ -1,5 +1,5 @@
 import renderEscPos, { registerEscPosRenderer } from './nodes/renderer';
-import { RCRendererPlugin } from '@/plugin';
+import { RCPlugin, RCRendererPlugin } from '@/plugin';
 
 declare global {
   interface RendererMap {
@@ -25,10 +25,16 @@ const escPosRendererPlugin: RCRendererPlugin = {
   registerRenderFunc: registerEscPosRenderer,
 };
 
+const escPosPlugin: RCPlugin = {
+  install(rc) {
+    rc.registerRenderer(escPosRendererPlugin);
+  },
+};
+
 export * from './types';
 export * from './constants';
 export * from './util';
 export * from './linked-list';
 export { default as LinkedList } from './linked-list';
 
-export default escPosRendererPlugin;
+export default escPosPlugin;

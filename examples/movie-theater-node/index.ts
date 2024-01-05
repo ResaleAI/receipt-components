@@ -3,7 +3,7 @@ import { LineItem, RewardCreditInfo, TransactionInfo } from './types';
 import AdmissionDisclaimer from './components/AdmissionDisclaimer';
 // import LineItemList from './components/LineItemList';
 import RewardsInfo from './components/RewardsInfo';
-import hr from './components/hr';
+// import hr from './components/hr';
 import { serializeObject } from './util';
 // import TrxInfo from './components/TrxInfo';
 import TheaterHeader from './components/TheaterHeader';
@@ -12,9 +12,7 @@ import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
 import process from 'process';
 import layoutPlugin from '@resaleai/receipt-layout';
 
-ReceiptComponent.registerNodes([imagePlugin]);
-ReceiptComponent.registerNodes(layoutPlugin);
-ReceiptComponent.registerRenderer(htmlRenderPlugin);
+ReceiptComponent.use(imagePlugin).use(layoutPlugin).use(htmlRenderPlugin);
 
 interface MovieReceiptProps {
   theaterName: string;
