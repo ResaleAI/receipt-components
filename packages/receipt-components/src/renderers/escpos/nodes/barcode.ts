@@ -1,4 +1,4 @@
-import { BarcodeNodeProps } from '@resaleai/receipt-ast';
+import { BarcodeNodeProps } from '@ast';
 import { EscPos } from '@ep/types';
 import LinkedList from '@ep/linked-list';
 import { charToByte } from '@ep/util';

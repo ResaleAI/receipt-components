@@ -1,4 +1,4 @@
-import { ReceiptAST } from '@resaleai/receipt-ast';
+import { ReceiptAST } from '@resaleai/receipt-components';
 import { RowNodeProps } from './types';
 
 const defaultRowNodeProps = {

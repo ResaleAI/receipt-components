@@ -1,4 +1,4 @@
-import { AlignNodeProps } from '@resaleai/receipt-ast';
+import { AlignNodeProps } from '@ast';
 import { ChildBuilder, EscPos, EscPosByte } from '@ep/types';
 import {
   charToByte,

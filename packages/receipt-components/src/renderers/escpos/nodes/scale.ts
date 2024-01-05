@@ -1,4 +1,4 @@
-import { ScaleNodeProps } from '@resaleai/receipt-ast';
+import { ScaleNodeProps } from '@ast';
 import { ChildBuilder, EscPos } from '@ep/types';
 import {
   charToByte,

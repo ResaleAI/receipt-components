@@ -1,15 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const receipt_components_1 = __importDefault(require("@resaleai/receipt-components"));
+const receipt_components_1 = __importStar(require("@resaleai/receipt-components"));
 const AdmissionDisclaimer_1 = __importDefault(require("./components/AdmissionDisclaimer"));
-const LineItemList_1 = __importDefault(require("./components/LineItemList"));
+// import LineItemList from './components/LineItemList';
 const RewardsInfo_1 = __importDefault(require("./components/RewardsInfo"));
-const hr_1 = __importDefault(require("./components/hr"));
 const util_1 = require("./util");
-const TrxInfo_1 = __importDefault(require("./components/TrxInfo"));
+// import TrxInfo from './components/TrxInfo';
 const TheaterHeader_1 = __importDefault(require("./components/TheaterHeader"));
 const receipt_image_node_1 = __importDefault(require("@resaleai/receipt-image-node"));
 const receipt_html_renderer_1 = __importDefault(require("@resaleai/receipt-html-renderer"));
@@ -21,42 +43,64 @@ receipt_components_1.default.registerRenderer(receipt_html_renderer_1.default);
 // TODO: add when layout package is ready
 // <LineItemList items="${lineItems}" paymentMethod="CREDIT Card" />
 // <TrxInfo trxId="${props.trxInfo.trxId}" dateStr="${trxDateStr}" cashier="${props.trxInfo.cashier}" register="${props.trxInfo.register}" />
-const MovieReceipt = new receipt_components_1.default('MovieReceipt', {
-    render: (props) => {
-        const lineItems = (0, util_1.serializeObject)(props.lineItems);
-        const trxDateStr = `${props.trxInfo.date.toLocaleString('en-us', {
-            month: 'numeric',
-            day: 'numeric',
-            year: 'numeric',
-        })} ${props.trxInfo.date.toLocaleString('en-us', {
-            timeStyle: 'short',
-            hourCycle: 'h23',
-        })}`;
-        return `
-<receipt>
-  <TheaterHeader theaterName="${props.theaterName}" address="${props.address}" city="${props.city}" state="${props.state}" zip="${props.zip}" />
-  <img maxWidth=".3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png" align="center" />
-  <AdmissionDisclaimer />
-  ${props.lineItems.map((li) => {
-            return `<text>
-    ${li.name} (x${li.quantity}): ${li.price}
-  </text>
-  <br />`;
-        }).join('')}
-  <br />
-  <RewardsInfo cardNumberLast4="${props.rewardInfo.cardNumberLast4}" creditsEarned="${props.rewardInfo.creditsEarned}" creditsUsed="${props.rewardInfo.creditsUsed}" creditBalance="${props.rewardInfo.creditBalance}" />
-</receipt>
-    `;
-    },
-    components: [
-        hr_1.default,
-        AdmissionDisclaimer_1.default,
-        TheaterHeader_1.default,
-        LineItemList_1.default,
-        RewardsInfo_1.default,
-        TrxInfo_1.default,
-    ],
-});
+// const MovieReceipt = new ReceiptComponent<MovieReceiptProps>('MovieReceipt', {
+//   render: (props) => {
+//     const lineItems = serializeObject(props.lineItems);
+//     const trxDateStr = `${props.trxInfo.date.toLocaleString('en-us', {
+//       month: 'numeric',
+//       day: 'numeric',
+//       year: 'numeric',
+//     })} ${props.trxInfo.date.toLocaleString('en-us', {
+//       timeStyle: 'short',
+//       hourCycle: 'h23',
+//     })}`;
+//     return `
+// <receipt>
+//   <TheaterHeader theaterName="${props.theaterName}" address="${props.address}" city="${props.city}" state="${props.state}" zip="${props.zip}" />
+//   <img maxWidth=".3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png" align="center" />
+//   <AdmissionDisclaimer />
+//   ${props.lineItems.map((li) => {
+//     return `<text>
+//     ${li.name} (x${li.quantity}): ${li.price}
+//   </text>
+//   <br />`
+//   }).join('')}
+//   <br />
+//   <RewardsInfo cardNumberLast4="${props.rewardInfo.cardNumberLast4}" creditsEarned="${props.rewardInfo.creditsEarned}" creditsUsed="${props.rewardInfo.creditsUsed}" creditBalance="${props.rewardInfo.creditBalance}" />
+// </receipt>
+//     `;
+//   },
+//   components: [
+//     hr,
+//     AdmissionDisclaimer,
+//     TheaterHeader,
+//     LineItemList,
+//     RewardsInfo,
+//     TrxInfo,
+//   ],
+// });
+function MovieReceipt(props) {
+    const lineItems = (0, util_1.serializeObject)(props.lineItems);
+    const trxDateStr = `${props.trxInfo.date.toLocaleString('en-us', {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+    })} ${props.trxInfo.date.toLocaleString('en-us', {
+        timeStyle: 'short',
+        hourCycle: 'h23',
+    })}`;
+    return (0, receipt_components_1.rc)('receipt', null, [
+        (0, TheaterHeader_1.default)({ theaterName: props.theaterName, address: props.address, city: props.city, state: props.state, zip: props.zip }),
+        (0, receipt_components_1.rc)('image', { maxWidth: 0.3, src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png', align: 'center' }),
+        (0, AdmissionDisclaimer_1.default)(null),
+        ...props.lineItems.map((li) => {
+            return (0, receipt_components_1.rc)('text', {}, [
+                (0, receipt_components_1.text)(`${li.name} (x${li.quantity}): ${li.price}`),
+            ]);
+        }),
+        (0, RewardsInfo_1.default)({ cardNumberLast4: props.rewardInfo.cardNumberLast4, creditsEarned: props.rewardInfo.creditsEarned, creditsUsed: props.rewardInfo.creditsUsed, creditBalance: props.rewardInfo.creditBalance })
+    ]);
+}
 const receiptData = {
     theaterName: 'Movie Land',
     address: '510 Faker Street',
@@ -93,44 +137,6 @@ const receiptData = {
         creditBalance: 2400,
     },
 };
-MovieReceipt.render(receiptData, 'html').then((html) => {
+(0, receipt_components_1.render)(MovieReceipt, 'html', receiptData).then((html) => {
     process_1.default.stdout.write(html);
 });
-// const TestReceipt = new ReceiptComponent<null>('TestReceipt', {
-//   render(props) {
-//     return `
-// <receipt>
-//   <row>
-//     <col cols="4">
-//       This is a long string, testing how line breaking works
-//     </col>
-//     <col cols="2" />
-//     <col cols="3" justify="center">
-//       This is a long string, testing how line breaking works
-//     </col>
-//   </row>
-// </receipt>`;
-//   },
-// });
-// TestReceipt.render<Uint8Array>(null, 'escpos').then((html) => {
-//   process.stdout.write(html);
-// });
-// const TestReceipt2 = new ReceiptComponent<null>('TestReceipt2', {
-//   render(props) {
-//     return `
-// <receipt>
-//   <row>
-//     <col cols="4">
-//       Test
-//     </col>
-//     <col cols="2" />
-//     <col cols="3" justify="right">
-//       Test
-//     </col>
-//   </row>
-// </receipt>`;
-//   },
-// });
-// TestReceipt2.render<Uint8Array>(null, 'escpos').then((html) => {
-//   process.stdout.write(html);
-// });

@@ -1,4 +1,4 @@
-import { TextLiteralNodeProps } from '@resaleai/receipt-ast';
+import { TextLiteralNodeProps } from '@resaleai/receipt-components';
 
 async function renderTextLiteral(props: TextLiteralNodeProps) {
   const htmlText = props.text;

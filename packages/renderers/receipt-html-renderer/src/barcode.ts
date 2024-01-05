@@ -1,4 +1,4 @@
-import { BarcodeNodeProps } from '@resaleai/receipt-ast';
+import { BarcodeNodeProps } from '@resaleai/receipt-components';
 
 async function renderBarcode(
   { data, width, standard, height }: BarcodeNodeProps,

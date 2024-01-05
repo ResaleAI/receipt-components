@@ -27,7 +27,6 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
-    "@resaleai/receipt-ast": "workspace:*",
     "@resaleai/receipt-components": "workspace:*"
   }
 }

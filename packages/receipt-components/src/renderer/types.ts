@@ -2,7 +2,7 @@ import type {
   CoreNodeName,
   CoreNodeProps,
   ReceiptAST,
-} from '@resaleai/receipt-ast';
+} from '@ast';
 
 export type ReceiptNodeRenderFunc<TProps, TOutput> = (
   props: TProps,

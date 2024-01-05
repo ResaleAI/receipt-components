@@ -5,7 +5,7 @@ import {
   renderChildBytes,
   requireContextKeys,
 } from '@ep/util';
-import { TextNodeProps } from '@resaleai/receipt-ast';
+import { TextNodeProps } from '@ast';
 import LinkedList from '@ep/linked-list';
 import { bytes } from '@ep/constants';
 

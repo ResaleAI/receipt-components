@@ -3,7 +3,8 @@ import {
   ReceiptASTNode,
   ReceiptASTNodeRegistry,
   nodeRegistry,
-} from '@resaleai/receipt-ast';
+  parseTemplateForAst,
+} from '@ast';
 import {
   RCNodePlugin,
   RCRendererPlugin,
@@ -82,7 +83,7 @@ export class ReceiptComponent {
 }
 
 // type of functional receipt component
-export type RFC<TProps> = (props: TProps, children?: ReceiptAST[]) => ReceiptASTNode<TProps>;
+export type FRC<TProps> = (props: TProps, children?: ReceiptAST[]) => ReceiptASTNode<TProps>;
 
 export function rc<TNodeName extends keyof NodeMap>(name: TNodeName, ...args: Parameters<NodeMap[TNodeName]['builder']>) {
   // @ts-ignore
@@ -93,7 +94,7 @@ export function text(text: string) {
   return rc('textLiteral', { text });
 }
 
-export async function render<TProps, TRendererName extends keyof RendererMap>(component: RFC<TProps>, rendererName: TRendererName, props: TProps, children?: ReceiptAST[]): Promise<RendererMap[TRendererName]> {
+export async function render<TProps, TRendererName extends keyof RendererMap>(component: FRC<TProps>, rendererName: TRendererName, props: TProps, children?: ReceiptAST[]): Promise<RendererMap[TRendererName]> {
   const ast = component(props, children);
   const renderer = ReceiptComponent.getRenderers()[rendererName];
 
@@ -102,4 +103,24 @@ export async function render<TProps, TRendererName extends keyof RendererMap>(co
   }
 
   return renderer.renderer(ast);
+}
+
+export interface RCTemplateOptions {
+  components?: {
+    [key: string]: FRC<any>
+  },
+  nodes?: ReceiptASTNodeRegistry
+}
+
+export function rcFromTemplate<TProps>(templateFunc: (props: TProps) => string, options?: RCTemplateOptions): FRC<TProps> {
+  const nodes = {
+    ...ReceiptComponent.getNodes(),
+    ...options?.nodes,
+    ...options?.components
+  };
+
+  return (props, children) => {
+    const template = templateFunc(props);
+    return parseTemplateForAst(template, nodes, children);
+  }
 }

@@ -1,4 +1,4 @@
-import { ReceiptAST } from '@resaleai/receipt-ast';
+import { ReceiptAST } from '@resaleai/receipt-components';
 import { buildReceiptRenderer } from '@resaleai/receipt-components';
 import { HtmlRenderer } from './types';
 import renderAlign from './align';

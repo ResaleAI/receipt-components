@@ -1,4 +1,4 @@
-import { ReceiptASTNode } from '@resaleai/receipt-ast';
+import { ReceiptASTNode } from '@ast';
 import {
   ReceiptNodeRenderFunc,
   ReceiptRenderer,

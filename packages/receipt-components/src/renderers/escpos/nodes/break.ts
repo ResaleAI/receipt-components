@@ -1,4 +1,4 @@
-import { BreakNodeProps } from '@resaleai/receipt-ast';
+import { BreakNodeProps } from '@ast';
 import { charToByte } from '@ep/util';
 import { ChildBuilder, EscPos } from '@ep/types';
 import LinkedList from '@ep/linked-list';

@@ -1,4 +1,4 @@
-import { ScaleNodeProps } from '@resaleai/receipt-ast';
+import { ScaleNodeProps } from '@resaleai/receipt-components';
 
 async function renderScale(
   { width, height }: ScaleNodeProps,

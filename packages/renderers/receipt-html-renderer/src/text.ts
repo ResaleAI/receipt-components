@@ -1,4 +1,4 @@
-import { TextNodeProps } from '@resaleai/receipt-ast';
+import { TextNodeProps } from '@resaleai/receipt-components';
 
 // TODO: will need context for font stuff.
 async function renderText(props: TextNodeProps, children?: string[]) {

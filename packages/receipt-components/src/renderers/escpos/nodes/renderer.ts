@@ -11,7 +11,7 @@ import renderBreak from './break';
 import renderScale from './scale';
 import renderBarcode from './barcode';
 import renderSmooth from './smooth';
-import { ReceiptAST } from '@resaleai/receipt-ast';
+import { ReceiptAST } from '@ast';
 import { buildReceiptRenderer } from '@renderer';
 import renderFragment from './fragment';
 import renderInverse from './inverse';

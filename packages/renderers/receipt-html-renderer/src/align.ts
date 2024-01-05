@@ -1,4 +1,4 @@
-import { AlignNodeProps } from '@resaleai/receipt-ast';
+import { AlignNodeProps } from '@resaleai/receipt-components';
 
 async function renderAlign(props: AlignNodeProps, children?: string[]) {
   return `<div style="text-align: ${
