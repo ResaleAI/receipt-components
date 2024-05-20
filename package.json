@@ -15,7 +15,7 @@
     "clean-cache": "nx reset",
     "test:unit": "pnpm -r run test:unit",
     "build": "nx run-many -t build",
-    "release": "pnpm -r publish packages"
+    "release": "pnpm -r publish packages --access public"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
