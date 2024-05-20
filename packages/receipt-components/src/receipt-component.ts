@@ -32,7 +32,10 @@ export class ReceiptComponent {
     // iterate through all node plugins and register render functions
     this.nodePlugins.forEach((plugin) => {
       if (plugin.renderers[renderer.name]) {
-        renderer.registerRenderFunc(plugin.name, plugin.renderers[renderer.name]);
+        renderer.registerRenderFunc(
+          plugin.name,
+          plugin.renderers[renderer.name]
+        );
       }
     });
   }
@@ -42,13 +45,13 @@ export class ReceiptComponent {
     nodes.forEach((node) => {
       // warn when node is already registered, as this may cause unexpected behavior
       if (this.astBuilders[node.name]) {
-        console.warn('Node already registered', node.name);
+        console.warn("Node already registered", node.name);
       }
       this.astBuilders[node.name] = node.buildNode;
       this.nodePlugins.push(node);
       for (const name of node.aliases ?? []) {
         if (this.astBuilders[name]) {
-          console.warn('Node already registered', name);
+          console.warn("Node already registered", name);
         }
         this.astBuilders[name] = node.buildNode;
       }
