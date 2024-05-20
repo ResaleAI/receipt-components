@@ -1,4 +1,4 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import { rc, text } from '@resaleai/receipt-components';
 import hr from './hr';
 
 interface RewardsInfoProps {
@@ -8,32 +8,30 @@ interface RewardsInfoProps {
   creditBalance: number;
 }
 
-const RewardsInfo = new ReceiptComponent<RewardsInfoProps>('RewardsInfo', {
-  render: (props) => `
-<fragment>
-  <hr />
-  <align mode="center">
-    <scale width="2" height="2">
-      MOVIE REWARDS
-    </scale>
-    <br />
-    Card No.: **********${props.cardNumberLast4}
-    <br />
-    Credits earned:     ${props.creditsEarned}
-    <br />
-    Credits used:          ${props.creditsUsed}
-    <br />
-    <inverse>
-      Credit Balance:     ${props.creditBalance}
-    </inverse>
-    <br />
-    <scale height="2">
-      Register or choose rewards at MyReward.com
-    </scale>
-  </align>
-</fragment>
-    `,
-  components: [hr],
-});
+function RewardsInfo(props: RewardsInfoProps) {
+  return rc('fragment', null, [
+    hr(),
+    rc('align', { mode: 'center' }, [
+      rc('scale', { width: 2, height: 2 }, [
+        text('MOVIE REWARDS'),
+      ]),
+      rc('break'),
+      text(`Card No.: **********${props.cardNumberLast4}`),
+      rc('break'),
+      text(`Credits earned:     ${props.creditsEarned}`),
+      rc('break'),
+      text(`Credits used:          ${props.creditsUsed}`),
+      rc('break'),
+      rc('inverse', null, [
+        text(`Credit Balance:     ${props.creditBalance}`),
+      ]),
+      rc('break'),
+      rc('scale', { height: 2 }, [
+        text('Register or choose rewards at MyReward.com'),
+      ]),
+
+    ]),
+  ]);
+}
 
 export default RewardsInfo;

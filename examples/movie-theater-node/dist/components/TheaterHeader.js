@@ -1,27 +1,24 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const receipt_components_1 = __importDefault(require("@resaleai/receipt-components"));
-const TheaterHeader = new receipt_components_1.default('TheaterHeader', {
-    render: (props) => `
-<align mode="center">
-  <scale width="2" height="2">
-    ${props.theaterName}
-  </scale>
-  <br />
-  <text font="2">
-    ${props.address}
-    <br />
-    ${props.city}, ${props.state} ${props.zip}
-  </text>
-  <br />
-  <inverse>
-    SALES RECEIPT
-  </inverse>
-  <br />
-</align>
-    `,
-});
+const receipt_components_1 = require("@resaleai/receipt-components");
+function TheaterHeader(props) {
+    return (0, receipt_components_1.rc)('fragment', null, [
+        (0, receipt_components_1.rc)('align', { mode: 'center' }, [
+            (0, receipt_components_1.rc)('scale', { width: 2, height: 2 }, [
+                (0, receipt_components_1.text)(props.theaterName)
+            ]),
+            (0, receipt_components_1.rc)('break'),
+            (0, receipt_components_1.rc)('text', { font: 2 }, [
+                (0, receipt_components_1.text)(props.address),
+                (0, receipt_components_1.rc)('break'),
+                (0, receipt_components_1.text)(`${props.city}, ${props.state} ${props.zip}`),
+            ]),
+            (0, receipt_components_1.rc)('break'),
+            (0, receipt_components_1.rc)('inverse', null, [
+                (0, receipt_components_1.text)('SALES RECEIPT')
+            ]),
+            (0, receipt_components_1.rc)('break'),
+        ]),
+    ]);
+}
 exports.default = TheaterHeader;

@@ -1,4 +1,4 @@
-import ReceiptComponent from '@resaleai/receipt-components';
+import ReceiptComponent, { rc, text } from '@resaleai/receipt-components';
 
 interface TheaterHeaderProps {
   theaterName: string;
@@ -8,28 +8,25 @@ interface TheaterHeaderProps {
   zip: string;
 }
 
-const TheaterHeader = new ReceiptComponent<TheaterHeaderProps>(
-  'TheaterHeader',
-  {
-    render: (props) => `
-<align mode="center">
-  <scale width="2" height="2">
-    ${props.theaterName}
-  </scale>
-  <br />
-  <text font="2">
-    ${props.address}
-    <br />
-    ${props.city}, ${props.state} ${props.zip}
-  </text>
-  <br />
-  <inverse>
-    SALES RECEIPT
-  </inverse>
-  <br />
-</align>
-    `,
-  }
-);
+function TheaterHeader(props: TheaterHeaderProps) {
+  return rc('fragment', null, [
+    rc('align', { mode: 'center' }, [
+      rc('scale', { width: 2, height: 2 }, [
+        text(props.theaterName)
+      ]),
+      rc('break'),
+      rc('text', { font: 2 }, [
+        text(props.address),
+        rc('break'),
+        text(`${props.city}, ${props.state} ${props.zip}`),
+      ]),
+      rc('break'),
+      rc('inverse', null, [
+        text('SALES RECEIPT')
+      ]),
+      rc('break'),
+    ]),
+  ]);
+}
 
 export default TheaterHeader;

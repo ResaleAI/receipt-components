@@ -1,6 +1,6 @@
 {
   "name": "@resaleai/receipt-components",
-  "version": "3.3.3",
+  "version": "4.0.0",
   "files": [
     "dist/*"
   ],
@@ -25,7 +25,6 @@
     "clean": "rm -rf node_modules dist coverage"
   },
   "devDependencies": {
-    "@resaleai/receipt-renderer": "workspace:*",
     "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
@@ -56,8 +55,8 @@
     }
   },
   "dependencies": {
-    "@resaleai/receipt-ast": "workspace:*",
-    "@resaleai/receipt-escpos-renderer": "workspace:*",
-    "@resaleai/receipt-plugin": "workspace:*"
+    "domelementtype": "^2.3.0",
+    "domhandler": "^5.0.3",
+    "htmlparser2": "^9.0.0"
   }
 }

@@ -1,17 +1,13 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const receipt_components_1 = __importDefault(require("@resaleai/receipt-components"));
-const AdmissionDisclaimer = new receipt_components_1.default('AdmissionDisclaimer', {
-    render: () => `
-  <align mode="center">
-    ***************************
-    <br />
-    Not valid for admission
-    <br />
-    ***************************
-  </align>`,
-});
+const receipt_components_1 = require("@resaleai/receipt-components");
+function AdmissionDisclaimer(_props) {
+    return (0, receipt_components_1.rc)('align', { mode: 'center' }, [
+        (0, receipt_components_1.rc)('textLiteral', { text: '***************************' }),
+        (0, receipt_components_1.rc)('break'),
+        (0, receipt_components_1.rc)('textLiteral', { text: 'Not valid for admission' }),
+        (0, receipt_components_1.rc)('break'),
+        (0, receipt_components_1.rc)('textLiteral', { text: '***************************' }),
+    ]);
+}
 exports.default = AdmissionDisclaimer;

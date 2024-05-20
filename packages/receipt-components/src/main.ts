@@ -1,13 +1,12 @@
-import escPosRendererPlugin from "@resaleai/receipt-escpos-renderer";
-import { ReceiptComponent } from "./receipt-component";
-import { RendererName } from "@resaleai/receipt-plugin";
+import escPosPlugin from '@ep';
+import { ReceiptComponent } from './receipt-component';
 
-declare global {
-  interface RendererMap {
-    escpos: Uint8Array;
-  }
-}
+ReceiptComponent.use(escPosPlugin);
 
-ReceiptComponent.registerRenderer(escPosRendererPlugin);
+export * from '@ast';
+export * from '@ep';
+export * from '@renderer';
+export * from './plugin';
+export * from './receipt-component';
 
 export default ReceiptComponent;
