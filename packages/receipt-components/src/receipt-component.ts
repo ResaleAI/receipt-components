@@ -4,14 +4,14 @@ import {
   ReceiptASTNodeRegistry,
   nodeRegistry,
   parseTemplateForAst,
-} from '@ast';
+} from "@ast";
 import {
   RCNodePlugin,
   RCPlugin,
   RCRendererPlugin,
   RendererName,
-} from '@/plugin';
-import { InvalidRendererError } from './errors';
+} from "@/plugin";
+import { InvalidRendererError } from "./errors";
 
 export interface RenderPluginMap {
   [key: string]: RCRendererPlugin;
@@ -23,7 +23,7 @@ export class ReceiptComponent {
   private static nodePlugins: RCNodePlugin<any>[] = [];
 
   constructor() {
-    throw new Error('ReceiptComponent should not be instantiated');
+    throw new Error("ReceiptComponent should not be instantiated");
   }
 
   static registerRenderer(renderer: RCRendererPlugin) {
@@ -82,18 +82,29 @@ export class ReceiptComponent {
 }
 
 // type of functional receipt component
-export type FRC<TProps> = (props: TProps, children?: ReceiptAST[]) => ReceiptASTNode<TProps>;
+export type FRC<TProps> = (
+  props: TProps,
+  children?: ReceiptAST[]
+) => ReceiptASTNode<TProps>;
 
-export function rc<TNodeName extends keyof NodeMap>(name: TNodeName, ...args: Parameters<NodeMap[TNodeName]['builder']>) {
+export function rc<TNodeName extends keyof NodeMap>(
+  name: TNodeName,
+  ...args: Parameters<NodeMap[TNodeName]["builder"]>
+) {
   // @ts-ignore
   return ReceiptComponent.getNodes()[name](...args);
 }
 
 export function text(text: string) {
-  return rc('textLiteral', { text });
+  return rc("textLiteral", { text });
 }
 
-export async function render<TProps, TRendererName extends keyof RendererMap>(component: FRC<TProps>, rendererName: TRendererName, props: TProps, children?: ReceiptAST[]): Promise<RendererMap[TRendererName]> {
+export async function render<TProps, TRendererName extends keyof RendererMap>(
+  component: FRC<TProps>,
+  rendererName: TRendererName,
+  props: TProps,
+  children?: ReceiptAST[]
+): Promise<RendererMap[TRendererName]> {
   const ast = component(props, children);
   const renderer = ReceiptComponent.getRenderers()[rendererName];
 

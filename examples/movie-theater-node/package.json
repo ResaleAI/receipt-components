@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@resaleai/receipt-components": "file:../../packages/receipt-components",
-    "@resaleai/receipt-html-renderer": "file:../../packages/renderers/receipt-html-renderer",
-    "@resaleai/receipt-image-node": "file:../../packages/nodes/receipt-image-node",
-    "@resaleai/receipt-layout": "file:../../packages/nodes/receipt-layout"
+    "@resaleai/receipt-html-renderer": "file:../../packages/plugins/renderers/receipt-html-renderer",
+    "@resaleai/receipt-image-node": "file:../../packages/plugins/nodes/receipt-image-node",
+    "@resaleai/receipt-layout": "file:../../packages/plugins/nodes/receipt-layout"
   },
   "author": "",
   "license": "ISC",

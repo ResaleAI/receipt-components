@@ -30,6 +30,7 @@ const receipt_components_1 = __importStar(require("@resaleai/receipt-components"
 const AdmissionDisclaimer_1 = __importDefault(require("./components/AdmissionDisclaimer"));
 // import LineItemList from './components/LineItemList';
 const RewardsInfo_1 = __importDefault(require("./components/RewardsInfo"));
+// import hr from './components/hr';
 const util_1 = require("./util");
 // import TrxInfo from './components/TrxInfo';
 const TheaterHeader_1 = __importDefault(require("./components/TheaterHeader"));
@@ -88,15 +89,32 @@ function MovieReceipt(props) {
         hourCycle: 'h23',
     })}`;
     return (0, receipt_components_1.rc)('receipt', null, [
-        (0, TheaterHeader_1.default)({ theaterName: props.theaterName, address: props.address, city: props.city, state: props.state, zip: props.zip }),
-        (0, receipt_components_1.rc)('image', { maxWidth: 0.3, src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png', align: 'center' }),
-        (0, AdmissionDisclaimer_1.default)(null),
+        (0, TheaterHeader_1.default)({
+            theaterName: props.theaterName,
+            address: props.address,
+            city: props.city,
+            state: props.state,
+            zip: props.zip,
+        }),
+        (0, receipt_components_1.rc)('image', {
+            maxWidth: 0.3,
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png',
+            align: 'center',
+        }),
+        (0, AdmissionDisclaimer_1.default)(null, [
+            (0, receipt_components_1.rc)('textLiteral', { text: 'Have a great day!' }),
+        ]),
         ...props.lineItems.map((li) => {
             return (0, receipt_components_1.rc)('text', {}, [
                 (0, receipt_components_1.text)(`${li.name} (x${li.quantity}): ${li.price}`),
             ]);
         }),
-        (0, RewardsInfo_1.default)({ cardNumberLast4: props.rewardInfo.cardNumberLast4, creditsEarned: props.rewardInfo.creditsEarned, creditsUsed: props.rewardInfo.creditsUsed, creditBalance: props.rewardInfo.creditBalance })
+        (0, RewardsInfo_1.default)({
+            cardNumberLast4: props.rewardInfo.cardNumberLast4,
+            creditsEarned: props.rewardInfo.creditsEarned,
+            creditsUsed: props.rewardInfo.creditsUsed,
+            creditBalance: props.rewardInfo.creditBalance,
+        }),
     ]);
 }
 const receiptData = {

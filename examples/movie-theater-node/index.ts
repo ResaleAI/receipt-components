@@ -1,4 +1,8 @@
-import ReceiptComponent, { rc, render, text } from '@resaleai/receipt-components';
+import ReceiptComponent, {
+  rc,
+  render,
+  text,
+} from '@resaleai/receipt-components';
 import { LineItem, RewardCreditInfo, TransactionInfo } from './types';
 import AdmissionDisclaimer from './components/AdmissionDisclaimer';
 // import LineItemList from './components/LineItemList';
@@ -77,15 +81,32 @@ function MovieReceipt(props: MovieReceiptProps) {
   })}`;
 
   return rc('receipt', null, [
-    TheaterHeader({ theaterName: props.theaterName, address: props.address, city: props.city, state: props.state, zip: props.zip }),
-    rc('image', { maxWidth: 0.3, src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png', align: 'center' }),
-    AdmissionDisclaimer(null),
+    TheaterHeader({
+      theaterName: props.theaterName,
+      address: props.address,
+      city: props.city,
+      state: props.state,
+      zip: props.zip,
+    }),
+    rc('image', {
+      maxWidth: 0.3,
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png',
+      align: 'center',
+    }),
+    AdmissionDisclaimer(null, [
+      rc('textLiteral', { text: 'Have a great day!' }),
+    ]),
     ...props.lineItems.map((li) => {
       return rc('text', {}, [
         text(`${li.name} (x${li.quantity}): ${li.price}`),
       ]);
     }),
-    RewardsInfo({ cardNumberLast4: props.rewardInfo.cardNumberLast4, creditsEarned: props.rewardInfo.creditsEarned, creditsUsed: props.rewardInfo.creditsUsed, creditBalance: props.rewardInfo.creditBalance })
+    RewardsInfo({
+      cardNumberLast4: props.rewardInfo.cardNumberLast4,
+      creditsEarned: props.rewardInfo.creditsEarned,
+      creditsUsed: props.rewardInfo.creditsUsed,
+      creditBalance: props.rewardInfo.creditBalance,
+    }),
   ]);
 }
 

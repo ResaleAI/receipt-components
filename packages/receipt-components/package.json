@@ -32,7 +32,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.1.1",
-    "tsup": "^7.2.0",
+    "tsup": "^8.1.0",
     "typescript": "^5.3.3",
     "vite": "^4.5.1",
     "vite-plugin-dts": "^1.7.3",
@@ -53,10 +53,5 @@
         ]
       }
     }
-  },
-  "dependencies": {
-    "domelementtype": "^2.3.0",
-    "domhandler": "^5.0.3",
-    "htmlparser2": "^9.0.0"
   }
 }

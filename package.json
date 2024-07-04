@@ -21,7 +21,7 @@
     "@types/node": "^20.10.5",
     "nx": "16.5.5",
     "nx-cloud": "latest",
-    "tsup": "^7.2.0",
+    "tsup": "^8.1.0",
     "typescript": "^5.3.3",
     "vitest": "^0.33.0"
   }

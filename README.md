@@ -9,7 +9,7 @@ This package is for building complex and evolving receipts using a simple XML st
 
 ### AST
 
-The Abstract Syntax Tree (AST) is an intermediate form for the receipt components representing the structure of a receipt using a tree of receipt nodes that can take certain props
+The Abstract Syntax Tree (AST) is an intermediate form for the receipt components representing the structure of a receipt using a tree of receipt nodes that can take certain props. The AST mechanism allows for the separation of the receipt's structure from the rendering logic, enabling the use of different renderers for different outputs.
 
 ### Node
 
@@ -36,117 +36,205 @@ First, install the package with the package manager of your choosing:
 
 `npm install @resaleai/receipt-components`
 
-After that, import the `ReceiptComponent` class and create a new component with a name and render function that takes in props and returns a template:
+After that, you can create receipts using plain old JavaScript functions:
 
 ```typescript
-import { ReceiptComponent } from '@resaleai/receipt-components';
+import { rc, text, render } from '@resaleai/receipt-components';
 
-let Receipt = new ReceiptComponent<{ text: string }>('Receipt', {
-  render: (props: { text: string }) => `<receipt>
-    <text bold>${props.text}</text>
-  </receipt>`,
+// create the receipt component
+function Receipt {
+  return rc('receipt', null, [text('Hello, world!')]);
+}
+
+// render the receipt component to the esc/pos format
+const epBytes = await render(Receipt, 'escpos', null);
+
+// send the bytes to a printer
+```
+
+You can also create more complex receipts using the component system:
+
+```typescript
+import { rc, text, render } from '@resaleai/receipt-components';
+
+// create a store header component containing information about the store
+function StoreHeader(props: { storeAddress: string }) {
+  return rc('align', { mode: 'center' }, [
+    rc('scale', { width: 2, height: 2 }, [text('Store Name')]),
+    text(props.storeAddress),
+  ]);
+}
+
+// create a receipt that will be printed
+function Receipt() {
+  return rc('receipt', null, [
+    StoreHeader({ storeAddress: '123 Main St' }),
+    text('Thank you for your purchase!'),
+  ]);
+}
+
+const epBytes = await render(Receipt, 'escpos', null);
+```
+
+Finally, receipt components can have children passed in, to create even more powerful composition:
+
+```typescript
+import { rc, text, render } from '@resaleai/receipt-components';
+import type { ReceiptAST } from '@resaleai/receipt-components';
+
+// create a store header component containing information about the store
+function StoreHeader(
+  props: { storeAddress: string },
+  children: ReceiptAST[] = []
+) {
+  return rc('align', { mode: 'center' }, [
+    ...children,
+    text(props.storeAddress),
+  ]);
+}
+
+// create a receipt that will be printed
+function Receipt() {
+  return rc('receipt', null, [
+    StoreHeader({ storeAddress: '123 Main St' }, [
+      rc('scale', { width: 2, height: 2 }, [text('Store Name')]),
+    ]),
+    text('Thank you for your purchase!'),
+  ]);
+}
+
+const epBytes = await render(Receipt, 'escpos', null);
+```
+
+## Building receipts with XML
+
+Because of the flexible nature of this library, you can also build receipts using custom input languages. We have implemented a simple XML-like language that can be used to build receipts.
+
+To start, install the XML parser package:
+
+`npm install @resaleai/rc-xml`
+
+Then, you can build receipts using the XML language:
+
+```typescript
+import { rcFromTemplate } from '@resaleai/rc-xml';
+import { render } from '@resaleai/receipt-components';
+
+const Receipt = rcFromTemplate((props: null) => {
+  return `
+      <receipt>
+        <align mode="center">
+          <scale width="2" height="2">
+            <text>Store Name</text>
+          </scale>
+          123 Main St
+        </align>
+        <text>Thank you for your purchase!</text>
+      </receipt>
+    `;
 });
+
+const epBytes = await render(Receipt, 'escpos', null);
 ```
 
-After creating your component, you can then run the following to get your desired output:
-
-```javascript
-let epBytes = await Receipt.render({ text: 'Hello, world!' }, 'escpos'); // build the byte array
-```
-
-## Components
-
-The component system is simple, but powerful. Take, for instance, some sort of legalise that needs to be put on the bottom of every receipt:
+The XML input language also supports custom components, though you will need to register them so that the parser knows how to handle them:
 
 ```typescript
-let ReceiptLegalise = new ReceiptComponent<{ legal: string }>({
-  render: (props: { legal: string }) => `<receipt>
+import { rcFromTemplate } from '@resaleai/rc-xml';
+
+const StoreHeader = rcFromTemplate((props: { storeAddress: string }) => {
+  return `
     <align mode="center">
-      -------------------------------
-      <br />
-      <text font="2">${ legal }</text>
-      -------------------------------
+      <scale width="2" height="2">
+        <text>Store Name</text>
+      </scale>
+      ${props.storeAddress}
     </align>
-  </receipt>`,
+  `;
 });
+
+const Receipt = rcFromTemplate(
+  (props: null) => {
+    return `
+    <receipt>
+      <StoreHeader storeAddress="123 Main St" />
+      <text>Thank you for your purchase!</text>
+    </receipt>
+  `;
+  },
+  {
+    components: {
+      StoreHeader,
+    },
+  }
+);
 ```
 
-This component, as well as any other components we need, can be used in the template of any other receipt component by registering it in the `components` constructor option.
+> [!NOTE]
+> The XML parser is still a work in progress. It currently does not support passing complicated objects as props to custom components. Until this is finished, consider breaking the object down into its individual properties and passing them in as separate props.
+
+## Installing plugins for custom rendering and nodes
+
+Outside of the functionality provided by this package, you can add custom renderers and nodes. For example, if I wanted to use the experimental HTML renderer to get a preview of my receipt before printing it, I can install the following package:
+
+`npm install @resaleai/receipt-html-renderer`
+
+Then, I can use the renderer in my code by importing the `ReceiptComponent` and the renderer plugin, and then using the plugin like so:
 
 ```typescript
-let Receipt = new ReceiptComponent<null>({
-  render: () => {
-    `<receipt>
-      ...
-      <ReceiptLegalise legal="This is a legal statement, you are legally obligated to star this repo ;)" />
-    </receipt>`
-  },
-  components: [
-    ReceiptLegalise
-  ]
-})
+import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
+import ReceiptComponent, {
+  rc,
+  text,
+  render,
+} from '@resaleai/receipt-components';
 
-let epBytes = await Receipt.render(null, 'escpos'); // build the byte array
+ReceiptComponent.use(htmlRenderPlugin);
 
+function Receipt {
+  return rc('receipt', null, [text('Hello, world!')]);
+}
+
+const htmlStr = await render(Receipt, 'html', null);
+
+// display the html string in a browser
 ```
+
+You can also install custom nodes and chain together `use` functions to install multiple plugins at once. For example, to render images in a receipt you can do the following:
+
+```typescript
+import imagePlugin from '@resaleai/receipt-image-node';
+import htmlRenderPlugin from '@resaleai/receipt-html-renderer';
+import ReceiptComponent, {
+  rc,
+  text,
+  render,
+} from '@resaleai/receipt-components';
+
+ReceiptComponent.use(imagePlugin).use(htmlRenderPlugin);
+
+function Receipt {
+  return rc('receipt', null, [
+    rc('image', { src: 'https://example.com/image.png' }),
+    text('Hello, world!'),
+  ]);
+}
+
+const htmlStr = await render(Receipt, 'html', null);
+```
+
+> [!NOTE]
+> Nodes you install may not be comptible with all renderers. If you run into this, please contact the maintainer of the node plugin to see if they can add support for the renderer you want to use.
 
 ## Default Nodes
 
 Some nodes are packaged with this library by default, for a full list of those check the [wiki](https://github.com/ResaleAI/receipt-components/wiki/Nodes).
 
-## Installing Plugins
+## Prebuilt Plugins
 
-On top of the default functionality provided by this package, you can add custom renderers and nodes. For example, if I wanted to use the experimental HTML renderer to get a preview of my receipt before printing it, I can use the following code after installing the package:
-
-```typescript
-import htmlRenderer from '@resaleai/receipt-html-renderer';
-
-ReceiptComponent.use([htmlRenderer]);
-
-const Receipt = new ReceiptComponent('Receipt', ...)
-
-let htmlStr = Receipt.render({}, 'html') // HTML markup that can be displayed in a browser
-```
-
-You can also install custom nodes. For example, to use images in a NodeJS environment:
-
-```typescript
-import imagePlugin from '@resaleai/receipt-image-node';
-
-ReceiptComponent.use([imagePlugin]);
-
-const Receipt = new ReceiptComponent<null>('Receipt', {
-  render: (props: null) => `
-  <receipt>
-    <img src="..." />
-  </receipt>
-  `,
-});
-
-let epBytes = Receipt.render({}, 'escpos');
-```
-
-You can install multiple plugins at the same time:
-
-```typescript
-import imagePlugin from '@resaleai/receipt-image-node';
-import htmlRenderer from '@resaleai/receipt-html-renderer';
-
-ReceiptComponent.use([imagePlugin, htmlRenderer]);
-
-const Receipt = new ReceiptComponent<null>('Receipt', {
-  render: (props: null) => `
-  <receipt>
-    <img src="..." />
-  </receipt>
-  `,
-});
-
-let htmlStr = Receipt.render({}, 'html');
-```
-
->[!NOTE]
-> Nodes you install may not be comptible with all renderers. If you run into this, please contact the maintainer of the node plugin to see if they can add support for the renderer you want to use.
+- [HTML Renderer](https://github.com/ResaleAI/receipt-components/tree/main/packages/plugins/renderers/receipt-html-renderer)
+- [Image Node for NodeJS](https://github.com/ResaleAI/receipt-components/tree/main/packages/plugins/nodes/receipt-image-node)
+- [Image Node for Browsers](https://github.com/ResaleAI/receipt-components/tree/main/packages/plugins/nodes/receipt-image-browser)
 
 # Contributing
 
@@ -154,11 +242,12 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 
 ### TODO
 
+Don't see a feature you want? Check the list below to see if it is being worked on, or [open an issue](https://github.com/ResaleAI/receipt-components/issues/new)
+
 - [x] update image package to correctly display images in html
 - [x] finish browser image package
-- [ ] create package just for types to reduce imported packages for plugin dev
 - [ ] create better way for passing objects as props automatically
-- [ ] create component option for just using function nodes
+- [x] create component option for just using function nodes
 - [x] fix col new line and scale thing
 - [x] nail down issues with text wrapping, scaling, and whatnot
 - [ ] write docs and wiki
@@ -166,10 +255,20 @@ Want to help build this project? Check out the [contributing guide](./CONTRIBUTI
 - [x] build html renderer
 - [x] move images in to a separate package
 - [x] figure out way to let escpos context be extended
-- [x] write tests and clean up
+- [ ] write tests and clean up
 - [ ] rebuild esc pos optimizer to work w new stuff
 - [ ] disallow/only allow certain children on ast
 - [ ] create layout package to allow for rows and cols
-- [ ] move parser into separate package
-- [ ] reduce packages (i think we can put plugin, ast, and renderer packages into main package)
+- [x] move parser into separate package
+- [x] reduce packages (i think we can put plugin, ast, and renderer packages into main package)
 - [ ] create examples for different frameworks (react, vue, etc)
+- [ ] add more codepages
+- [ ] add autoencoder for text
+- [ ] figure out how to support printer-specific commands (beeping for escpos)
+- [ ] decouple nodes from escpos origin (bold node, underline node, etc)
+
+#### NODES
+
+- [ ] QR
+- [ ] PDF417
+- [ ] justification
